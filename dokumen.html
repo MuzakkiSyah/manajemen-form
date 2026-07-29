@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistem Informasi Inventaris Dokumen Praktikum Laboratorium Rekam Medis Manual Universitas Dian Nuswantoro (UDINUS) Semarang.">
+    <meta name="author" content="Laboratorium Rekam Medis UDINUS">
+    <title>Inventaris Dokumen Praktikum | Laboratorium Rekam Medis UDINUS</title>
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="dashboard.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MuzakkiSyah/laboratoriumrm/47ccb8aadc7a14211df38be5f26f4e45f75a0f20/LOGO%20LAB-06%20-%20Copy.png">
+</head>
+<body>
+
+    <!-- ==========================================
+       HEADER & NAVBAR
+       ========================================== -->
+    <header class="header scrolled" id="header" style="background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: var(--shadow-md); padding: 12px 0;">
+        <div class="container navbar">
+            <a href="dokumen.html" class="brand">
+                <img src="https://raw.githubusercontent.com/MuzakkiSyah/laboratoriumrm/47ccb8aadc7a14211df38be5f26f4e45f75a0f20/LOGO%20LAB-06%20-%20Copy.png" alt="Logo Lab Rekam Medis UDINUS" class="brand-logo">
+                <div class="brand-text">
+                    <span class="brand-title" style="color: var(--color-primary);">LAB REKAM MEDIS</span>
+                    <span class="brand-subtitle">UDINUS SEMARANG</span>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <!-- ==========================================
+       MAIN DASHBOARD SECTION
+       ========================================== -->
+    <main class="dashboard-section">
+        <div class="dashboard-container">
+            
+            <!-- Dashboard Title Banner -->
+            <div class="dashboard-header">
+                <div class="dashboard-title-area">
+                    <h2>Inventaris Dokumen Praktikum</h2>
+                    <p>Sistem Informasi Perekaman Stok & Klasifikasi Dokumen Rekam Medis Manual Laboratorium UDINUS</p>
+                </div>
+                <div class="dashboard-actions">
+                    <button class="btn-dash btn-dash-primary" id="btn-update-stok">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+                        Update Stok Bulanan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Segmented Pill Tabs Navigation -->
+            <div class="tabs-navigation">
+                <button class="tab-btn active" data-tab="overview">Overview Stok</button>
+                <button class="tab-btn" data-tab="formulir">Master Formulir</button>
+                <button class="tab-btn" data-tab="rak">Master Rak</button>
+            </div>
+
+            <!-- Metric Cards Display Row -->
+            <div class="metrics-grid">
+                <div class="metric-card primary">
+                    <div class="metric-info">
+                        <h3>Master Formulir</h3>
+                        <div class="metric-value" id="count-total-formulir">0</div>
+                    </div>
+                    <div class="metric-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    </div>
+                </div>
+                
+                <div class="metric-card secondary">
+                    <div class="metric-info">
+                        <h3>Master Rak</h3>
+                        <div class="metric-value" id="count-total-rak">0</div>
+                    </div>
+                    <div class="metric-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+                    </div>
+                </div>
+                
+                <div class="metric-card success">
+                    <div class="metric-info">
+                        <h3>Tersedia (Bulan Ini)</h3>
+                        <div class="metric-value" id="count-tersedia">0</div>
+                    </div>
+                    <div class="metric-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                </div>
+                
+                <div class="metric-card danger">
+                    <div class="metric-info">
+                        <h3>Habis (Bulan Ini)</h3>
+                        <div class="metric-value" id="count-habis">0</div>
+                    </div>
+                    <div class="metric-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+               TAB 1: STOK OVERVIEW PANEL
+               ========================================== -->
+            <div class="tab-content active" id="content-overview">
+                <!-- Filter Controls Panel -->
+                <div class="filter-panel">
+                    <div class="filter-group search">
+                        <label class="filter-label">Cari Dokumen</label>
+                        <input type="text" class="filter-input" id="search-dokumen" placeholder="Masukkan kode atau nama formulir...">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Bulan Monitoring</label>
+                        <select class="filter-input" id="filter-bulan">
+                            <!-- Populated dynamically via JS -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Rak Lokasi</label>
+                        <select class="filter-input" id="filter-rak">
+                            <option value="">Semua Rak</option>
+                            <!-- Populated dynamically via JS -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Status Stok</label>
+                        <select class="filter-input" id="filter-status">
+                            <option value="">Semua Status</option>
+                            <option value="tersedia">Masih Ada (Tersedia)</option>
+                            <option value="habis">Sudah Habis</option>
+                            <option value="belum">Belum Update</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Table Overview List -->
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px;">Kode Form</th>
+                                <th>Nama Formulir Praktikum</th>
+                                <th>Lokasi Penyimpanan</th>
+                                <th style="text-align: center; width: 100px;">Stok Awal</th>
+                                <th style="text-align: center; width: 100px;">Masuk</th>
+                                <th style="text-align: center; width: 100px;">Digunakan</th>
+                                <th style="text-align: center; width: 100px;">Rusak</th>
+                                <th style="text-align: center; width: 100px;">Sisa</th>
+                                <th>Keterangan</th>
+                                <th style="width: 80px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-overview-body">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ==========================================
+               TAB 2: MASTER FORMULIR PANEL
+               ========================================== -->
+            <div class="tab-content" id="content-formulir">
+                <div class="filter-panel" style="justify-content: space-between; align-items: center;">
+                    <div class="dashboard-title-area" style="margin-bottom: 0;">
+                        <h3 style="font-size: 1.15rem; color: var(--color-primary-dark); font-weight: 700;">Daftar Master Formulir</h3>
+                        <p style="font-size: 0.85rem; margin-top: 2px;">Kelola kode dan katalog formulir rekam medis manual untuk praktikum.</p>
+                    </div>
+                    <button class="btn-dash btn-dash-secondary" id="btn-add-formulir">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Tambah Formulir
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 150px;">Kode Formulir</th>
+                                <th style="width: 320px;">Nama Formulir</th>
+                                <th>Deskripsi Informasi / Kegunaan Praktikum</th>
+                                <th style="width: 120px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-formulir-body">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ==========================================
+               TAB 3: MASTER RAK PANEL
+               ========================================== -->
+            <div class="tab-content" id="content-rak">
+                <div class="filter-panel" style="justify-content: space-between; align-items: center;">
+                    <div class="dashboard-title-area" style="margin-bottom: 0;">
+                        <h3 style="font-size: 1.15rem; color: var(--color-primary-dark); font-weight: 700;">Daftar Rak Filing & Penyimpanan</h3>
+                        <p style="font-size: 0.85rem; margin-top: 2px;">Kelola lemari, rak, dan laci penyimpanan dokumen manual di ruang laboratorium.</p>
+                    </div>
+                    <button class="btn-dash btn-dash-secondary" id="btn-add-rak">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Tambah Master Rak
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 150px;">Kode Rak</th>
+                                <th style="width: 320px;">Nama Rak Penyimpanan</th>
+                                <th>Keterangan / Lokasi Fisik Laboratorium</th>
+                                <th style="width: 120px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-rak-body">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ==========================================
+       MODAL 1: FORM MASTER FORMULIR
+       ========================================== -->
+    <div class="modal-overlay" id="modal-formulir">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modal-formulir-title">Tambah Master Formulir</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="form-formulir">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="form-kode">Kode Formulir <span>*</span></label>
+                            <input type="text" class="form-input" id="form-kode" required placeholder="Contoh: RM-01 atau FORM-08">
+                            <span class="form-help">Kode unik pembeda berkas rekam medis.</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="form-nama">Nama Formulir <span>*</span></label>
+                            <input type="text" class="form-input" id="form-nama" required placeholder="Contoh: Ringkasan Masuk & Keluar">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="form-deskripsi">Deskripsi / Keterangan</label>
+                            <textarea class="form-input" id="form-deskripsi" placeholder="Tuliskan tujuan penggunaan formulir dalam praktikum laboratorium rekam medis..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-dash btn-dash-outline btn-modal-close">Batal</button>
+                    <button type="submit" class="btn-dash btn-dash-primary">Simpan Data</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================================
+       MODAL 2: FORM MASTER RAK
+       ========================================== -->
+    <div class="modal-overlay" id="modal-rak">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modal-rak-title">Tambah Master Rak</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="form-rak">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="rak-kode">Kode Rak <span>*</span></label>
+                            <input type="text" class="form-input" id="rak-kode" required placeholder="Contoh: RAK-A, LEMARI-01">
+                            <span class="form-help">Identitas unik rak atau lemari pengarsipan rekam medis.</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="rak-nama">Nama Rak <span>*</span></label>
+                            <input type="text" class="form-input" id="rak-nama" required placeholder="Contoh: Rak Filing Aktif Rawat Jalan">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="rak-lokasi">Lokasi / Detail Letak</label>
+                            <textarea class="form-input" id="rak-lokasi" placeholder="Contoh: Gedung D Lantai 3, Pojok Kanan Ruang Filing Utama..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-dash btn-dash-outline btn-modal-close">Batal</button>
+                    <button type="submit" class="btn-dash btn-dash-primary">Simpan Data</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================================
+       MODAL 3: FORM UPDATE STOK BULANAN
+       ========================================== -->
+    <div class="modal-overlay" id="modal-stok">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Update Stok Bulanan Dokumen</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="form-stok">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="stok-bulan">Bulan Monitoring <span>*</span></label>
+                            <input type="month" class="form-input" id="stok-bulan" required>
+                            <span class="form-help">Pilih bulan dan tahun pelaksanaan rekapitulasi data.</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="stok-formulir-id">Nama Formulir <span>*</span></label>
+                            <select class="form-input" id="stok-formulir-id" required>
+                                <option value="" disabled selected>-- Pilih Formulir --</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="stok-rak-id">Rak Lokasi Penyimpanan <span>*</span></label>
+                            <select class="form-input" id="stok-rak-id" required>
+                                <option value="" disabled selected>-- Pilih Rak Penyimpanan --</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                            <span class="form-help">Pilih rak letak fisik dokumen tersebut di laboratorium.</span>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div class="form-group">
+                                <label class="form-label" for="stok-awal">Stok Awal <span>*</span></label>
+                                <input type="number" class="form-input" id="stok-awal" min="0" required placeholder="0" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="stok-masuk">Masuk <span>*</span></label>
+                                <input type="number" class="form-input" id="stok-masuk" min="0" required placeholder="0" value="0">
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div class="form-group">
+                                <label class="form-label" for="stok-digunakan">Digunakan <span>*</span></label>
+                                <input type="number" class="form-input" id="stok-digunakan" min="0" required placeholder="0" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="stok-rusak">Rusak <span>*</span></label>
+                                <input type="number" class="form-input" id="stok-rusak" min="0" required placeholder="0" value="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="stok-keterangan">Keterangan</label>
+                            <input type="text" class="form-input" id="stok-keterangan" placeholder="Keterangan tambahan...">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-dash btn-dash-outline btn-modal-close">Batal</button>
+                    <button type="submit" class="btn-dash btn-dash-primary">Simpan Stok</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================================
+       FOOTER
+       ========================================== -->
+    <footer class="footer">
+        <div class="container footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo-wrapper">
+                    <img src="https://raw.githubusercontent.com/MuzakkiSyah/laboratoriumrm/47ccb8aadc7a14211df38be5f26f4e45f75a0f20/LOGO%20LAB-06%20-%20Copy.png" alt="Logo Lab Rekam Medis UDINUS Mini" class="footer-logo">
+                    <div>
+                        <span class="footer-brand-title">LAB REKAM MEDIS</span>
+                        <p class="footer-brand-subtitle">UDINUS Semarang</p>
+                    </div>
+                </div>
+                <p class="footer-desc">
+                    Membina tenaga profesional manajemen informasi kesehatan yang mahir dalam klasifikasi medis, audit kualitas, teknologi rekam medis elektronik, dan statistik kesehatan global.
+                </p>
+            </div>
+            
+            <div class="footer-links-col">
+                <h4>Navigasi Dokumen</h4>
+                <ul class="footer-links">
+                    <li><a href="#overview" class="footer-link footer-tab-link" data-tab="overview"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Overview Stok</a></li>
+                    <li><a href="#formulir" class="footer-link footer-tab-link" data-tab="formulir"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Master Formulir</a></li>
+                    <li><a href="#rak" class="footer-link footer-tab-link" data-tab="rak"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Master Rak</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links-col">
+                <h4>Tautan Kampus</h4>
+                <ul class="footer-links">
+                    <li><a href="https://dinus.ac.id" target="_blank" rel="noopener" class="footer-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Situs Resmi UDINUS</a></li>
+                    <li><a href="https://siadin.dinus.ac.id" target="_blank" rel="noopener" class="footer-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Portal Akademik SIADIN</a></li>
+                    <li><a href="https://e-learning.dinus.ac.id" target="_blank" rel="noopener" class="footer-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>E-learning Kulino</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="container footer-bottom">
+            <div class="footer-copyright">
+                &copy; 2026 <span>Laboratorium Rekam Medis UDINUS</span>. Hak Cipta Dilindungi Undang-Undang.
+            </div>
+            <div>
+                Dibuat dengan dedikasi untuk akademisi RMIK UDINUS
+            </div>
+        </div>
+    </footer>
+
+    <!-- Javascript -->
+    <script src="dashboard.js"></script>
+</body>
+</html>

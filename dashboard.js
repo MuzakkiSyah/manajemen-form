@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Automatically reset LocalStorage if it contains the old structure/data
     const DB_VERSION_KEY = 'labrm_db_version';
-    const CURRENT_DB_VERSION = 'v2_excel_data_v2';
+    const CURRENT_DB_VERSION = 'v3_kategori_pemisahan';
     if (localStorage.getItem(DB_VERSION_KEY) !== CURRENT_DB_VERSION) {
         localStorage.removeItem(KEY_FORMULIR);
         localStorage.removeItem(KEY_RAK);
@@ -49,21 +49,21 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const DEFAULT_FORMULIR = [
-        { id: 'form-1', kode: 'RM-01', nama: 'Ringkasan Riwayat Poli', deskripsi: 'Ringkasan riwayat klinis pelayanan poliklinik rawat jalan.' },
-        { id: 'form-2', kode: 'RM-02', nama: 'Catatan Poliklinik', deskripsi: 'Lembar pencatatan perkembangan klinis poliklinik.' },
-        { id: 'form-3', kode: 'RM-03', nama: 'Pemeriksaan Fisik Umum', deskripsi: 'Formulir pencatatan hasil pemeriksaan fisik umum.' },
-        { id: 'form-4', kode: 'RM-04', nama: 'Pemeriksaan Fisik Saraf', deskripsi: 'Lembar pemeriksaan sistem neurologis.' },
-        { id: 'form-5', kode: 'RM-05', nama: 'Pemeriksaan Fisik THT', deskripsi: 'Formulir hasil pemeriksaan telinga, hidung, tenggorokan.' },
-        { id: 'form-6', kode: 'RM-06', nama: 'Pemeriksaan Fisik Mata', deskripsi: 'Lembar pemeriksaan tajam penglihatan dan anatomi mata.' },
-        { id: 'form-7', kode: 'RM-07', nama: 'Pemeriksaan Psikiatri', deskripsi: 'Pencatatan evaluasi kesehatan jiwa/psikiatrik.' },
-        { id: 'form-8', kode: 'RM-08', nama: 'Kartu Obat', deskripsi: 'Daftar kendali rekonsiliasi dan pemberian obat.' },
-        { id: 'form-9', kode: 'RM-09', nama: 'Hasil Laboratorium', deskripsi: 'Lembar khusus untuk menempelkan salinan hasil lab.' },
-        { id: 'form-10', kode: 'RM-10', nama: 'Penempelan Salinan Resep', deskripsi: 'Arsip untuk menempelkan lembar salinan resep obat.' },
-        { id: 'form-11', kode: 'RM-11', nama: 'Masuk Darurat', deskripsi: 'Lembar pemeriksaan triase dan pelayanan IGD.' },
-        { id: 'form-12', kode: 'RM-12', nama: 'Identitas Pasien RI', deskripsi: 'Lembar pencatatan data sosial dan identitas rawat inap.' },
-        { id: 'form-13', kode: 'RM-13', nama: 'Ringkasan Masuk dan Keluar', deskripsi: 'Lembar ringkasan masuk & keluar (lembar muka rawat inap).' },
-        { id: 'form-14', kode: 'RM-14', nama: 'Surat Keterangan Kematian', deskripsi: 'Formulir pelaporan kematian resmi.' },
-        { id: 'form-15', kode: 'RM-15', nama: 'Persetujuan Umum', deskripsi: 'Formulir persetujuan umum (general consent) tindakan non-invasif.' }
+        { id: 'form-1', kode: 'RM-01', nama: 'Ringkasan Riwayat Poli', deskripsi: 'Ringkasan riwayat klinis pelayanan poliklinik rawat jalan.', kategori: 'Rawat Jalan' },
+        { id: 'form-2', kode: 'RM-02', nama: 'Catatan Poliklinik', deskripsi: 'Lembar pencatatan perkembangan klinis poliklinik.', kategori: 'Rawat Jalan' },
+        { id: 'form-3', kode: 'RM-03', nama: 'Pemeriksaan Fisik Umum', deskripsi: 'Formulir pencatatan hasil pemeriksaan fisik umum.', kategori: 'Rawat Jalan' },
+        { id: 'form-4', kode: 'RM-04', nama: 'Pemeriksaan Fisik Saraf', deskripsi: 'Lembar pemeriksaan sistem neurologis.', kategori: 'Rawat Jalan' },
+        { id: 'form-5', kode: 'RM-05', nama: 'Pemeriksaan Fisik THT', deskripsi: 'Formulir hasil pemeriksaan telinga, hidung, tenggorokan.', kategori: 'Rawat Jalan' },
+        { id: 'form-6', kode: 'RM-06', nama: 'Pemeriksaan Fisik Mata', deskripsi: 'Lembar pemeriksaan tajam penglihatan dan anatomi mata.', kategori: 'Rawat Jalan' },
+        { id: 'form-7', kode: 'RM-07', nama: 'Pemeriksaan Psikiatri', deskripsi: 'Pencatatan evaluasi kesehatan jiwa/psikiatrik.', kategori: 'Rawat Jalan' },
+        { id: 'form-8', kode: 'RM-08', nama: 'Kartu Obat', deskripsi: 'Daftar kendali rekonsiliasi dan pemberian obat.', kategori: 'Rawat Jalan' },
+        { id: 'form-9', kode: 'RM-09', nama: 'Hasil Laboratorium', deskripsi: 'Lembar khusus untuk menempelkan salinan hasil lab.', kategori: 'Rawat Jalan' },
+        { id: 'form-10', kode: 'RM-10', nama: 'Penempelan Salinan Resep', deskripsi: 'Arsip untuk menempelkan lembar salinan resep obat.', kategori: 'Rawat Jalan' },
+        { id: 'form-11', kode: 'RM-11', nama: 'Masuk Darurat', deskripsi: 'Lembar pemeriksaan triase dan pelayanan IGD.', kategori: 'Rawat Jalan' },
+        { id: 'form-12', kode: 'RM-12', nama: 'Identitas Pasien RI', deskripsi: 'Lembar pencatatan data sosial dan identitas rawat inap.', kategori: 'Rawat Inap' },
+        { id: 'form-13', kode: 'RM-13', nama: 'Ringkasan Masuk dan Keluar', deskripsi: 'Lembar ringkasan masuk & keluar (lembar muka rawat inap).', kategori: 'Rawat Inap' },
+        { id: 'form-14', kode: 'RM-14', nama: 'Surat Keterangan Kematian', deskripsi: 'Formulir pelaporan kematian resmi.', kategori: 'Rawat Inap' },
+        { id: 'form-15', kode: 'RM-15', nama: 'Persetujuan Umum', deskripsi: 'Formulir persetujuan umum (general consent) tindakan non-invasif.', kategori: 'Rawat Inap' }
     ];
 
     const DEFAULT_STOK = [
@@ -105,6 +105,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let listRak = getData(KEY_RAK, DEFAULT_RAK);
     let listStok = getData(KEY_STOK, DEFAULT_STOK);
 
+    // Pagination State
+    let currentPageRj = 1;
+    let currentPageRi = 1;
+    let currentPageFormulir = 1;
+    let currentPageRak = 1;
+    const itemsPerPage = 10;
+
     // ==========================================
     // 3. UI ELEMENT REFERENCES
     // ==========================================
@@ -115,17 +122,39 @@ document.addEventListener('DOMContentLoaded', () => {
     // Metrics Cards
     const countTotalFormulirEl = document.getElementById('count-total-formulir');
     const countTotalRakEl = document.getElementById('count-total-rak');
-    const countTersediaEl = document.getElementById('count-tersedia');
-    const countHabisEl = document.getElementById('count-habis');
 
-    // Filter Controls
-    const filterBulanSelect = document.getElementById('filter-bulan');
-    const filterRakSelect = document.getElementById('filter-rak');
-    const filterStatusSelect = document.getElementById('filter-status');
-    const searchDokumenInput = document.getElementById('search-dokumen');
+    // Pagination Controls references
+    const btnPrevRj = document.getElementById('btn-prev-rj');
+    const btnNextRj = document.getElementById('btn-next-rj');
+    const infoRj = document.getElementById('info-rj');
+
+    const btnPrevRi = document.getElementById('btn-prev-ri');
+    const btnNextRi = document.getElementById('btn-next-ri');
+    const infoRi = document.getElementById('info-ri');
+
+    const btnPrevFormulir = document.getElementById('btn-prev-formulir');
+    const btnNextFormulir = document.getElementById('btn-next-formulir');
+    const infoFormulir = document.getElementById('info-formulir');
+
+    const btnPrevRak = document.getElementById('btn-prev-rak');
+    const btnNextRak = document.getElementById('btn-next-rak');
+    const infoRak = document.getElementById('info-rak');
+
+    // Filter Controls - Rawat Jalan
+    const filterBulanRjSelect = document.getElementById('filter-bulan-rj');
+    const filterRakRjSelect = document.getElementById('filter-rak-rj');
+    const filterStatusRjSelect = document.getElementById('filter-status-rj');
+    const searchRjInput = document.getElementById('search-rj');
+
+    // Filter Controls - Rawat Inap
+    const filterBulanRiSelect = document.getElementById('filter-bulan-ri');
+    const filterRakRiSelect = document.getElementById('filter-rak-ri');
+    const filterStatusRiSelect = document.getElementById('filter-status-ri');
+    const searchRiInput = document.getElementById('search-ri');
 
     // Tables
-    const tableOverviewBody = document.getElementById('table-overview-body');
+    const tableRjBody = document.getElementById('table-rj-body');
+    const tableRiBody = document.getElementById('table-ri-body');
     const tableFormulirBody = document.getElementById('table-formulir-body');
     const tableRakBody = document.getElementById('table-rak-body');
 
@@ -166,33 +195,39 @@ document.addEventListener('DOMContentLoaded', () => {
         // Sort months descending (newest first)
         const sortedMonths = Array.from(months).sort().reverse();
         
-        // Clear filter options and re-add
-        filterBulanSelect.innerHTML = '';
-        sortedMonths.forEach(m => {
-            const dateObj = new Date(m + '-01');
-            const monthLabel = dateObj.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
-            
-            const option = document.createElement('option');
-            option.value = m;
-            option.textContent = monthLabel;
-            filterBulanSelect.appendChild(option);
-        });
+        // Clear filter options and re-add for both RJ and RI
+        [filterBulanRjSelect, filterBulanRiSelect].forEach(selectEl => {
+            if (!selectEl) return;
+            selectEl.innerHTML = '';
+            sortedMonths.forEach(m => {
+                const dateObj = new Date(m + '-01');
+                const monthLabel = dateObj.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+                
+                const option = document.createElement('option');
+                option.value = m;
+                option.textContent = monthLabel;
+                selectEl.appendChild(option);
+            });
 
-        // Set default month to newest available month (usually current month)
-        if (sortedMonths.length > 0) {
-            filterBulanSelect.value = sortedMonths[0];
-        }
+            // Set default month to newest available month (usually current month)
+            if (sortedMonths.length > 0) {
+                selectEl.value = sortedMonths[0];
+            }
+        });
     };
 
     // Populate Rack Filter options
     const updateRackFiltersAndSelects = () => {
-        // Dropdown filter di halaman utama
-        filterRakSelect.innerHTML = '<option value="">Semua Rak</option>';
-        listRak.forEach(rak => {
-            const option = document.createElement('option');
-            option.value = rak.id;
-            option.textContent = `${rak.kode} - ${rak.nama}`;
-            filterRakSelect.appendChild(option);
+        // Dropdown filter di halaman utama RJ dan RI
+        [filterRakRjSelect, filterRakRiSelect].forEach(selectEl => {
+            if (!selectEl) return;
+            selectEl.innerHTML = '<option value="">Semua Rak</option>';
+            listRak.forEach(rak => {
+                const option = document.createElement('option');
+                option.value = rak.id;
+                option.textContent = `${rak.kode} - ${rak.nama}`;
+                selectEl.appendChild(option);
+            });
         });
 
         // Dropdown Rak di Modal Update Stok
@@ -226,27 +261,61 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. RENDERING LOGIC
     // ==========================================
 
-    // TAB 1: OVERVIEW & STOCK TRACKING
-    const renderOverview = () => {
-        const selectedMonth = filterBulanSelect.value;
-        const searchVal = searchDokumenInput.value.toLowerCase().trim();
-        const selectedRak = filterRakSelect.value;
-        const selectedStatus = filterStatusSelect.value;
+    // Helper to get active month
+    const getActiveMonth = () => {
+        const activeTabBtn = document.querySelector('.tab-btn.active');
+        const activeTab = activeTabBtn ? activeTabBtn.getAttribute('data-tab') : 'rawat-jalan';
+        if (activeTab === 'rawat-inap' && filterBulanRiSelect) {
+            return filterBulanRiSelect.value;
+        }
+        return filterBulanRjSelect ? filterBulanRjSelect.value : '';
+    };
 
-        // Reset Table
-        tableOverviewBody.innerHTML = '';
+    // TAB 1a: RAWAT JALAN STOCK PANEL
+    const renderRawatJalan = () => {
+        if (!filterBulanRjSelect || !searchRjInput || !filterRakRjSelect || !filterStatusRjSelect || !tableRjBody) return;
+        const selectedMonth = filterBulanRjSelect.value;
+        const searchVal = searchRjInput.value.toLowerCase().trim();
+        const selectedRak = filterRakRjSelect.value;
+        const selectedStatus = filterStatusRjSelect.value;
 
-        let totalTersedia = 0;
-        let totalHabis = 0;
-        let totalBelumDiupdate = 0;
-        let matchingRecordsCount = 0;
+        // Filter items
+        const filteredFormulir = listFormulir.filter(form => {
+            const formKat = form.kategori || 'Rawat Jalan';
+            if (formKat !== 'Rawat Jalan') return false;
 
-        // Loop through all master forms to build current month status
-        listFormulir.forEach(form => {
-            // Find stock record for this form and month
+            const stockRecord = listStok.find(s => s.bulan === selectedMonth && s.formulirId === form.id);
+            let status = 'Belum Di-update';
+            if (stockRecord) {
+                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - (stockRecord.digunakan || 0) - (stockRecord.rusak || 0);
+                status = sisa > 0 ? 'Tersedia' : 'Habis';
+            }
+
+            const matchesSearch = form.kode.toLowerCase().includes(searchVal) || form.nama.toLowerCase().includes(searchVal);
+            const matchesRak = !selectedRak || (stockRecord && stockRecord.rakId === selectedRak);
+            const matchesStatus = !selectedStatus || 
+                (selectedStatus === 'tersedia' && status === 'Tersedia') ||
+                (selectedStatus === 'habis' && status === 'Habis') ||
+                (selectedStatus === 'belum' && status === 'Belum Di-update');
+
+            return matchesSearch && matchesRak && matchesStatus;
+        });
+
+        // Pagination calculations
+        const totalItems = filteredFormulir.length;
+        const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+        if (currentPageRj > totalPages) currentPageRj = totalPages;
+
+        if (btnPrevRj) btnPrevRj.disabled = currentPageRj <= 1;
+        if (btnNextRj) btnNextRj.disabled = currentPageRj >= totalPages;
+        if (infoRj) infoRj.textContent = `Halaman ${currentPageRj} dari ${totalPages}`;
+
+        const paginatedFormulir = filteredFormulir.slice((currentPageRj - 1) * itemsPerPage, currentPageRj * itemsPerPage);
+
+        tableRjBody.innerHTML = '';
+        paginatedFormulir.forEach(form => {
             const stockRecord = listStok.find(s => s.bulan === selectedMonth && s.formulirId === form.id);
             
-            // Get rack details
             let rakName = '-';
             let rakCode = '';
             let stokAwal = 0;
@@ -255,7 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let rusak = 0;
             let sisa = 0;
             let keterangan = '';
-            let status = 'Belum Di-update'; // Default status if no record exists
 
             if (stockRecord) {
                 stokAwal = stockRecord.stokAwal || 0;
@@ -264,7 +332,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 rusak = stockRecord.rusak || 0;
                 sisa = stokAwal + masuk - digunakan - rusak;
                 keterangan = stockRecord.keterangan || '';
-                status = sisa > 0 ? 'Tersedia' : 'Habis';
                 
                 const rakObj = listRak.find(r => r.id === stockRecord.rakId);
                 if (rakObj) {
@@ -273,50 +340,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Calculate global statistics for selected month (before search filtering)
-            if (status === 'Tersedia') totalTersedia++;
-            else if (status === 'Habis') totalHabis++;
-            else totalBelumDiupdate++;
-
-            // Apply filters to table display
-            const matchesSearch = form.kode.toLowerCase().includes(searchVal) || form.nama.toLowerCase().includes(searchVal);
-            const matchesRak = !selectedRak || (stockRecord && stockRecord.rakId === selectedRak);
-            const matchesStatus = !selectedStatus || 
-                (selectedStatus === 'tersedia' && status === 'Tersedia') ||
-                (selectedStatus === 'habis' && status === 'Habis') ||
-                (selectedStatus === 'belum' && status === 'Belum Di-update');
-
-            if (matchesSearch && matchesRak && matchesStatus) {
-                matchingRecordsCount++;
-                
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><strong>${form.kode}</strong></td>
-                    <td>
-                        <div style="font-weight: 600; color: var(--color-primary-dark);">${form.nama}</div>
-                        <small style="color: var(--color-text-muted); display: block; max-width: 320px; line-height: 1.3; margin-top: 4px;">${form.deskripsi}</small>
-                    </td>
-                    <td>${rakCode ? `<span class="badge" style="background-color: rgba(11,78,162,0.06); color: var(--color-primary-dark); font-weight:600;">${rakCode}</span> ${rakName}` : '-'}</td>
-                    <td style="text-align: center;">${stockRecord ? stokAwal : '-'}</td>
-                    <td style="text-align: center;">${stockRecord ? masuk : '-'}</td>
-                    <td style="text-align: center;">${stockRecord ? digunakan : '-'}</td>
-                    <td style="text-align: center;">${stockRecord ? rusak : '-'}</td>
-                    <td style="text-align: center; font-weight: 700; font-size: 1.05rem; color: ${sisa > 0 ? 'var(--color-success)' : '#EF4444'};">${stockRecord ? sisa : '-'}</td>
-                    <td style="font-size: 0.9rem; color: var(--color-text-muted);">${stockRecord ? keterangan : '-'}</td>
-                    <td>
-                        <div class="action-btn-group">
-                            <button class="btn-icon edit" onclick="triggerUpdateStok('${form.id}', '${stockRecord ? stockRecord.rakId : ''}', ${stokAwal}, ${masuk}, ${digunakan}, ${rusak}, '${keterangan.replace(/'/g, "\\'")}')" title="Update Stok Bulanan">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                tableOverviewBody.appendChild(tr);
-            }
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${form.kode}</strong></td>
+                <td>
+                    <div style="font-weight: 600; color: var(--color-primary-dark);">${form.nama}</div>
+                    <small style="color: var(--color-text-muted); display: block; max-width: 320px; line-height: 1.3; margin-top: 4px;">${form.deskripsi}</small>
+                </td>
+                <td>${rakCode ? `<span class="badge" style="background-color: rgba(11,78,162,0.06); color: var(--color-primary-dark); font-weight:600;">${rakCode}</span> ${rakName}` : '-'}</td>
+                <td style="text-align: center;">${stockRecord ? stokAwal : '-'}</td>
+                <td style="text-align: center;">${stockRecord ? masuk : '-'}</td>
+                <td style="text-align: center;">${stockRecord ? digunakan : '-'}</td>
+                <td style="text-align: center;">${stockRecord ? rusak : '-'}</td>
+                <td style="text-align: center; font-weight: 700; font-size: 1.05rem; color: ${sisa > 0 ? 'var(--color-success)' : '#EF4444'};">${stockRecord ? sisa : '-'}</td>
+                <td style="font-size: 0.9rem; color: var(--color-text-muted);">${stockRecord ? keterangan : '-'}</td>
+                <td>
+                    <div class="action-btn-group">
+                        <button class="btn-icon edit" onclick="triggerUpdateStok('${form.id}', '${stockRecord ? stockRecord.rakId : ''}', ${stokAwal}, ${masuk}, ${digunakan}, ${rusak}, '${keterangan.replace(/'/g, "\\'")}')" title="Update Stok Bulanan">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                        </button>
+                    </div>
+                </td>
+            `;
+            tableRjBody.appendChild(tr);
         });
 
-        // Show empty state if no rows matching search/filters
-        if (matchingRecordsCount === 0) {
+        if (paginatedFormulir.length === 0) {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td colspan="10">
@@ -327,24 +376,210 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </td>
             `;
-            tableOverviewBody.appendChild(tr);
+            tableRjBody.appendChild(tr);
         }
+    };
 
-        // Update metric labels on cards
-        countTotalFormulirEl.textContent = listFormulir.length;
-        countTotalRakEl.textContent = listRak.length;
-        countTersediaEl.textContent = totalTersedia;
-        countHabisEl.textContent = totalHabis;
+    // TAB 1b: RAWAT INAP STOCK PANEL
+    const renderRawatInap = () => {
+        if (!filterBulanRiSelect || !searchRiInput || !filterRakRiSelect || !filterStatusRiSelect || !tableRiBody) return;
+        const selectedMonth = filterBulanRiSelect.value;
+        const searchVal = searchRiInput.value.toLowerCase().trim();
+        const selectedRak = filterRakRiSelect.value;
+        const selectedStatus = filterStatusRiSelect.value;
+
+        // Filter items
+        const filteredFormulir = listFormulir.filter(form => {
+            const formKat = form.kategori || 'Rawat Jalan';
+            if (formKat !== 'Rawat Inap') return false;
+
+            const stockRecord = listStok.find(s => s.bulan === selectedMonth && s.formulirId === form.id);
+            let status = 'Belum Di-update';
+            if (stockRecord) {
+                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - (stockRecord.digunakan || 0) - (stockRecord.rusak || 0);
+                status = sisa > 0 ? 'Tersedia' : 'Habis';
+            }
+
+            const matchesSearch = form.kode.toLowerCase().includes(searchVal) || form.nama.toLowerCase().includes(searchVal);
+            const matchesRak = !selectedRak || (stockRecord && stockRecord.rakId === selectedRak);
+            const matchesStatus = !selectedStatus || 
+                (selectedStatus === 'tersedia' && status === 'Tersedia') ||
+                (selectedStatus === 'habis' && status === 'Habis') ||
+                (selectedStatus === 'belum' && status === 'Belum Di-update');
+
+            return matchesSearch && matchesRak && matchesStatus;
+        });
+
+        // Pagination calculations
+        const totalItems = filteredFormulir.length;
+        const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+        if (currentPageRi > totalPages) currentPageRi = totalPages;
+
+        if (btnPrevRi) btnPrevRi.disabled = currentPageRi <= 1;
+        if (btnNextRi) btnNextRi.disabled = currentPageRi >= totalPages;
+        if (infoRi) infoRi.textContent = `Halaman ${currentPageRi} dari ${totalPages}`;
+
+        const paginatedFormulir = filteredFormulir.slice((currentPageRi - 1) * itemsPerPage, currentPageRi * itemsPerPage);
+
+        tableRiBody.innerHTML = '';
+        paginatedFormulir.forEach(form => {
+            const stockRecord = listStok.find(s => s.bulan === selectedMonth && s.formulirId === form.id);
+            
+            let rakName = '-';
+            let rakCode = '';
+            let stokAwal = 0;
+            let masuk = 0;
+            let digunakan = 0;
+            let rusak = 0;
+            let sisa = 0;
+            let keterangan = '';
+
+            if (stockRecord) {
+                stokAwal = stockRecord.stokAwal || 0;
+                masuk = stockRecord.masuk || 0;
+                digunakan = stockRecord.digunakan || 0;
+                rusak = stockRecord.rusak || 0;
+                sisa = stokAwal + masuk - digunakan - rusak;
+                keterangan = stockRecord.keterangan || '';
+                
+                const rakObj = listRak.find(r => r.id === stockRecord.rakId);
+                if (rakObj) {
+                    rakName = rakObj.nama;
+                    rakCode = rakObj.kode;
+                }
+            }
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${form.kode}</strong></td>
+                <td>
+                    <div style="font-weight: 600; color: var(--color-primary-dark);">${form.nama}</div>
+                    <small style="color: var(--color-text-muted); display: block; max-width: 320px; line-height: 1.3; margin-top: 4px;">${form.deskripsi}</small>
+                </td>
+                <td>${rakCode ? `<span class="badge" style="background-color: rgba(11,78,162,0.06); color: var(--color-primary-dark); font-weight:600;">${rakCode}</span> ${rakName}` : '-'}</td>
+                <td style="text-align: center;">${stockRecord ? stokAwal : '-'}</td>
+                <td style="text-align: center;">${stockRecord ? masuk : '-'}</td>
+                <td style="text-align: center;">${stockRecord ? digunakan : '-'}</td>
+                <td style="text-align: center;">${stockRecord ? rusak : '-'}</td>
+                <td style="text-align: center; font-weight: 700; font-size: 1.05rem; color: ${sisa > 0 ? 'var(--color-success)' : '#EF4444'};">${stockRecord ? sisa : '-'}</td>
+                <td style="font-size: 0.9rem; color: var(--color-text-muted);">${stockRecord ? keterangan : '-'}</td>
+                <td>
+                    <div class="action-btn-group">
+                        <button class="btn-icon edit" onclick="triggerUpdateStok('${form.id}', '${stockRecord ? stockRecord.rakId : ''}', ${stokAwal}, ${masuk}, ${digunakan}, ${rusak}, '${keterangan.replace(/'/g, "\\'")}')" title="Update Stok Bulanan">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                        </button>
+                    </div>
+                </td>
+            `;
+            tableRiBody.appendChild(tr);
+        });
+
+        if (paginatedFormulir.length === 0) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td colspan="10">
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                        <h4>Tidak ada data dokumen ditemukan</h4>
+                        <p>Cobalah untuk membersihkan filter atau menambahkan data baru melalui panel master.</p>
+                    </div>
+                </td>
+            `;
+            tableRiBody.appendChild(tr);
+        }
+    };
+
+    // Render Overview (Unified updates for stats and grids)
+    const renderOverview = () => {
+        renderRawatJalan();
+        renderRawatInap();
+
+        // Calculate specific stats for RJ based on RJ month selection
+        const monthRj = filterBulanRjSelect ? filterBulanRjSelect.value : '';
+        let tersediaRj = 0;
+        let habisRj = 0;
+
+        listFormulir.forEach(form => {
+            const formKat = form.kategori || 'Rawat Jalan';
+            if (formKat !== 'Rawat Jalan') return;
+            const stockRecord = listStok.find(s => s.bulan === monthRj && s.formulirId === form.id);
+            let sisa = 0;
+            let status = 'Belum Di-update';
+
+            if (stockRecord) {
+                const stokAwal = stockRecord.stokAwal || 0;
+                const masuk = stockRecord.masuk || 0;
+                const digunakan = stockRecord.digunakan || 0;
+                const rusak = stockRecord.rusak || 0;
+                sisa = stokAwal + masuk - digunakan - rusak;
+                status = sisa > 0 ? 'Tersedia' : 'Habis';
+            }
+
+            if (status === 'Tersedia') tersediaRj++;
+            else {
+                habisRj++;
+            }
+        });
+
+        // Calculate specific stats for RI based on RI month selection
+        const monthRi = filterBulanRiSelect ? filterBulanRiSelect.value : '';
+        let tersediaRi = 0;
+        let habisRi = 0;
+
+        listFormulir.forEach(form => {
+            const formKat = form.kategori || 'Rawat Jalan';
+            if (formKat !== 'Rawat Inap') return;
+            const stockRecord = listStok.find(s => s.bulan === monthRi && s.formulirId === form.id);
+            let sisa = 0;
+            let status = 'Belum Di-update';
+
+            if (stockRecord) {
+                const stokAwal = stockRecord.stokAwal || 0;
+                const masuk = stockRecord.masuk || 0;
+                const digunakan = stockRecord.digunakan || 0;
+                const rusak = stockRecord.rusak || 0;
+                sisa = stokAwal + masuk - digunakan - rusak;
+                status = sisa > 0 ? 'Tersedia' : 'Habis';
+            }
+
+            if (status === 'Tersedia') tersediaRi++;
+            else {
+                habisRi++;
+            }
+        });
+
+        // Update elements
+        const countTersediaRjEl = document.getElementById('count-tersedia-rj');
+        const countHabisRjEl = document.getElementById('count-habis-rj');
+        const countTersediaRiEl = document.getElementById('count-tersedia-ri');
+        const countHabisRiEl = document.getElementById('count-habis-ri');
+
+        if (countTersediaRjEl) countTersediaRjEl.textContent = tersediaRj;
+        if (countHabisRjEl) countHabisRjEl.textContent = habisRj;
+        if (countTersediaRiEl) countTersediaRiEl.textContent = tersediaRi;
+        if (countHabisRiEl) countHabisRiEl.textContent = habisRi;
+
+        // Update master metrics
+        if (countTotalFormulirEl) countTotalFormulirEl.textContent = listFormulir.length;
+        if (countTotalRakEl) countTotalRakEl.textContent = listRak.length;
     };
 
     // TAB 2: MASTER FORMULIR
     const renderFormulirList = () => {
         tableFormulirBody.innerHTML = '';
 
+        const totalItems = listFormulir.length;
+        const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+        if (currentPageFormulir > totalPages) currentPageFormulir = totalPages;
+
+        if (btnPrevFormulir) btnPrevFormulir.disabled = currentPageFormulir <= 1;
+        if (btnNextFormulir) btnNextFormulir.disabled = currentPageFormulir >= totalPages;
+        if (infoFormulir) infoFormulir.textContent = `Halaman ${currentPageFormulir} dari ${totalPages}`;
+
         if (listFormulir.length === 0) {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td colspan="4">
+                <td colspan="5">
                     <div class="empty-state">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
                         <h4>Belum ada Master Formulir</h4>
@@ -356,11 +591,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        listFormulir.forEach(form => {
+        const paginatedFormulir = listFormulir.slice((currentPageFormulir - 1) * itemsPerPage, currentPageFormulir * itemsPerPage);
+
+        paginatedFormulir.forEach(form => {
             const tr = document.createElement('tr');
+            const katBadgeClass = form.kategori === 'Rawat Inap' ? 'badge-ri' : 'badge-rj';
+            const katLabel = form.kategori || 'Rawat Jalan';
             tr.innerHTML = `
                 <td><strong>${form.kode}</strong></td>
                 <td style="font-weight: 600; color: var(--color-primary-dark);">${form.nama}</td>
+                <td><span class="badge ${katBadgeClass}">${katLabel}</span></td>
                 <td style="color: var(--color-text-muted); font-size: 0.9rem;">${form.deskripsi || '-'}</td>
                 <td>
                     <div class="action-btn-group">
@@ -381,6 +621,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderRakList = () => {
         tableRakBody.innerHTML = '';
 
+        const totalItems = listRak.length;
+        const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+        if (currentPageRak > totalPages) currentPageRak = totalPages;
+
+        if (btnPrevRak) btnPrevRak.disabled = currentPageRak <= 1;
+        if (btnNextRak) btnNextRak.disabled = currentPageRak >= totalPages;
+        if (infoRak) infoRak.textContent = `Halaman ${currentPageRak} dari ${totalPages}`;
+
         if (listRak.length === 0) {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -396,7 +644,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        listRak.forEach(rak => {
+        const paginatedRak = listRak.slice((currentPageRak - 1) * itemsPerPage, currentPageRak * itemsPerPage);
+
+        paginatedRak.forEach(rak => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td><span class="badge" style="background-color: rgba(11,78,162,0.08); color: var(--color-primary-dark);">${rak.kode}</span></td>
@@ -437,6 +687,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Sync header navigation links active state
+        document.querySelectorAll('.header-tab-link').forEach(hl => {
+            if (hl.getAttribute('data-tab') === targetTab) {
+                hl.classList.add('active-link');
+            } else {
+                hl.classList.remove('active-link');
+            }
+        });
+
         // Set active tab content
         tabContents.forEach(content => {
             if (content.getAttribute('id') === `content-${targetTab}`) {
@@ -447,7 +706,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Trigger specific tab render
-        if (targetTab === 'overview') renderOverview();
+        if (targetTab === 'rawat-jalan' || targetTab === 'rawat-inap') renderOverview();
         else if (targetTab === 'formulir') renderFormulirList();
         else if (targetTab === 'rak') renderRakList();
     };
@@ -475,6 +734,41 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Attach click listeners to header tab links
+    document.querySelectorAll('.header-tab-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetTab = link.getAttribute('data-tab');
+            if (targetTab) {
+                e.preventDefault();
+                switchTab(targetTab);
+                
+                // Close mobile menu if open
+                const menuToggle = document.getElementById('menu-toggle');
+                const navMenu = document.querySelector('.nav-menu');
+                if (menuToggle && navMenu) {
+                    menuToggle.classList.remove('open');
+                    navMenu.classList.remove('open');
+                }
+
+                // Smooth scroll to the dashboard section if clicked
+                const dashboardSec = document.querySelector('.dashboard-section');
+                if (dashboardSec) {
+                    dashboardSec.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('open');
+            navMenu.classList.toggle('open');
+        });
+    }
 
     // ==========================================
     // 7. MODALS CONTROLLERS (OPEN / CLOSE)
@@ -529,11 +823,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const kategori = document.getElementById('form-kategori').value;
+
         if (editFormulirId) {
             // Edit mode
             listFormulir = listFormulir.map(f => {
                 if (f.id === editFormulirId) {
-                    return { ...f, kode, nama, deskripsi };
+                    return { ...f, kode, nama, deskripsi, kategori };
                 }
                 return f;
             });
@@ -543,7 +839,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 id: 'form-' + Date.now(),
                 kode,
                 nama,
-                deskripsi
+                deskripsi,
+                kategori
             };
             listFormulir.push(newForm);
         }
@@ -562,6 +859,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('form-kode').value = formObj.kode;
         document.getElementById('form-nama').value = formObj.nama;
         document.getElementById('form-deskripsi').value = formObj.deskripsi;
+        document.getElementById('form-kategori').value = formObj.kategori || 'Rawat Jalan';
 
         document.getElementById('modal-formulir-title').textContent = 'Edit Master Formulir';
         openModal(modalFormulir);
@@ -680,7 +978,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formStok.reset();
         
         // Default the month in modal to current filter month
-        document.getElementById('stok-bulan').value = filterBulanSelect.value;
+        document.getElementById('stok-bulan').value = getActiveMonth();
         document.getElementById('stok-formulir-id').disabled = false;
         
         openModal(modalStok);
@@ -690,7 +988,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.triggerUpdateStok = (formulirId, rakId, stokAwal, masuk, digunakan, rusak, keterangan) => {
         formStok.reset();
 
-        document.getElementById('stok-bulan').value = filterBulanSelect.value;
+        document.getElementById('stok-bulan').value = getActiveMonth();
         
         // Select & lock the Form field
         const stokFormulirSelect = document.getElementById('stok-formulir-id');
@@ -761,8 +1059,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Make sure the filter month is updated and synced
         initializeMonthFilter();
-        // Keep selected month active
-        filterBulanSelect.value = bulan;
+        // Sync selected month to both inputs
+        if (filterBulanRjSelect) filterBulanRjSelect.value = bulan;
+        if (filterBulanRiSelect) filterBulanRiSelect.value = bulan;
         
         refreshUI();
     });
@@ -770,10 +1069,82 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 11. FILTER EVENTS TRIGGER
     // ==========================================
-    filterBulanSelect.addEventListener('change', renderOverview);
-    filterRakSelect.addEventListener('change', renderOverview);
-    filterStatusSelect.addEventListener('change', renderOverview);
-    searchDokumenInput.addEventListener('input', renderOverview);
+    // Sync month selections and render (resets pages)
+    if (filterBulanRjSelect && filterBulanRiSelect) {
+        filterBulanRjSelect.addEventListener('change', () => {
+            filterBulanRiSelect.value = filterBulanRjSelect.value;
+            currentPageRj = 1;
+            currentPageRi = 1;
+            renderOverview();
+        });
+        filterBulanRiSelect.addEventListener('change', () => {
+            filterBulanRjSelect.value = filterBulanRiSelect.value;
+            currentPageRj = 1;
+            currentPageRi = 1;
+            renderOverview();
+        });
+    }
+
+    if (filterRakRjSelect) filterRakRjSelect.addEventListener('change', () => { currentPageRj = 1; renderOverview(); });
+    if (filterStatusRjSelect) filterStatusRjSelect.addEventListener('change', () => { currentPageRj = 1; renderOverview(); });
+    if (searchRjInput) searchRjInput.addEventListener('input', () => { currentPageRj = 1; renderOverview(); });
+
+    if (filterRakRiSelect) filterRakRiSelect.addEventListener('change', () => { currentPageRi = 1; renderOverview(); });
+    if (filterStatusRiSelect) filterStatusRiSelect.addEventListener('change', () => { currentPageRi = 1; renderOverview(); });
+    if (searchRiInput) searchRiInput.addEventListener('input', () => { currentPageRi = 1; renderOverview(); });
+
+    // Pagination Listeners Binding
+    if (btnPrevRj && btnNextRj) {
+        btnPrevRj.addEventListener('click', () => {
+            if (currentPageRj > 1) {
+                currentPageRj--;
+                renderRawatJalan();
+            }
+        });
+        btnNextRj.addEventListener('click', () => {
+            currentPageRj++;
+            renderRawatJalan();
+        });
+    }
+
+    if (btnPrevRi && btnNextRi) {
+        btnPrevRi.addEventListener('click', () => {
+            if (currentPageRi > 1) {
+                currentPageRi--;
+                renderRawatInap();
+            }
+        });
+        btnNextRi.addEventListener('click', () => {
+            currentPageRi++;
+            renderRawatInap();
+        });
+    }
+
+    if (btnPrevFormulir && btnNextFormulir) {
+        btnPrevFormulir.addEventListener('click', () => {
+            if (currentPageFormulir > 1) {
+                currentPageFormulir--;
+                renderFormulirList();
+            }
+        });
+        btnNextFormulir.addEventListener('click', () => {
+            currentPageFormulir++;
+            renderFormulirList();
+        });
+    }
+
+    if (btnPrevRak && btnNextRak) {
+        btnPrevRak.addEventListener('click', () => {
+            if (currentPageRak > 1) {
+                currentPageRak--;
+                renderRakList();
+            }
+        });
+        btnNextRak.addEventListener('click', () => {
+            currentPageRak++;
+            renderRakList();
+        });
+    }
 
     // ==========================================
     // 12. INITIALIZATION

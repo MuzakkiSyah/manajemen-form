@@ -27,6 +27,22 @@
                     <span class="brand-subtitle">UDINUS SEMARANG</span>
                 </div>
             </a>
+
+            <!-- Navigation Menu in Header -->
+            <ul class="nav-menu">
+                <li><a href="#rawat-jalan" class="nav-link header-tab-link active-link" data-tab="rawat-jalan">Stok Rawat Jalan</a></li>
+                <li><a href="#rawat-inap" class="nav-link header-tab-link" data-tab="rawat-inap">Stok Rawat Inap</a></li>
+                <li class="nav-separator" style="color: var(--color-text-muted); opacity: 0.4; font-weight: 300;">|</li>
+                <li><a href="#formulir" class="nav-link header-tab-link" data-tab="formulir">Master Formulir</a></li>
+                <li><a href="#rak" class="nav-link header-tab-link" data-tab="rak">Master Rak</a></li>
+            </ul>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </header>
 
@@ -50,77 +66,57 @@
                 </div>
             </div>
 
-            <!-- Segmented Pill Tabs Navigation -->
-            <div class="tabs-navigation">
-                <button class="tab-btn active" data-tab="overview">Overview Stok</button>
-                <button class="tab-btn" data-tab="formulir">Master Formulir</button>
-                <button class="tab-btn" data-tab="rak">Master Rak</button>
-            </div>
 
-            <!-- Metric Cards Display Row -->
-            <div class="metrics-grid">
-                <div class="metric-card primary">
-                    <div class="metric-info">
-                        <h3>Master Formulir</h3>
-                        <div class="metric-value" id="count-total-formulir">0</div>
-                    </div>
-                    <div class="metric-icon-box">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    </div>
-                </div>
-                
-                <div class="metric-card secondary">
-                    <div class="metric-info">
-                        <h3>Master Rak</h3>
-                        <div class="metric-value" id="count-total-rak">0</div>
-                    </div>
-                    <div class="metric-icon-box">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
-                    </div>
-                </div>
-                
-                <div class="metric-card success">
-                    <div class="metric-info">
-                        <h3>Tersedia (Bulan Ini)</h3>
-                        <div class="metric-value" id="count-tersedia">0</div>
-                    </div>
-                    <div class="metric-icon-box">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                    </div>
-                </div>
-                
-                <div class="metric-card danger">
-                    <div class="metric-info">
-                        <h3>Habis (Bulan Ini)</h3>
-                        <div class="metric-value" id="count-habis">0</div>
-                    </div>
-                    <div class="metric-icon-box">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                    </div>
-                </div>
-            </div>
 
             <!-- ==========================================
-               TAB 1: STOK OVERVIEW PANEL
+               TAB 1: STOK RAWAT JALAN PANEL
                ========================================== -->
-            <div class="tab-content active" id="content-overview">
+            <div class="tab-content active" id="content-rawat-jalan">
+                <!-- Statistik Stok Bulanan (Rawat Jalan) -->
+                <div class="metrics-container" style="margin-bottom: 24px;">
+                    <div class="metrics-group" style="flex: 1;">
+                        <h3 class="metrics-group-title">Statistik Stok Bulanan (Rawat Jalan)</h3>
+                        <div class="metrics-group-grid">
+                            <div class="metric-card success">
+                                <div class="metric-info">
+                                    <h3>Tersedia</h3>
+                                    <div class="metric-value" id="count-tersedia-rj">0</div>
+                                </div>
+                                <div class="metric-icon-box">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card danger">
+                                <div class="metric-info">
+                                    <h3>Habis</h3>
+                                    <div class="metric-value" id="count-habis-rj">0</div>
+                                </div>
+                                <div class="metric-icon-box">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Filter Controls Panel -->
                 <div class="filter-panel">
                     <div class="filter-group search">
-                        <label class="filter-label">Cari Dokumen</label>
-                        <input type="text" class="filter-input" id="search-dokumen" placeholder="Masukkan kode atau nama formulir...">
+                        <label class="filter-label">Cari Dokumen RJ</label>
+                        <input type="text" class="filter-input" id="search-rj" placeholder="Masukkan kode atau nama formulir...">
                     </div>
                     
                     <div class="filter-group">
                         <label class="filter-label">Bulan Monitoring</label>
-                        <select class="filter-input" id="filter-bulan">
+                        <select class="filter-input" id="filter-bulan-rj">
                             <!-- Populated dynamically via JS -->
                         </select>
                     </div>
                     
                     <div class="filter-group">
                         <label class="filter-label">Rak Lokasi</label>
-                        <select class="filter-input" id="filter-rak">
+                        <select class="filter-input" id="filter-rak-rj">
                             <option value="">Semua Rak</option>
                             <!-- Populated dynamically via JS -->
                         </select>
@@ -128,7 +124,7 @@
                     
                     <div class="filter-group">
                         <label class="filter-label">Status Stok</label>
-                        <select class="filter-input" id="filter-status">
+                        <select class="filter-input" id="filter-status-rj">
                             <option value="">Semua Status</option>
                             <option value="tersedia">Masih Ada (Tersedia)</option>
                             <option value="habis">Sudah Habis</option>
@@ -143,7 +139,7 @@
                         <thead>
                             <tr>
                                 <th style="width: 100px;">Kode Form</th>
-                                <th>Nama Formulir Praktikum</th>
+                                <th>Nama Formulir Praktikum (Rawat Jalan)</th>
                                 <th>Lokasi Penyimpanan</th>
                                 <th style="text-align: center; width: 100px;">Stok Awal</th>
                                 <th style="text-align: center; width: 100px;">Masuk</th>
@@ -154,17 +150,133 @@
                                 <th style="width: 80px;">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="table-overview-body">
+                        <tbody id="table-rj-body">
                             <!-- Populated dynamically via JS -->
                         </tbody>
                     </table>
                 </div>
+                
+                <!-- Pagination Controls -->
+                <div class="pagination-controls">
+                    <button type="button" class="btn-pagination" id="btn-prev-rj">&laquo; Sebelumnya</button>
+                    <span class="pagination-info" id="info-rj">Halaman 1 dari 1</span>
+                    <button type="button" class="btn-pagination" id="btn-next-rj">Berikutnya &raquo;</button>
+                </div>
             </div>
 
             <!-- ==========================================
-               TAB 2: MASTER FORMULIR PANEL
+               TAB 2: STOK RAWAT INAP PANEL
                ========================================== -->
+            <div class="tab-content" id="content-rawat-inap">
+                <!-- Statistik Stok Bulanan (Rawat Inap) -->
+                <div class="metrics-container" style="margin-bottom: 24px;">
+                    <div class="metrics-group" style="flex: 1;">
+                        <h3 class="metrics-group-title">Statistik Stok Bulanan (Rawat Inap)</h3>
+                        <div class="metrics-group-grid">
+                            <div class="metric-card success">
+                                <div class="metric-info">
+                                    <h3>Tersedia</h3>
+                                    <div class="metric-value" id="count-tersedia-ri">0</div>
+                                </div>
+                                <div class="metric-icon-box">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card danger">
+                                <div class="metric-info">
+                                    <h3>Habis</h3>
+                                    <div class="metric-value" id="count-habis-ri">0</div>
+                                </div>
+                                <div class="metric-icon-box">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Controls Panel -->
+                <div class="filter-panel">
+                    <div class="filter-group search">
+                        <label class="filter-label">Cari Dokumen RI</label>
+                        <input type="text" class="filter-input" id="search-ri" placeholder="Masukkan kode atau nama formulir...">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Bulan Monitoring</label>
+                        <select class="filter-input" id="filter-bulan-ri">
+                            <!-- Populated dynamically via JS -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Rak Lokasi</label>
+                        <select class="filter-input" id="filter-rak-ri">
+                            <option value="">Semua Rak</option>
+                            <!-- Populated dynamically via JS -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Status Stok</label>
+                        <select class="filter-input" id="filter-status-ri">
+                            <option value="">Semua Status</option>
+                            <option value="tersedia">Masih Ada (Tersedia)</option>
+                            <option value="habis">Sudah Habis</option>
+                            <option value="belum">Belum Update</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Table Overview List -->
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px;">Kode Form</th>
+                                <th>Nama Formulir Praktikum (Rawat Inap)</th>
+                                <th>Lokasi Penyimpanan</th>
+                                <th style="text-align: center; width: 100px;">Stok Awal</th>
+                                <th style="text-align: center; width: 100px;">Masuk</th>
+                                <th style="text-align: center; width: 100px;">Digunakan</th>
+                                <th style="text-align: center; width: 100px;">Rusak</th>
+                                <th style="text-align: center; width: 100px;">Sisa</th>
+                                <th>Keterangan</th>
+                                <th style="width: 80px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-ri-body">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination Controls -->
+                <div class="pagination-controls">
+                    <button type="button" class="btn-pagination" id="btn-prev-ri">&laquo; Sebelumnya</button>
+                    <span class="pagination-info" id="info-ri">Halaman 1 dari 1</span>
+                    <button type="button" class="btn-pagination" id="btn-next-ri">Berikutnya &raquo;</button>
+                </div>
+            </div>
+
             <div class="tab-content" id="content-formulir">
+                <!-- Master Formulir Metrics Card -->
+                <div class="metrics-container" style="margin-bottom: 24px; max-width: 320px;">
+                    <div class="metrics-group">
+                        <h3 class="metrics-group-title">Informasi Data</h3>
+                        <div class="metric-card primary" style="margin-bottom: 0;">
+                            <div class="metric-info">
+                                <h3>Total Master Formulir</h3>
+                                <div class="metric-value" id="count-total-formulir">0</div>
+                            </div>
+                            <div class="metric-icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="filter-panel" style="justify-content: space-between; align-items: center;">
                     <div class="dashboard-title-area" style="margin-bottom: 0;">
                         <h3 style="font-size: 1.15rem; color: var(--color-primary-dark); font-weight: 700;">Daftar Master Formulir</h3>
@@ -181,7 +293,8 @@
                         <thead>
                             <tr>
                                 <th style="width: 150px;">Kode Formulir</th>
-                                <th style="width: 320px;">Nama Formulir</th>
+                                <th style="width: 250px;">Nama Formulir</th>
+                                <th style="width: 140px;">Kategori</th>
                                 <th>Deskripsi Informasi / Kegunaan Praktikum</th>
                                 <th style="width: 120px;">Aksi</th>
                             </tr>
@@ -191,12 +304,32 @@
                         </tbody>
                     </table>
                 </div>
+                
+                <!-- Pagination Controls -->
+                <div class="pagination-controls">
+                    <button type="button" class="btn-pagination" id="btn-prev-formulir">&laquo; Sebelumnya</button>
+                    <span class="pagination-info" id="info-formulir">Halaman 1 dari 1</span>
+                    <button type="button" class="btn-pagination" id="btn-next-formulir">Berikutnya &raquo;</button>
+                </div>
             </div>
 
-            <!-- ==========================================
-               TAB 3: MASTER RAK PANEL
-               ========================================== -->
             <div class="tab-content" id="content-rak">
+                <!-- Master Rak Metrics Card -->
+                <div class="metrics-container" style="margin-bottom: 24px; max-width: 320px;">
+                    <div class="metrics-group">
+                        <h3 class="metrics-group-title">Informasi Data</h3>
+                        <div class="metric-card secondary" style="margin-bottom: 0;">
+                            <div class="metric-info">
+                                <h3>Total Master Rak</h3>
+                                <div class="metric-value" id="count-total-rak">0</div>
+                            </div>
+                            <div class="metric-icon-box">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="filter-panel" style="justify-content: space-between; align-items: center;">
                     <div class="dashboard-title-area" style="margin-bottom: 0;">
                         <h3 style="font-size: 1.15rem; color: var(--color-primary-dark); font-weight: 700;">Daftar Rak Filing & Penyimpanan</h3>
@@ -223,6 +356,13 @@
                         </tbody>
                     </table>
                 </div>
+                
+                <!-- Pagination Controls -->
+                <div class="pagination-controls">
+                    <button type="button" class="btn-pagination" id="btn-prev-rak">&laquo; Sebelumnya</button>
+                    <span class="pagination-info" id="info-rak">Halaman 1 dari 1</span>
+                    <button type="button" class="btn-pagination" id="btn-next-rak">Berikutnya &raquo;</button>
+                </div>
             </div>
 
         </div>
@@ -248,6 +388,14 @@
                         <div class="form-group">
                             <label class="form-label" for="form-nama">Nama Formulir <span>*</span></label>
                             <input type="text" class="form-input" id="form-nama" required placeholder="Contoh: Ringkasan Masuk & Keluar">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="form-kategori">Kategori Pelayanan <span>*</span></label>
+                            <select class="form-input" id="form-kategori" required>
+                                <option value="" disabled selected>-- Pilih Kategori --</option>
+                                <option value="Rawat Jalan">Rawat Jalan</option>
+                                <option value="Rawat Inap">Rawat Inap</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="form-deskripsi">Deskripsi / Keterangan</label>
@@ -388,7 +536,8 @@
             <div class="footer-links-col">
                 <h4>Navigasi Dokumen</h4>
                 <ul class="footer-links">
-                    <li><a href="#overview" class="footer-link footer-tab-link" data-tab="overview"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Overview Stok</a></li>
+                    <li><a href="#rawat-jalan" class="footer-link footer-tab-link" data-tab="rawat-jalan"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Stok Rawat Jalan</a></li>
+                    <li><a href="#rawat-inap" class="footer-link footer-tab-link" data-tab="rawat-inap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Stok Rawat Inap</a></li>
                     <li><a href="#formulir" class="footer-link footer-tab-link" data-tab="formulir"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Master Formulir</a></li>
                     <li><a href="#rak" class="footer-link footer-tab-link" data-tab="rak"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Master Rak</a></li>
                 </ul>

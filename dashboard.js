@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Automatically reset LocalStorage if it contains the old structure/data
     const DB_VERSION_KEY = 'labrm_db_version';
-    const CURRENT_DB_VERSION = 'v4_link_dokumen';
+    const CURRENT_DB_VERSION = 'v5_empty_default';
     if (localStorage.getItem(DB_VERSION_KEY) !== CURRENT_DB_VERSION) {
         localStorage.removeItem(KEY_FORMULIR);
         localStorage.removeItem(KEY_RAK);
@@ -41,49 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Mock/Default Data
-    const DEFAULT_RAK = [
-        { id: 'rak-1', kode: 'RAK-01', nama: 'Rak Filing Rawat Jalan (RJ)', lokasi: 'Ruang Filing Utama - Baris Depan' },
-        { id: 'rak-2', kode: 'RAK-02', nama: 'Rak Filing Rawat Inap (RI)', lokasi: 'Ruang Filing Utama - Baris Belakang' },
-        { id: 'rak-3', kode: 'RAK-03', nama: 'Rak Koding & Klasifikasi Medis', lokasi: 'Ruang Praktik Tengah - Rak A' },
-        { id: 'rak-4', kode: 'RAK-04', nama: 'Rak Formulir Gawat Darurat (UGD)', lokasi: 'Konter Pendaftaran Depan' }
-    ];
+    const DEFAULT_RAK = [];
 
-    const DEFAULT_FORMULIR = [
-        { id: 'form-1', kode: 'RM-01', nama: 'Ringkasan Riwayat Poli', deskripsi: 'Ringkasan riwayat klinis pelayanan poliklinik rawat jalan.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm01/edit?usp=sharing' },
-        { id: 'form-2', kode: 'RM-02', nama: 'Catatan Poliklinik', deskripsi: 'Lembar pencatatan perkembangan klinis poliklinik.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm02/edit?usp=sharing' },
-        { id: 'form-3', kode: 'RM-03', nama: 'Pemeriksaan Fisik Umum', deskripsi: 'Formulir pencatatan hasil pemeriksaan fisik umum.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm03/edit?usp=sharing' },
-        { id: 'form-4', kode: 'RM-04', nama: 'Pemeriksaan Fisik Saraf', deskripsi: 'Lembar pemeriksaan sistem neurologis.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm04/edit?usp=sharing' },
-        { id: 'form-5', kode: 'RM-05', nama: 'Pemeriksaan Fisik THT', deskripsi: 'Formulir hasil pemeriksaan telinga, hidung, tenggorokan.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm05/edit?usp=sharing' },
-        { id: 'form-6', kode: 'RM-06', nama: 'Pemeriksaan Fisik Mata', deskripsi: 'Lembar pemeriksaan tajam penglihatan dan anatomi mata.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm06/edit?usp=sharing' },
-        { id: 'form-7', kode: 'RM-07', nama: 'Pemeriksaan Psikiatri', deskripsi: 'Pencatatan evaluasi kesehatan jiwa/psikiatrik.', kategori: 'Rawat Jalan', link: '' },
-        { id: 'form-8', kode: 'RM-08', nama: 'Kartu Obat', deskripsi: 'Daftar kendali rekonsiliasi dan pemberian obat.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm08/edit?usp=sharing' },
-        { id: 'form-9', kode: 'RM-09', nama: 'Hasil Laboratorium', deskripsi: 'Lembar khusus untuk menempelkan salinan hasil lab.', kategori: 'Rawat Jalan', link: '' },
-        { id: 'form-10', kode: 'RM-10', nama: 'Penempelan Salinan Resep', deskripsi: 'Arsip untuk menempelkan lembar salinan resep obat.', kategori: 'Rawat Jalan', link: '' },
-        { id: 'form-11', kode: 'RM-11', nama: 'Masuk Darurat', deskripsi: 'Lembar pemeriksaan triase dan pelayanan IGD.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm11/edit?usp=sharing' },
-        { id: 'form-12', kode: 'RM-12', nama: 'Identitas Pasien RI', deskripsi: 'Lembar pencatatan data sosial dan identitas rawat inap.', kategori: 'Rawat Inap', link: 'https://docs.google.com/document/d/1_sample_link_rm12/edit?usp=sharing' },
-        { id: 'form-13', kode: 'RM-13', nama: 'Ringkasan Masuk dan Keluar', deskripsi: 'Lembar ringkasan masuk & keluar (lembar muka rawat inap).', kategori: 'Rawat Inap', link: 'https://docs.google.com/document/d/1_sample_link_rm13/edit?usp=sharing' },
-        { id: 'form-14', kode: 'RM-14', nama: 'Surat Keterangan Kematian', deskripsi: 'Formulir pelaporan kematian resmi.', kategori: 'Rawat Inap', link: '' },
-        { id: 'form-15', kode: 'RM-15', nama: 'Persetujuan Umum', deskripsi: 'Formulir persetujuan umum (general consent) tindakan non-invasif.', kategori: 'Rawat Inap', link: 'https://docs.google.com/document/d/1_sample_link_rm15/edit?usp=sharing' }
-    ];
+    const DEFAULT_FORMULIR = [];
 
-    const DEFAULT_STOK = [
-        // Semester Genap Tahun Ajaran 2025/2026 (Juli 2026)
-        { id: 'stok-1', bulan: '2026-07', formulirId: 'form-1', rakId: 'rak-1', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-2', bulan: '2026-07', formulirId: 'form-2', rakId: 'rak-1', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-3', bulan: '2026-07', formulirId: 'form-3', rakId: 'rak-2', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-4', bulan: '2026-07', formulirId: 'form-4', rakId: 'rak-2', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-5', bulan: '2026-07', formulirId: 'form-5', rakId: 'rak-3', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-6', bulan: '2026-07', formulirId: 'form-6', rakId: 'rak-3', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-7', bulan: '2026-07', formulirId: 'form-7', rakId: 'rak-3', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-8', bulan: '2026-07', formulirId: 'form-8', rakId: 'rak-1', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-9', bulan: '2026-07', formulirId: 'form-9', rakId: 'rak-1', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-10', bulan: '2026-07', formulirId: 'form-10', rakId: 'rak-1', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-11', bulan: '2026-07', formulirId: 'form-11', rakId: 'rak-4', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-12', bulan: '2026-07', formulirId: 'form-12', rakId: 'rak-2', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-13', bulan: '2026-07', formulirId: 'form-13', rakId: 'rak-2', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-14', bulan: '2026-07', formulirId: 'form-14', rakId: 'rak-2', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' },
-        { id: 'stok-15', bulan: '2026-07', formulirId: 'form-15', rakId: 'rak-1', stokAwal: 20, masuk: 80, digunakan: 60, rusak: 0, keterangan: '' }
-    ];
+    const DEFAULT_STOK = [];
 
     // ==========================================
     // 2. STATE MANAGEMENT & GETTERS
@@ -99,7 +61,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveData = (key, data) => {
         localStorage.setItem(key, JSON.stringify(data));
+        if (firebaseDb && firebaseRef) {
+            const dbPath = key.replace('labrm_', ''); // 'master_formulir', 'master_rak', 'stok_bulanan'
+            firebaseDb.ref(dbPath).set(data).catch(err => {
+                console.error("Firebase write error:", err);
+                showCloudStatus('Error: Gagal menyimpan ke cloud! Periksa Rules.', 'error');
+            });
+        }
     };
+
+    // ==========================================
+    // FIREBASE CLOUD DATABASE SYNC LOGIC
+    // ==========================================
+    const KEY_FIREBASE_URL = 'labrm_firebase_url';
+    let firebaseDb = null;
+    let firebaseRef = null;
+
+    const showCloudStatus = (text, statusClass) => {
+        const statusBox = document.getElementById('cloud-status-box');
+        if (!statusBox) return;
+        statusBox.className = statusClass;
+        statusBox.textContent = text;
+        statusBox.style.display = 'block';
+    };
+
+    const initializeFirebase = (url) => {
+        if (!url) {
+            firebaseDb = null;
+            firebaseRef = null;
+            showCloudStatus('Status: Mode Lokal (Offline Fallback)', 'disconnected');
+            const btnSave = document.getElementById('btn-save-cloud');
+            if (btnSave) btnSave.textContent = 'Hubungkan Database';
+            return;
+        }
+
+        try {
+            if (typeof firebase === 'undefined') {
+                showCloudStatus('Error: Firebase SDK tidak ditemukan!', 'error');
+                return;
+            }
+
+            if (firebase.apps.length > 0) {
+                firebase.app().delete();
+            }
+
+            firebase.initializeApp({ databaseURL: url });
+            firebaseDb = firebase.database();
+            firebaseRef = firebaseDb.ref();
+
+            firebaseDb.ref('.info/connected').on('value', (snap) => {
+                const btnSave = document.getElementById('btn-save-cloud');
+                if (snap.val() === true) {
+                    showCloudStatus('Status: Terhubung ke Database Cloud!', 'connected');
+                    if (btnSave) btnSave.textContent = 'Putuskan Database';
+                } else {
+                    showCloudStatus('Status: Menghubungkan ke Cloud...', 'disconnected');
+                }
+            });
+
+            firebaseRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    if (data.master_formulir) {
+                        listFormulir = data.master_formulir;
+                        localStorage.setItem(KEY_FORMULIR, JSON.stringify(listFormulir));
+                    }
+                    if (data.master_rak) {
+                        listRak = data.master_rak;
+                        localStorage.setItem(KEY_RAK, JSON.stringify(listRak));
+                    }
+                    if (data.stok_bulanan) {
+                        listStok = data.stok_bulanan;
+                        localStorage.setItem(KEY_STOK, JSON.stringify(listStok));
+                    }
+                    refreshUI();
+                    updateRackFiltersAndSelects();
+                    updateFormulirSelects();
+                }
+            }, (error) => {
+                console.error("Firebase read error:", error);
+                showCloudStatus('Error: Akses ditolak! Periksa Aturan (Rules) Firebase Anda.', 'error');
+            });
+
+        } catch (error) {
+            console.error("Firebase initialization failed:", error);
+            showCloudStatus('Error: URL Firebase tidak valid!', 'error');
+        }
+    };
+
+    // Auto-init on load if URL is saved
+    const savedCloudUrl = localStorage.getItem(KEY_FIREBASE_URL);
+    if (savedCloudUrl) {
+        initializeFirebase(savedCloudUrl);
+    }
 
     let listFormulir = getData(KEY_FORMULIR, DEFAULT_FORMULIR);
     let listRak = getData(KEY_RAK, DEFAULT_RAK);
@@ -1199,6 +1253,63 @@ document.addEventListener('DOMContentLoaded', () => {
         btnNextRak.addEventListener('click', () => {
             currentPageRak++;
             renderRakList();
+        });
+    }
+
+    // ==========================================
+    // 11b. CLOUD CONFIGURATION MODAL HANDLER
+    // ==========================================
+    const modalCloud = document.getElementById('modal-cloud');
+    const btnCloudConfig = document.getElementById('btn-cloud-config');
+    const formCloud = document.getElementById('form-cloud');
+    const cloudUrlInput = document.getElementById('cloud-url');
+
+    if (btnCloudConfig) {
+        btnCloudConfig.addEventListener('click', () => {
+            const savedUrl = localStorage.getItem(KEY_FIREBASE_URL) || '';
+            cloudUrlInput.value = savedUrl;
+            
+            if (savedUrl) {
+                initializeFirebase(savedUrl);
+            } else {
+                showCloudStatus('Status: Mode Lokal (Offline Fallback)', 'disconnected');
+            }
+            openModal(modalCloud);
+        });
+    }
+
+    if (formCloud) {
+        formCloud.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const url = cloudUrlInput.value.trim();
+            
+            const btnSave = document.getElementById('btn-save-cloud');
+            if (btnSave && btnSave.textContent === 'Putuskan Database') {
+                localStorage.removeItem(KEY_FIREBASE_URL);
+                initializeFirebase('');
+                closeModal(modalCloud);
+                alert('Cloud database terputus. Menggunakan penyimpanan lokal.');
+                return;
+            }
+
+            if (!url) {
+                localStorage.removeItem(KEY_FIREBASE_URL);
+                initializeFirebase('');
+                closeModal(modalCloud);
+                return;
+            }
+
+            localStorage.setItem(KEY_FIREBASE_URL, url);
+            initializeFirebase(url);
+            
+            if (firebaseDb) {
+                firebaseDb.ref('master_formulir').set(listFormulir);
+                firebaseDb.ref('master_rak').set(listRak);
+                firebaseDb.ref('stok_bulanan').set(listStok);
+                alert('Tersambung ke Cloud! Data lokal Anda telah diunggah dan disinkronkan.');
+            }
+            
+            closeModal(modalCloud);
         });
     }
 

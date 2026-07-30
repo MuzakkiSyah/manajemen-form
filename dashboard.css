@@ -1131,4 +1131,25 @@ textarea.form-input {
     transform: translate(1px, -1px);
 }
 
+/* ==========================================
+   CLOUD CONFIGURATION STATUS & BUTTONS
+   ========================================== */
+#cloud-status-box.connected {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--color-success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+#cloud-status-box.error {
+    background-color: rgba(239, 68, 68, 0.08);
+    color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+#cloud-status-box.disconnected {
+    background-color: rgba(100, 116, 139, 0.08);
+    color: var(--color-text-muted);
+    border: 1px solid rgba(100, 116, 139, 0.2);
+}
+
 

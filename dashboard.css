@@ -713,6 +713,11 @@ button {
     color: #7C3AED;
 }
 
+.badge-gd {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #EF4444;
+}
+
 .badge-dot {
     width: 8px;
     height: 8px;

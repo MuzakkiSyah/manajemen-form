@@ -8,7 +8,7 @@
     <title>Inventaris Dokumen Praktikum | Laboratorium Rekam Medis UDINUS</title>
     
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="dashboard.css?v=2">
+    <link rel="stylesheet" href="dashboard.css?v=3">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MuzakkiSyah/laboratoriumrm/47ccb8aadc7a14211df38be5f26f4e45f75a0f20/LOGO%20LAB-06%20-%20Copy.png">
@@ -32,6 +32,7 @@
             <ul class="nav-menu">
                 <li><a href="#rawat-jalan" class="nav-link header-tab-link active-link" data-tab="rawat-jalan">Stok Rawat Jalan</a></li>
                 <li><a href="#rawat-inap" class="nav-link header-tab-link" data-tab="rawat-inap">Stok Rawat Inap</a></li>
+                <li><a href="#gawat-darurat" class="nav-link header-tab-link" data-tab="gawat-darurat">Stok Gawat Darurat</a></li>
                 <li class="nav-separator" style="color: var(--color-text-muted); opacity: 0.4; font-weight: 300;">|</li>
                 <li><a href="#formulir" class="nav-link header-tab-link" data-tab="formulir">Master Formulir</a></li>
                 <li><a href="#rak" class="nav-link header-tab-link" data-tab="rak">Master Rak</a></li>
@@ -264,6 +265,102 @@
                 </div>
             </div>
 
+            <!-- ==========================================
+               TAB 2b: STOK GAWAT DARURAT PANEL
+               ========================================== -->
+            <div class="tab-content" id="content-gawat-darurat">
+                <!-- Statistik Stok Bulanan (Gawat Darurat) -->
+                <div class="metrics-container" style="margin-bottom: 24px;">
+                    <div class="metrics-group" style="flex: 1;">
+                        <h3 class="metrics-group-title">Statistik Stok Bulanan (Gawat Darurat)</h3>
+                        <div class="metrics-group-grid">
+                            <div class="metric-card success">
+                                <div class="metric-info">
+                                    <h3>Tersedia</h3>
+                                    <div class="metric-value" id="count-tersedia-gd">0</div>
+                                </div>
+                                <div class="metric-icon-box">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                </div>
+                            </div>
+                            
+                            <div class="metric-card danger">
+                                <div class="metric-info">
+                                    <h3>Habis</h3>
+                                    <div class="metric-value" id="count-habis-gd">0</div>
+                                </div>
+                                <div class="metric-icon-box">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Controls Panel -->
+                <div class="filter-panel">
+                    <div class="filter-group search">
+                        <label class="filter-label">Cari Dokumen GD</label>
+                        <input type="text" class="filter-input" id="search-gd" placeholder="Masukkan kode atau nama formulir...">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Bulan Monitoring</label>
+                        <select class="filter-input" id="filter-bulan-gd">
+                            <!-- Populated dynamically via JS -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Rak Lokasi</label>
+                        <select class="filter-input" id="filter-rak-gd">
+                            <option value="">Semua Rak</option>
+                            <!-- Populated dynamically via JS -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Status Stok</label>
+                        <select class="filter-input" id="filter-status-gd">
+                            <option value="">Semua Status</option>
+                            <option value="tersedia">Masih Ada (Tersedia)</option>
+                            <option value="habis">Sudah Habis</option>
+                            <option value="belum">Belum Update</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Table Overview List -->
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px;">Kode Form</th>
+                                <th>Nama Formulir Praktikum (Gawat Darurat)</th>
+                                <th>Lokasi Penyimpanan</th>
+                                <th style="text-align: center; width: 100px;">Stok Awal</th>
+                                <th style="text-align: center; width: 100px;">Masuk</th>
+                                <th style="text-align: center; width: 100px;">Digunakan</th>
+                                <th style="text-align: center; width: 100px;">Rusak</th>
+                                <th style="text-align: center; width: 100px;">Sisa</th>
+                                <th>Keterangan</th>
+                                <th style="width: 100px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-gd-body">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination Controls -->
+                <div class="pagination-controls">
+                    <button type="button" class="btn-pagination" id="btn-prev-gd">&laquo; Sebelumnya</button>
+                    <span class="pagination-info" id="info-gd">Halaman 1 dari 1</span>
+                    <button type="button" class="btn-pagination" id="btn-next-gd">Berikutnya &raquo;</button>
+                </div>
+            </div>
+
             <div class="tab-content" id="content-formulir">
                 <!-- Master Formulir Metrics Card -->
                 <div class="metrics-container" style="margin-bottom: 24px; max-width: 320px;">
@@ -399,6 +496,7 @@
                                 <option value="" disabled selected>-- Pilih Kategori --</option>
                                 <option value="Rawat Jalan">Rawat Jalan</option>
                                 <option value="Rawat Inap">Rawat Inap</option>
+                                <option value="Gawat Darurat">Gawat Darurat</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -578,6 +676,7 @@
                 <ul class="footer-links">
                     <li><a href="#rawat-jalan" class="footer-link footer-tab-link" data-tab="rawat-jalan"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Stok Rawat Jalan</a></li>
                     <li><a href="#rawat-inap" class="footer-link footer-tab-link" data-tab="rawat-inap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Stok Rawat Inap</a></li>
+                    <li><a href="#gawat-darurat" class="footer-link footer-tab-link" data-tab="gawat-darurat"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Stok Gawat Darurat</a></li>
                     <li><a href="#formulir" class="footer-link footer-tab-link" data-tab="formulir"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Master Formulir</a></li>
                     <li><a href="#rak" class="footer-link footer-tab-link" data-tab="rak"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Master Rak</a></li>
                 </ul>

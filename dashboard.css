@@ -1093,3 +1093,41 @@ textarea.form-input {
     color: var(--color-text-muted);
     font-weight: 500;
 }
+
+/* ==========================================
+   DOCUMENT TEMPLATE LINK BUTTON
+   ========================================== */
+.btn-link-dokumen {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    background-color: rgba(11, 78, 162, 0.05);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    margin-top: 8px;
+    border: 1px dashed rgba(11, 78, 162, 0.3);
+    transition: var(--transition-fast);
+    width: fit-content;
+}
+
+.btn-link-dokumen:hover {
+    background-color: var(--color-primary);
+    color: var(--color-text-white);
+    border-style: solid;
+    border-color: var(--color-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(11, 78, 162, 0.15);
+}
+
+.btn-link-dokumen svg {
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+}
+
+.btn-link-dokumen:hover svg {
+    transform: translate(1px, -1px);
+}
+

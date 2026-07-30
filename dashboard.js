@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Automatically reset LocalStorage if it contains the old structure/data
     const DB_VERSION_KEY = 'labrm_db_version';
-    const CURRENT_DB_VERSION = 'v3_kategori_pemisahan';
+    const CURRENT_DB_VERSION = 'v4_link_dokumen';
     if (localStorage.getItem(DB_VERSION_KEY) !== CURRENT_DB_VERSION) {
         localStorage.removeItem(KEY_FORMULIR);
         localStorage.removeItem(KEY_RAK);
@@ -49,21 +49,21 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const DEFAULT_FORMULIR = [
-        { id: 'form-1', kode: 'RM-01', nama: 'Ringkasan Riwayat Poli', deskripsi: 'Ringkasan riwayat klinis pelayanan poliklinik rawat jalan.', kategori: 'Rawat Jalan' },
-        { id: 'form-2', kode: 'RM-02', nama: 'Catatan Poliklinik', deskripsi: 'Lembar pencatatan perkembangan klinis poliklinik.', kategori: 'Rawat Jalan' },
-        { id: 'form-3', kode: 'RM-03', nama: 'Pemeriksaan Fisik Umum', deskripsi: 'Formulir pencatatan hasil pemeriksaan fisik umum.', kategori: 'Rawat Jalan' },
-        { id: 'form-4', kode: 'RM-04', nama: 'Pemeriksaan Fisik Saraf', deskripsi: 'Lembar pemeriksaan sistem neurologis.', kategori: 'Rawat Jalan' },
-        { id: 'form-5', kode: 'RM-05', nama: 'Pemeriksaan Fisik THT', deskripsi: 'Formulir hasil pemeriksaan telinga, hidung, tenggorokan.', kategori: 'Rawat Jalan' },
-        { id: 'form-6', kode: 'RM-06', nama: 'Pemeriksaan Fisik Mata', deskripsi: 'Lembar pemeriksaan tajam penglihatan dan anatomi mata.', kategori: 'Rawat Jalan' },
-        { id: 'form-7', kode: 'RM-07', nama: 'Pemeriksaan Psikiatri', deskripsi: 'Pencatatan evaluasi kesehatan jiwa/psikiatrik.', kategori: 'Rawat Jalan' },
-        { id: 'form-8', kode: 'RM-08', nama: 'Kartu Obat', deskripsi: 'Daftar kendali rekonsiliasi dan pemberian obat.', kategori: 'Rawat Jalan' },
-        { id: 'form-9', kode: 'RM-09', nama: 'Hasil Laboratorium', deskripsi: 'Lembar khusus untuk menempelkan salinan hasil lab.', kategori: 'Rawat Jalan' },
-        { id: 'form-10', kode: 'RM-10', nama: 'Penempelan Salinan Resep', deskripsi: 'Arsip untuk menempelkan lembar salinan resep obat.', kategori: 'Rawat Jalan' },
-        { id: 'form-11', kode: 'RM-11', nama: 'Masuk Darurat', deskripsi: 'Lembar pemeriksaan triase dan pelayanan IGD.', kategori: 'Rawat Jalan' },
-        { id: 'form-12', kode: 'RM-12', nama: 'Identitas Pasien RI', deskripsi: 'Lembar pencatatan data sosial dan identitas rawat inap.', kategori: 'Rawat Inap' },
-        { id: 'form-13', kode: 'RM-13', nama: 'Ringkasan Masuk dan Keluar', deskripsi: 'Lembar ringkasan masuk & keluar (lembar muka rawat inap).', kategori: 'Rawat Inap' },
-        { id: 'form-14', kode: 'RM-14', nama: 'Surat Keterangan Kematian', deskripsi: 'Formulir pelaporan kematian resmi.', kategori: 'Rawat Inap' },
-        { id: 'form-15', kode: 'RM-15', nama: 'Persetujuan Umum', deskripsi: 'Formulir persetujuan umum (general consent) tindakan non-invasif.', kategori: 'Rawat Inap' }
+        { id: 'form-1', kode: 'RM-01', nama: 'Ringkasan Riwayat Poli', deskripsi: 'Ringkasan riwayat klinis pelayanan poliklinik rawat jalan.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm01/edit?usp=sharing' },
+        { id: 'form-2', kode: 'RM-02', nama: 'Catatan Poliklinik', deskripsi: 'Lembar pencatatan perkembangan klinis poliklinik.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm02/edit?usp=sharing' },
+        { id: 'form-3', kode: 'RM-03', nama: 'Pemeriksaan Fisik Umum', deskripsi: 'Formulir pencatatan hasil pemeriksaan fisik umum.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm03/edit?usp=sharing' },
+        { id: 'form-4', kode: 'RM-04', nama: 'Pemeriksaan Fisik Saraf', deskripsi: 'Lembar pemeriksaan sistem neurologis.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm04/edit?usp=sharing' },
+        { id: 'form-5', kode: 'RM-05', nama: 'Pemeriksaan Fisik THT', deskripsi: 'Formulir hasil pemeriksaan telinga, hidung, tenggorokan.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm05/edit?usp=sharing' },
+        { id: 'form-6', kode: 'RM-06', nama: 'Pemeriksaan Fisik Mata', deskripsi: 'Lembar pemeriksaan tajam penglihatan dan anatomi mata.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm06/edit?usp=sharing' },
+        { id: 'form-7', kode: 'RM-07', nama: 'Pemeriksaan Psikiatri', deskripsi: 'Pencatatan evaluasi kesehatan jiwa/psikiatrik.', kategori: 'Rawat Jalan', link: '' },
+        { id: 'form-8', kode: 'RM-08', nama: 'Kartu Obat', deskripsi: 'Daftar kendali rekonsiliasi dan pemberian obat.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm08/edit?usp=sharing' },
+        { id: 'form-9', kode: 'RM-09', nama: 'Hasil Laboratorium', deskripsi: 'Lembar khusus untuk menempelkan salinan hasil lab.', kategori: 'Rawat Jalan', link: '' },
+        { id: 'form-10', kode: 'RM-10', nama: 'Penempelan Salinan Resep', deskripsi: 'Arsip untuk menempelkan lembar salinan resep obat.', kategori: 'Rawat Jalan', link: '' },
+        { id: 'form-11', kode: 'RM-11', nama: 'Masuk Darurat', deskripsi: 'Lembar pemeriksaan triase dan pelayanan IGD.', kategori: 'Rawat Jalan', link: 'https://docs.google.com/document/d/1_sample_link_rm11/edit?usp=sharing' },
+        { id: 'form-12', kode: 'RM-12', nama: 'Identitas Pasien RI', deskripsi: 'Lembar pencatatan data sosial dan identitas rawat inap.', kategori: 'Rawat Inap', link: 'https://docs.google.com/document/d/1_sample_link_rm12/edit?usp=sharing' },
+        { id: 'form-13', kode: 'RM-13', nama: 'Ringkasan Masuk dan Keluar', deskripsi: 'Lembar ringkasan masuk & keluar (lembar muka rawat inap).', kategori: 'Rawat Inap', link: 'https://docs.google.com/document/d/1_sample_link_rm13/edit?usp=sharing' },
+        { id: 'form-14', kode: 'RM-14', nama: 'Surat Keterangan Kematian', deskripsi: 'Formulir pelaporan kematian resmi.', kategori: 'Rawat Inap', link: '' },
+        { id: 'form-15', kode: 'RM-15', nama: 'Persetujuan Umum', deskripsi: 'Formulir persetujuan umum (general consent) tindakan non-invasif.', kategori: 'Rawat Inap', link: 'https://docs.google.com/document/d/1_sample_link_rm15/edit?usp=sharing' }
     ];
 
     const DEFAULT_STOK = [
@@ -340,12 +340,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            const linkHtml = form.link ? `
+                <a href="${form.link}" target="_blank" class="btn-link-dokumen" title="Buka Dokumen / Link Restock">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    Link Dokumen
+                </a>
+            ` : '';
+
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td><strong>${form.kode}</strong></td>
                 <td>
                     <div style="font-weight: 600; color: var(--color-primary-dark);">${form.nama}</div>
                     <small style="color: var(--color-text-muted); display: block; max-width: 320px; line-height: 1.3; margin-top: 4px;">${form.deskripsi}</small>
+                    ${linkHtml}
                 </td>
                 <td>${rakCode ? `<span class="badge" style="background-color: rgba(11,78,162,0.06); color: var(--color-primary-dark); font-weight:600;">${rakCode}</span> ${rakName}` : '-'}</td>
                 <td style="text-align: center;">${stockRecord ? stokAwal : '-'}</td>
@@ -449,12 +457,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            const linkHtml = form.link ? `
+                <a href="${form.link}" target="_blank" class="btn-link-dokumen" title="Buka Dokumen / Link Restock">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    Link Dokumen
+                </a>
+            ` : '';
+
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td><strong>${form.kode}</strong></td>
                 <td>
                     <div style="font-weight: 600; color: var(--color-primary-dark);">${form.nama}</div>
                     <small style="color: var(--color-text-muted); display: block; max-width: 320px; line-height: 1.3; margin-top: 4px;">${form.deskripsi}</small>
+                    ${linkHtml}
                 </td>
                 <td>${rakCode ? `<span class="badge" style="background-color: rgba(11,78,162,0.06); color: var(--color-primary-dark); font-weight:600;">${rakCode}</span> ${rakName}` : '-'}</td>
                 <td style="text-align: center;">${stockRecord ? stokAwal : '-'}</td>
@@ -594,12 +610,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const paginatedFormulir = listFormulir.slice((currentPageFormulir - 1) * itemsPerPage, currentPageFormulir * itemsPerPage);
 
         paginatedFormulir.forEach(form => {
+            const linkHtml = form.link ? `
+                <a href="${form.link}" target="_blank" class="btn-link-dokumen" title="Buka Dokumen / Link Restock">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    Link Dokumen
+                </a>
+            ` : `
+                <span style="font-size: 0.75rem; color: var(--color-text-muted); display: block; margin-top: 6px; font-style: italic;">Link belum diatur</span>
+            `;
+
             const tr = document.createElement('tr');
             const katBadgeClass = form.kategori === 'Rawat Inap' ? 'badge-ri' : 'badge-rj';
             const katLabel = form.kategori || 'Rawat Jalan';
             tr.innerHTML = `
                 <td><strong>${form.kode}</strong></td>
-                <td style="font-weight: 600; color: var(--color-primary-dark);">${form.nama}</td>
+                <td>
+                    <div style="font-weight: 600; color: var(--color-primary-dark);">${form.nama}</div>
+                    ${linkHtml}
+                </td>
                 <td><span class="badge ${katBadgeClass}">${katLabel}</span></td>
                 <td style="color: var(--color-text-muted); font-size: 0.9rem;">${form.deskripsi || '-'}</td>
                 <td>
@@ -815,6 +843,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const kode = document.getElementById('form-kode').value.toUpperCase().trim();
         const nama = document.getElementById('form-nama').value.trim();
         const deskripsi = document.getElementById('form-deskripsi').value.trim();
+        const link = document.getElementById('form-link').value.trim();
 
         // Unique Validation (except when editing the same item)
         const isDuplicate = listFormulir.some(f => f.kode === kode && f.id !== editFormulirId);
@@ -829,7 +858,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Edit mode
             listFormulir = listFormulir.map(f => {
                 if (f.id === editFormulirId) {
-                    return { ...f, kode, nama, deskripsi, kategori };
+                    return { ...f, kode, nama, deskripsi, kategori, link };
                 }
                 return f;
             });
@@ -840,7 +869,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 kode,
                 nama,
                 deskripsi,
-                kategori
+                kategori,
+                link
             };
             listFormulir.push(newForm);
         }
@@ -860,6 +890,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('form-nama').value = formObj.nama;
         document.getElementById('form-deskripsi').value = formObj.deskripsi;
         document.getElementById('form-kategori').value = formObj.kategori || 'Rawat Jalan';
+        document.getElementById('form-link').value = formObj.link || '';
 
         document.getElementById('modal-formulir-title').textContent = 'Edit Master Formulir';
         openModal(modalFormulir);

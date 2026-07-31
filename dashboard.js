@@ -150,8 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Auto-init on load if URL is saved
+    const DEFAULT_FIREBASE_URL = 'https://formulir-rm-default-rtdb.firebaseio.com/';
     const savedCloudUrl = localStorage.getItem(KEY_FIREBASE_URL);
-    if (savedCloudUrl) {
+    if (savedCloudUrl === null) {
+        initializeFirebase(DEFAULT_FIREBASE_URL);
+    } else if (savedCloudUrl === 'offline') {
+        initializeFirebase('');
+    } else {
         initializeFirebase(savedCloudUrl);
     }
 
@@ -1457,13 +1462,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnCloudConfig) {
         btnCloudConfig.addEventListener('click', () => {
-            const savedUrl = localStorage.getItem(KEY_FIREBASE_URL) || '';
-            cloudUrlInput.value = savedUrl;
-            
-            if (savedUrl) {
-                initializeFirebase(savedUrl);
+            const savedUrl = localStorage.getItem(KEY_FIREBASE_URL);
+            if (savedUrl === null) {
+                cloudUrlInput.value = DEFAULT_FIREBASE_URL;
+            } else if (savedUrl === 'offline') {
+                cloudUrlInput.value = '';
             } else {
-                showCloudStatus('Status: Mode Lokal (Offline Fallback)', 'disconnected');
+                cloudUrlInput.value = savedUrl;
             }
             openModal(modalCloud);
         });
@@ -1476,7 +1481,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const btnSave = document.getElementById('btn-save-cloud');
             if (btnSave && btnSave.textContent === 'Putuskan Database') {
-                localStorage.removeItem(KEY_FIREBASE_URL);
+                localStorage.setItem(KEY_FIREBASE_URL, 'offline');
                 initializeFirebase('');
                 closeModal(modalCloud);
                 alert('Cloud database terputus. Menggunakan penyimpanan lokal.');
@@ -1484,7 +1489,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (!url) {
-                localStorage.removeItem(KEY_FIREBASE_URL);
+                localStorage.setItem(KEY_FIREBASE_URL, 'offline');
                 initializeFirebase('');
                 closeModal(modalCloud);
                 return;

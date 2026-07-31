@@ -1244,38 +1244,170 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 10. UPDATE STOK BULANAN HANDLERS
     // ==========================================
+    const getStokAwalForMonth = (formulirId, targetMonth) => {
+        if (!targetMonth) return 0;
+        
+        // Find all stock records for this formulir that are strictly before targetMonth (in YYYY-MM order)
+        const prevRecords = listStok.filter(s => s.formulirId === formulirId && s.bulan < targetMonth);
+        if (prevRecords.length === 0) {
+            return 0;
+        }
+        
+        // Sort by month descending to find the most recent one
+        prevRecords.sort((a, b) => b.bulan.localeCompare(a.bulan));
+        
+        const latestPrev = prevRecords[0];
+        const sisa = (latestPrev.stokAwal || 0) + (latestPrev.masuk || 0) - (latestPrev.digunakan || 0) - (latestPrev.rusak || 0);
+        return sisa;
+    };
+
+    const updateStokModalFields = () => {
+        const bulan = document.getElementById('stok-bulan').value;
+        const formulirId = document.getElementById('stok-formulir-id').value;
+        const isKoreksi = document.getElementById('stok-mode-koreksi').checked;
+
+        const summaryEl = document.getElementById('stok-current-summary');
+        const summaryAwal = document.getElementById('summary-stok-awal');
+        const summaryMasuk = document.getElementById('summary-stok-masuk');
+        const summaryKeluar = document.getElementById('summary-stok-keluar');
+        const summarySisa = document.getElementById('summary-stok-sisa');
+
+        const inputStokAwal = document.getElementById('stok-awal');
+        const inputStokMasuk = document.getElementById('stok-masuk');
+        const inputStokDigunakan = document.getElementById('stok-digunakan');
+        const inputStokRusak = document.getElementById('stok-rusak');
+
+        const labelAwal = document.getElementById('label-stok-awal');
+        const labelMasuk = document.getElementById('label-stok-masuk');
+        const labelDigunakan = document.getElementById('label-stok-digunakan');
+        const labelRusak = document.getElementById('label-stok-rusak');
+
+        if (!bulan || !formulirId) {
+            if (summaryEl) summaryEl.style.display = 'none';
+            return;
+        }
+
+        // 1. Calculate default Stok Awal
+        const calculatedStokAwal = getStokAwalForMonth(formulirId, bulan);
+
+        // 2. Find if record exists for current month
+        const stockRecord = listStok.find(s => s.bulan === bulan && s.formulirId === formulirId);
+
+        // 3. Show / Hide and populate Summary
+        if (summaryEl) {
+            summaryEl.style.display = 'block';
+            if (stockRecord) {
+                const currentAwal = stockRecord.stokAwal || 0;
+                const currentMasuk = stockRecord.masuk || 0;
+                const currentKeluar = (stockRecord.digunakan || 0) + (stockRecord.rusak || 0);
+                const currentSisa = currentAwal + currentMasuk - currentKeluar;
+
+                if (summaryAwal) summaryAwal.textContent = currentAwal;
+                if (summaryMasuk) summaryMasuk.textContent = currentMasuk;
+                if (summaryKeluar) summaryKeluar.textContent = currentKeluar;
+                if (summarySisa) {
+                    summarySisa.textContent = currentSisa;
+                    summarySisa.style.color = currentSisa > 0 ? '#2ed573' : '#ff4757';
+                }
+                
+                // Pre-fill Rak Location
+                if (stockRecord.rakId) {
+                    document.getElementById('stok-rak-id').value = stockRecord.rakId;
+                }
+            } else {
+                if (summaryAwal) summaryAwal.textContent = calculatedStokAwal;
+                if (summaryMasuk) summaryMasuk.textContent = '0';
+                if (summaryKeluar) summaryKeluar.textContent = '0';
+                if (summarySisa) {
+                    summarySisa.textContent = calculatedStokAwal;
+                    summarySisa.style.color = calculatedStokAwal > 0 ? '#2ed573' : '#ff4757';
+                }
+
+                // Try to auto-select most recent Rak for this formulir
+                const lastRecord = listStok.filter(s => s.formulirId === formulirId).sort((a, b) => b.bulan.localeCompare(a.bulan))[0];
+                if (lastRecord && lastRecord.rakId) {
+                    document.getElementById('stok-rak-id').value = lastRecord.rakId;
+                }
+            }
+        }
+
+        // 4. Update Inputs and Labels based on Correction Mode
+        if (isKoreksi) {
+            if (labelAwal) labelAwal.innerHTML = 'Stok Awal <span>*</span>';
+            if (labelMasuk) labelMasuk.innerHTML = 'Total Masuk Akumulatif <span>*</span>';
+            if (labelDigunakan) labelDigunakan.innerHTML = 'Total Digunakan Akumulatif <span>*</span>';
+            if (labelRusak) labelRusak.innerHTML = 'Total Rusak Akumulatif <span>*</span>';
+
+            if (inputStokAwal) {
+                inputStokAwal.readOnly = false;
+                inputStokAwal.style.opacity = '1';
+                inputStokAwal.style.backgroundColor = 'transparent';
+                inputStokAwal.value = stockRecord ? (stockRecord.stokAwal || 0) : calculatedStokAwal;
+            }
+            if (inputStokMasuk) inputStokMasuk.value = stockRecord ? (stockRecord.masuk || 0) : 0;
+            if (inputStokDigunakan) inputStokDigunakan.value = stockRecord ? (stockRecord.digunakan || 0) : 0;
+            if (inputStokRusak) inputStokRusak.value = stockRecord ? (stockRecord.rusak || 0) : 0;
+        } else {
+            if (labelAwal) labelAwal.innerHTML = 'Bawaan Bulan Lalu (Stok Awal) <span>*</span>';
+            if (labelMasuk) labelMasuk.innerHTML = 'Tambah Stok (+) <span>*</span>';
+            if (labelDigunakan) labelDigunakan.innerHTML = 'Stok Digunakan (-) <span>*</span>';
+            if (labelRusak) labelRusak.innerHTML = 'Stok Rusak (-) <span>*</span>';
+
+            if (inputStokAwal) {
+                inputStokAwal.readOnly = true;
+                inputStokAwal.style.opacity = '0.7';
+                inputStokAwal.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                inputStokAwal.value = stockRecord ? (stockRecord.stokAwal || 0) : calculatedStokAwal;
+            }
+            
+            // For relative additions/subtractions, default to 0 on opening
+            if (inputStokMasuk) inputStokMasuk.value = 0;
+            if (inputStokDigunakan) inputStokDigunakan.value = 0;
+            if (inputStokRusak) inputStokRusak.value = 0;
+        }
+    };
+
+    // Attach Change Listeners
+    const checkboxKoreksi = document.getElementById('stok-mode-koreksi');
+    const inputStokBulan = document.getElementById('stok-bulan');
+    const selectStokFormulir = document.getElementById('stok-formulir-id');
+
+    if (checkboxKoreksi) checkboxKoreksi.addEventListener('change', updateStokModalFields);
+    if (inputStokBulan) inputStokBulan.addEventListener('change', updateStokModalFields);
+    if (selectStokFormulir) selectStokFormulir.addEventListener('change', updateStokModalFields);
+
     // Triggered from button header "Update Stok Bulanan"
     btnUpdateStok.addEventListener('click', () => {
         formStok.reset();
+        if (checkboxKoreksi) checkboxKoreksi.checked = false;
         
         // Default the month in modal to current filter month
         document.getElementById('stok-bulan').value = getActiveMonth();
         document.getElementById('stok-formulir-id').disabled = false;
         
+        updateStokModalFields();
         openModal(modalStok);
     });
 
     // Triggered directly from "Edit/Update" action on the document list
     window.triggerUpdateStok = (formulirId, rakId, stokAwal, masuk, digunakan, rusak, keterangan) => {
         formStok.reset();
+        if (checkboxKoreksi) checkboxKoreksi.checked = false;
 
         document.getElementById('stok-bulan').value = getActiveMonth();
         
         // Select & lock the Form field
         const stokFormulirSelect = document.getElementById('stok-formulir-id');
         stokFormulirSelect.value = formulirId;
-        stokFormulirSelect.disabled = false; // keep it enabled but preselected
+        stokFormulirSelect.disabled = false;
 
         // Select other input fields
         if (rakId) {
             document.getElementById('stok-rak-id').value = rakId;
         }
-        document.getElementById('stok-awal').value = stokAwal || 0;
-        document.getElementById('stok-masuk').value = masuk || 0;
-        document.getElementById('stok-digunakan').value = digunakan || 0;
-        document.getElementById('stok-rusak').value = rusak || 0;
         document.getElementById('stok-keterangan').value = keterangan || '';
 
+        updateStokModalFields();
         openModal(modalStok);
     };
 
@@ -1301,11 +1433,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const formulirId = document.getElementById('stok-formulir-id').value;
         const rakId = document.getElementById('stok-rak-id').value;
         
-        const stokAwal = parseInt(document.getElementById('stok-awal').value, 10) || 0;
-        const masuk = parseInt(document.getElementById('stok-masuk').value, 10) || 0;
-        const digunakan = parseInt(document.getElementById('stok-digunakan').value, 10) || 0;
-        const rusak = parseInt(document.getElementById('stok-rusak').value, 10) || 0;
+        const inputAwal = parseInt(document.getElementById('stok-awal').value, 10) || 0;
+        const inputMasuk = parseInt(document.getElementById('stok-masuk').value, 10) || 0;
+        const inputDigunakan = parseInt(document.getElementById('stok-digunakan').value, 10) || 0;
+        const inputRusak = parseInt(document.getElementById('stok-rusak').value, 10) || 0;
         const keterangan = document.getElementById('stok-keterangan').value.trim();
+        const isKoreksi = checkboxKoreksi ? checkboxKoreksi.checked : false;
 
         if (!bulan || !formulirId || !rakId) {
             alert('Harap isi semua kolom wajib!');
@@ -1317,23 +1450,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (existingIndex !== -1) {
             // Update existing record
-            listStok[existingIndex].rakId = rakId;
-            listStok[existingIndex].stokAwal = stokAwal;
-            listStok[existingIndex].masuk = masuk;
-            listStok[existingIndex].digunakan = digunakan;
-            listStok[existingIndex].rusak = rusak;
-            listStok[existingIndex].keterangan = keterangan;
+            const record = listStok[existingIndex];
+            record.rakId = rakId;
+            record.keterangan = keterangan || record.keterangan;
+
+            if (isKoreksi) {
+                record.stokAwal = inputAwal;
+                record.masuk = inputMasuk;
+                record.digunakan = inputDigunakan;
+                record.rusak = inputRusak;
+            } else {
+                record.stokAwal = inputAwal; // Keep/update computed start stock
+                record.masuk = (record.masuk || 0) + inputMasuk;
+                record.digunakan = (record.digunakan || 0) + inputDigunakan;
+                record.rusak = (record.rusak || 0) + inputRusak;
+            }
         } else {
-            // Insert new record
+            // Insert new record (since it's new, we use the input numbers directly)
             const newStokRecord = {
                 id: 'stok-' + Date.now(),
                 bulan,
                 formulirId,
                 rakId,
-                stokAwal,
-                masuk,
-                digunakan,
-                rusak,
+                stokAwal: inputAwal,
+                masuk: inputMasuk,
+                digunakan: inputDigunakan,
+                rusak: inputRusak,
                 keterangan
             };
             listStok.push(newStokRecord);

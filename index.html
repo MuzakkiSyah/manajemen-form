@@ -33,6 +33,7 @@
                 <li><a href="#rawat-jalan" class="nav-link header-tab-link active-link" data-tab="rawat-jalan">Stok Rawat Jalan</a></li>
                 <li><a href="#rawat-inap" class="nav-link header-tab-link" data-tab="rawat-inap">Stok Rawat Inap</a></li>
                 <li><a href="#gawat-darurat" class="nav-link header-tab-link" data-tab="gawat-darurat">Stok Gawat Darurat</a></li>
+                <li><a href="#penggunaan" class="nav-link header-tab-link" data-tab="penggunaan">Penggunaan & Pengambilan</a></li>
                 <li class="nav-separator" style="color: var(--color-text-muted); opacity: 0.4; font-weight: 300;">|</li>
                 <li><a href="#formulir" class="nav-link header-tab-link" data-tab="formulir">Master Formulir</a></li>
                 <li><a href="#rak" class="nav-link header-tab-link" data-tab="rak">Master Rak</a></li>
@@ -84,7 +85,7 @@
                         <div class="metrics-group-grid">
                             <div class="metric-card success">
                                 <div class="metric-info">
-                                    <h3>Tersedia</h3>
+                                    <h3>Stok Aman</h3>
                                     <div class="metric-value" id="count-tersedia-rj">0</div>
                                 </div>
                                 <div class="metric-icon-box">
@@ -94,7 +95,7 @@
                             
                             <div class="metric-card danger">
                                 <div class="metric-info">
-                                    <h3>Habis</h3>
+                                    <h3>Perlu Pengadaan</h3>
                                     <div class="metric-value" id="count-habis-rj">0</div>
                                 </div>
                                 <div class="metric-icon-box">
@@ -131,8 +132,8 @@
                         <label class="filter-label">Status Stok</label>
                         <select class="filter-input" id="filter-status-rj">
                             <option value="">Semua Status</option>
-                            <option value="tersedia">Masih Ada (Tersedia)</option>
-                            <option value="habis">Sudah Habis</option>
+                            <option value="aman">Stok Aman (>= 30)</option>
+                            <option value="pengadaan">Perlu Pengadaan (< 30)</option>
                             <option value="belum">Belum Update</option>
                         </select>
                     </div>
@@ -148,10 +149,8 @@
                                 <th>Lokasi Penyimpanan</th>
                                 <th style="text-align: center; width: 100px;">Stok Awal</th>
                                 <th style="text-align: center; width: 100px;">Masuk</th>
-                                <th style="text-align: center; width: 100px;">Digunakan</th>
-                                <th style="text-align: center; width: 100px;">Rusak</th>
                                 <th style="text-align: center; width: 100px;">Sisa</th>
-                                <th>Keterangan</th>
+                                <th>Status Stok</th>
                                 <th style="width: 100px;">Aksi</th>
                             </tr>
                         </thead>
@@ -180,7 +179,7 @@
                         <div class="metrics-group-grid">
                             <div class="metric-card success">
                                 <div class="metric-info">
-                                    <h3>Tersedia</h3>
+                                    <h3>Stok Aman</h3>
                                     <div class="metric-value" id="count-tersedia-ri">0</div>
                                 </div>
                                 <div class="metric-icon-box">
@@ -190,7 +189,7 @@
                             
                             <div class="metric-card danger">
                                 <div class="metric-info">
-                                    <h3>Habis</h3>
+                                    <h3>Perlu Pengadaan</h3>
                                     <div class="metric-value" id="count-habis-ri">0</div>
                                 </div>
                                 <div class="metric-icon-box">
@@ -227,8 +226,8 @@
                         <label class="filter-label">Status Stok</label>
                         <select class="filter-input" id="filter-status-ri">
                             <option value="">Semua Status</option>
-                            <option value="tersedia">Masih Ada (Tersedia)</option>
-                            <option value="habis">Sudah Habis</option>
+                            <option value="aman">Stok Aman (>= 30)</option>
+                            <option value="pengadaan">Perlu Pengadaan (< 30)</option>
                             <option value="belum">Belum Update</option>
                         </select>
                     </div>
@@ -244,10 +243,8 @@
                                 <th>Lokasi Penyimpanan</th>
                                 <th style="text-align: center; width: 100px;">Stok Awal</th>
                                 <th style="text-align: center; width: 100px;">Masuk</th>
-                                <th style="text-align: center; width: 100px;">Digunakan</th>
-                                <th style="text-align: center; width: 100px;">Rusak</th>
                                 <th style="text-align: center; width: 100px;">Sisa</th>
-                                <th>Keterangan</th>
+                                <th>Status Stok</th>
                                 <th style="width: 100px;">Aksi</th>
                             </tr>
                         </thead>
@@ -276,7 +273,7 @@
                         <div class="metrics-group-grid">
                             <div class="metric-card success">
                                 <div class="metric-info">
-                                    <h3>Tersedia</h3>
+                                    <h3>Stok Aman</h3>
                                     <div class="metric-value" id="count-tersedia-gd">0</div>
                                 </div>
                                 <div class="metric-icon-box">
@@ -286,7 +283,7 @@
                             
                             <div class="metric-card danger">
                                 <div class="metric-info">
-                                    <h3>Habis</h3>
+                                    <h3>Perlu Pengadaan</h3>
                                     <div class="metric-value" id="count-habis-gd">0</div>
                                 </div>
                                 <div class="metric-icon-box">
@@ -323,8 +320,8 @@
                         <label class="filter-label">Status Stok</label>
                         <select class="filter-input" id="filter-status-gd">
                             <option value="">Semua Status</option>
-                            <option value="tersedia">Masih Ada (Tersedia)</option>
-                            <option value="habis">Sudah Habis</option>
+                            <option value="aman">Stok Aman (>= 30)</option>
+                            <option value="pengadaan">Perlu Pengadaan (< 30)</option>
                             <option value="belum">Belum Update</option>
                         </select>
                     </div>
@@ -340,10 +337,8 @@
                                 <th>Lokasi Penyimpanan</th>
                                 <th style="text-align: center; width: 100px;">Stok Awal</th>
                                 <th style="text-align: center; width: 100px;">Masuk</th>
-                                <th style="text-align: center; width: 100px;">Digunakan</th>
-                                <th style="text-align: center; width: 100px;">Rusak</th>
                                 <th style="text-align: center; width: 100px;">Sisa</th>
-                                <th>Keterangan</th>
+                                <th>Status Stok</th>
                                 <th style="width: 100px;">Aksi</th>
                             </tr>
                         </thead>
@@ -358,6 +353,110 @@
                     <button type="button" class="btn-pagination" id="btn-prev-gd">&laquo; Sebelumnya</button>
                     <span class="pagination-info" id="info-gd">Halaman 1 dari 1</span>
                     <button type="button" class="btn-pagination" id="btn-next-gd">Berikutnya &raquo;</button>
+                </div>
+            </div>
+
+            <!-- ==========================================
+               TAB 4: PENGGUNAAN & PENGAMBILAN PANEL
+               ========================================== -->
+            <div class="tab-content" id="content-penggunaan">
+                <!-- Metrics Card for Usage -->
+                <div class="metrics-container" style="margin-bottom: 24px;">
+                    <div class="metrics-group" style="flex: 1;">
+                        <h3 class="metrics-group-title">Statistik Penggunaan Bulan Ini</h3>
+                        <div class="metrics-group-grid">
+                            <div class="metric-card info" style="margin-bottom: 0;">
+                                <div class="metric-info">
+                                    <h3>Formulir Digunakan</h3>
+                                    <div class="metric-value" id="count-digunakan-penggunaan">0</div>
+                                </div>
+                                <div class="metric-icon-box">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                </div>
+                            </div>
+                            <div class="metric-card danger" style="margin-bottom: 0;">
+                                <div class="metric-info">
+                                    <h3>Formulir Rusak</h3>
+                                    <div class="metric-value" id="count-rusak-penggunaan">0</div>
+                                </div>
+                                <div class="metric-icon-box">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Panel for Usage -->
+                <div class="filter-panel">
+                    <div class="filter-group">
+                        <label class="filter-label">Bulan Monitoring</label>
+                        <select class="filter-input" id="filter-bulan-penggunaan">
+                            <option value="">Semua Bulan</option>
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Tipe Penggunaan</label>
+                        <select class="filter-input" id="filter-tipe-penggunaan">
+                            <option value="">Semua Tipe</option>
+                            <option value="digunakan">Digunakan</option>
+                            <option value="rusak">Rusak</option>
+                        </select>
+                    </div>
+                    <div class="filter-group" style="flex: 2;">
+                        <label class="filter-label">Cari Petugas / Formulir</label>
+                        <input type="text" class="filter-input" id="search-penggunaan" placeholder="Cari nama petugas, kode/nama formulir, atau keterangan...">
+                    </div>
+                </div>
+
+                <div class="filter-panel" style="justify-content: space-between; align-items: center; margin-top: 15px;">
+                    <div class="dashboard-title-area" style="margin-bottom: 0;">
+                        <h3 style="font-size: 1.15rem; color: var(--color-primary-dark); font-weight: 700;">Log Pengambilan & Penggunaan</h3>
+                        <p style="font-size: 0.85rem; margin-top: 2px;">Daftar riwayat pengambilan berkas rekam medis manual untuk praktikum.</p>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn-dash btn-dash-secondary" id="btn-export-penggunaan" title="Export Laporan CSV">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Export CSV
+                        </button>
+                        <button class="btn-dash btn-dash-secondary" id="btn-print-penggunaan" title="Cetak Laporan PDF">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                            Cetak PDF
+                        </button>
+                        <button class="btn-dash btn-dash-primary" id="btn-add-penggunaan">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Catat Pengambilan
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 110px;">Tanggal</th>
+                                <th style="width: 100px;">Kode Form</th>
+                                <th>Nama Formulir</th>
+                                <th style="width: 140px;">Kategori</th>
+                                <th style="text-align: center; width: 80px;">Jumlah</th>
+                                <th style="width: 110px;">Tipe</th>
+                                <th style="width: 150px;">PJ / Petugas</th>
+                                <th>Keterangan</th>
+                                <th style="width: 100px;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-penggunaan-body">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Controls -->
+                <div class="pagination-controls">
+                    <button type="button" class="btn-pagination" id="btn-prev-penggunaan">&laquo; Sebelumnya</button>
+                    <span class="pagination-info" id="info-penggunaan">Halaman 1 dari 1</span>
+                    <button type="button" class="btn-pagination" id="btn-next-penggunaan">Berikutnya &raquo;</button>
                 </div>
             </div>
 
@@ -629,16 +728,6 @@
                                 <input type="number" class="form-input" id="stok-masuk" min="0" required placeholder="0" value="0">
                             </div>
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                            <div class="form-group">
-                                <label class="form-label" for="stok-digunakan" id="label-stok-digunakan">Stok Digunakan (-) <span>*</span></label>
-                                <input type="number" class="form-input" id="stok-digunakan" min="0" required placeholder="0" value="0">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="stok-rusak" id="label-stok-rusak">Stok Rusak (-) <span>*</span></label>
-                                <input type="number" class="form-input" id="stok-rusak" min="0" required placeholder="0" value="0">
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label class="form-label" for="stok-keterangan">Keterangan</label>
                             <input type="text" class="form-input" id="stok-keterangan" placeholder="Keterangan tambahan...">
@@ -648,6 +737,65 @@
                 <div class="modal-footer">
                     <button type="button" class="btn-dash btn-dash-outline btn-modal-close">Batal</button>
                     <button type="submit" class="btn-dash btn-dash-primary">Simpan Stok</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================================
+       MODAL 3B: FORM PENGGUNAAN & PENGAMBILAN
+       ========================================== -->
+    <div class="modal-overlay" id="modal-penggunaan">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modal-penggunaan-title">Catat Pengambilan / Penggunaan</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="form-penggunaan">
+                <input type="hidden" id="penggunaan-id">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="penggunaan-tanggal">Tanggal Pengambilan <span>*</span></label>
+                            <input type="date" class="form-input" id="penggunaan-tanggal" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="penggunaan-formulir-id">Nama Formulir <span>*</span></label>
+                            <select class="form-input" id="penggunaan-formulir-id" required>
+                                <option value="" disabled selected>-- Pilih Formulir --</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <div class="form-group">
+                                <label class="form-label" for="penggunaan-jumlah">Jumlah <span>*</span></label>
+                                <input type="number" class="form-input" id="penggunaan-jumlah" min="1" required placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="penggunaan-tipe">Tipe Penggunaan <span>*</span></label>
+                                <select class="form-input" id="penggunaan-tipe" required>
+                                    <option value="digunakan">Digunakan</option>
+                                    <option value="rusak">Rusak</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="penggunaan-petugas">Penanggung Jawab / Petugas <span>*</span></label>
+                            <input type="text" class="form-input" id="penggunaan-petugas" required placeholder="Nama Petugas / Dosen / Mahasiswa...">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="penggunaan-keterangan">Keterangan</label>
+                            <input type="text" class="form-input" id="penggunaan-keterangan" placeholder="Praktikum kelas..., ujian..., dll.">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-dash btn-dash-outline btn-modal-close">Batal</button>
+                    <button type="submit" class="btn-dash btn-dash-primary">Simpan Catatan</button>
                 </div>
             </form>
         </div>

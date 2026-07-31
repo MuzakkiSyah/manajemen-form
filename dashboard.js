@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const KEY_FORMULIR = 'labrm_master_formulir';
     const KEY_RAK = 'labrm_master_rak';
     const KEY_STOK = 'labrm_stok_bulanan';
+    const KEY_PENGGUNAAN = 'labrm_penggunaan_log';
 
     // Automatically reset LocalStorage if it contains the old structure/data
     const DB_VERSION_KEY = 'labrm_db_version';
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem(KEY_FORMULIR);
         localStorage.removeItem(KEY_RAK);
         localStorage.removeItem(KEY_STOK);
+        localStorage.removeItem(KEY_PENGGUNAAN);
         localStorage.setItem(DB_VERSION_KEY, CURRENT_DB_VERSION);
     }
 
@@ -134,6 +136,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         listStok = data.stok_bulanan;
                         localStorage.setItem(KEY_STOK, JSON.stringify(listStok));
                     }
+                    if (data.penggunaan_log) {
+                        listPenggunaan = data.penggunaan_log;
+                        localStorage.setItem(KEY_PENGGUNAAN, JSON.stringify(listPenggunaan));
+                    }
                     refreshUI();
                     updateRackFiltersAndSelects();
                     updateFormulirSelects();
@@ -163,6 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let listFormulir = getData(KEY_FORMULIR, DEFAULT_FORMULIR);
     let listRak = getData(KEY_RAK, DEFAULT_RAK);
     let listStok = getData(KEY_STOK, DEFAULT_STOK);
+    let listPenggunaan = getData(KEY_PENGGUNAAN, []);
 
     // Pagination State
     let currentPageRj = 1;
@@ -170,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPageGd = 1;
     let currentPageFormulir = 1;
     let currentPageRak = 1;
+    let currentPagePenggunaan = 1;
     const itemsPerPage = 10;
 
     // ==========================================
@@ -222,27 +230,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterStatusGdSelect = document.getElementById('filter-status-gd');
     const searchGdInput = document.getElementById('search-gd');
 
+    // Filter Controls - Penggunaan
+    const filterBulanPenggunaanSelect = document.getElementById('filter-bulan-penggunaan');
+    const filterTipePenggunaanSelect = document.getElementById('filter-tipe-penggunaan');
+    const searchPenggunaanInput = document.getElementById('search-penggunaan');
+
     // Tables
     const tableRjBody = document.getElementById('table-rj-body');
     const tableRiBody = document.getElementById('table-ri-body');
     const tableGdBody = document.getElementById('table-gd-body');
     const tableFormulirBody = document.getElementById('table-formulir-body');
     const tableRakBody = document.getElementById('table-rak-body');
+    const tablePenggunaanBody = document.getElementById('table-penggunaan-body');
 
     // Modals
     const modalFormulir = document.getElementById('modal-formulir');
     const modalRak = document.getElementById('modal-rak');
     const modalStok = document.getElementById('modal-stok');
+    const modalPenggunaan = document.getElementById('modal-penggunaan');
 
     // Forms inside Modals
     const formFormulir = document.getElementById('form-formulir');
     const formRak = document.getElementById('form-rak');
     const formStok = document.getElementById('form-stok');
+    const formPenggunaan = document.getElementById('form-penggunaan');
 
     // Add Buttons
     const btnAddFormulir = document.getElementById('btn-add-formulir');
     const btnAddRak = document.getElementById('btn-add-rak');
     const btnUpdateStok = document.getElementById('btn-update-stok');
+    const btnAddPenggunaan = document.getElementById('btn-add-penggunaan');
+    const btnPrevPenggunaan = document.getElementById('btn-prev-penggunaan');
+    const btnNextPenggunaan = document.getElementById('btn-next-penggunaan');
+    const infoPenggunaan = document.getElementById('info-penggunaan');
+    const btnExportPenggunaan = document.getElementById('btn-export-penggunaan');
+    const btnPrintPenggunaan = document.getElementById('btn-print-penggunaan');
 
     // Active Edit IDs
     let editFormulirId = null;
@@ -257,6 +279,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Add existing months from data
         listStok.forEach(item => months.add(item.bulan));
+        listPenggunaan.forEach(item => {
+            if (item.tanggal) {
+                months.add(item.tanggal.substring(0, 7));
+            }
+        });
         
         // Ensure current month is present
         const now = new Date();
@@ -266,10 +293,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Sort months descending (newest first)
         const sortedMonths = Array.from(months).sort().reverse();
         
-        // Clear filter options and re-add for both RJ, RI and GD
-        [filterBulanRjSelect, filterBulanRiSelect, filterBulanGdSelect].forEach(selectEl => {
+        // Clear filter options and re-add for RJ, RI, GD and Penggunaan
+        [filterBulanRjSelect, filterBulanRiSelect, filterBulanGdSelect, filterBulanPenggunaanSelect].forEach(selectEl => {
             if (!selectEl) return;
             selectEl.innerHTML = '';
+            
+            if (selectEl === filterBulanPenggunaanSelect) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = 'Semua Bulan';
+                selectEl.appendChild(option);
+            }
+
             sortedMonths.forEach(m => {
                 const dateObj = new Date(m + '-01');
                 const monthLabel = dateObj.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
@@ -282,7 +317,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Set default month to newest available month (usually current month)
             if (sortedMonths.length > 0) {
-                selectEl.value = sortedMonths[0];
+                if (selectEl !== filterBulanPenggunaanSelect) {
+                    selectEl.value = sortedMonths[0];
+                } else {
+                    selectEl.value = '';
+                }
             }
         });
     };

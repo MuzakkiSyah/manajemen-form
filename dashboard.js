@@ -155,6 +155,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const testFirebaseConnection = (url) => {
+        if (!url) {
+            showCloudStatus('Error: URL tidak boleh kosong!', 'error');
+            return;
+        }
+
+        showCloudStatus('Menguji koneksi ke cloud...', 'disconnected');
+        
+        try {
+            if (typeof firebase === 'undefined') {
+                showCloudStatus('Error: Firebase SDK tidak ditemukan!', 'error');
+                return;
+            }
+            
+            // Delete previous test app if exists
+            const testApp = firebase.apps.find(app => app.name === 'testApp');
+            if (testApp) {
+                testApp.delete();
+            }
+
+            const tempApp = firebase.initializeApp({ databaseURL: url }, 'testApp');
+            const tempDb = tempApp.database();
+            
+            let isSuccess = false;
+            const connectedRef = tempDb.ref('.info/connected');
+            
+            // Timeout after 4 seconds
+            const timeoutId = setTimeout(() => {
+                connectedRef.off();
+                tempApp.delete();
+                if (!isSuccess) {
+                    showCloudStatus('Error: Gagal terhubung! Periksa kembali URL dan koneksi internet Anda.', 'error');
+                }
+            }, 4000);
+
+            connectedRef.on('value', (snap) => {
+                if (snap.val() === true) {
+                    isSuccess = true;
+                    clearTimeout(timeoutId);
+                    connectedRef.off();
+                    
+                    // Verify if rules allow reading
+                    tempDb.ref('master_formulir').limitToFirst(1).once('value')
+                        .then(() => {
+                            showCloudStatus('Koneksi Berhasil! Database terhubung & dapat diakses.', 'connected');
+                            tempApp.delete();
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            if (err.message.includes('permission_denied') || err.message.includes('Permission denied') || err.code === 'PERMISSION_DENIED') {
+                                showCloudStatus('Error: Akses ditolak! Periksa Aturan (Rules) Firebase Anda.', 'error');
+                            } else {
+                                showCloudStatus('Koneksi Berhasil! Database terhubung.', 'connected');
+                            }
+                            tempApp.delete();
+                        });
+                }
+            });
+        } catch (error) {
+            console.error("Test connection failed:", error);
+            showCloudStatus('Error: URL Firebase tidak valid!', 'error');
+        }
+    };
+
     // Auto-init on load if URL is saved
     const DEFAULT_FIREBASE_URL = 'https://formulir-rm-default-rtdb.firebaseio.com/';
     const savedCloudUrl = localStorage.getItem(KEY_FIREBASE_URL);
@@ -2180,6 +2244,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCloudConfig = document.getElementById('btn-cloud-config');
     const formCloud = document.getElementById('form-cloud');
     const cloudUrlInput = document.getElementById('cloud-url');
+    const btnTestCloud = document.getElementById('btn-test-cloud');
 
     if (btnCloudConfig) {
         btnCloudConfig.addEventListener('click', () => {
@@ -2191,7 +2256,21 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 cloudUrlInput.value = savedUrl;
             }
+            
+            // Clear status box when opening modal
+            const statusBox = document.getElementById('cloud-status-box');
+            if (statusBox) {
+                statusBox.style.display = 'none';
+            }
+            
             openModal(modalCloud);
+        });
+    }
+
+    if (btnTestCloud) {
+        btnTestCloud.addEventListener('click', () => {
+            const url = cloudUrlInput.value.trim();
+            testFirebaseConnection(url);
         });
     }
 

@@ -842,7 +842,10 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label" for="cloud-url">Firebase Database URL</label>
-                            <input type="url" class="form-input" id="cloud-url" placeholder="Contoh: https://project-id-default-rtdb.firebaseio.com/">
+                            <div style="display: flex; gap: 8px;">
+                                <input type="url" class="form-input" id="cloud-url" placeholder="Contoh: https://project-id-default-rtdb.firebaseio.com/" style="flex: 1;">
+                                <button type="button" class="btn-dash btn-dash-secondary" id="btn-test-cloud" style="white-space: nowrap; height: 42px; padding: 0 16px;">Cek Koneksi</button>
+                            </div>
                             <span class="form-help">Masukkan URL Firebase Realtime Database Anda. Kosongkan untuk menonaktifkan cloud sync (kembali ke penyimpanan lokal).</span>
                         </div>
                         

@@ -603,6 +603,8 @@ button {
 .metric-card.secondary { border-left-color: var(--color-secondary); }
 .metric-card.success { border-left-color: var(--color-success); }
 .metric-card.danger { border-left-color: #EF4444; }
+.metric-card.warning { border-left-color: #F59E0B; }
+.metric-card.info { border-left-color: #3B82F6; }
 
 .metric-info h3 {
     font-size: 0.85rem;
@@ -633,6 +635,8 @@ button {
 .metric-card.secondary .metric-icon-box { background-color: rgba(242, 183, 5, 0.15); color: var(--color-secondary-dark); }
 .metric-card.success .metric-icon-box { background-color: rgba(16, 185, 129, 0.1); color: var(--color-success); }
 .metric-card.danger .metric-icon-box { background-color: rgba(239, 68, 68, 0.1); color: #EF4444; }
+.metric-card.warning .metric-icon-box { background-color: rgba(245, 158, 11, 0.1); color: #F59E0B; }
+.metric-card.info .metric-icon-box { background-color: rgba(59, 130, 246, 0.1); color: #3B82F6; }
 
 .metric-card:hover .metric-icon-box {
     transform: scale(1.1);
@@ -789,6 +793,16 @@ button {
     color: #EF4444;
 }
 
+.badge-borrowed {
+    background-color: rgba(245, 158, 11, 0.12);
+    color: #D97706;
+}
+
+.badge-returned {
+    background-color: rgba(16, 185, 129, 0.12);
+    color: var(--color-success);
+}
+
 .badge-dot {
     width: 8px;
     height: 8px;
@@ -834,6 +848,12 @@ button {
     background-color: #EF4444;
     color: var(--color-text-white);
     border-color: #EF4444;
+}
+
+.btn-icon.return:hover {
+    background-color: var(--color-success);
+    color: var(--color-text-white);
+    border-color: var(--color-success);
 }
 
 /* Empty State Styling */

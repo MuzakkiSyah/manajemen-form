@@ -395,6 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const getUsageStatsForMonth = (formulirId, targetMonth) => {
         let digunakan = 0;
         let rusak = 0;
+        let dipinjam = 0;
         
         listPenggunaan.forEach(p => {
             if (p.formulirId === formulirId && p.tanggal && p.tanggal.substring(0, 7) === targetMonth) {
@@ -402,10 +403,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     digunakan += parseInt(p.jumlah, 10) || 0;
                 } else if (p.tipe === 'rusak') {
                     rusak += parseInt(p.jumlah, 10) || 0;
+                } else if (p.tipe === 'dipinjam') {
+                    dipinjam += parseInt(p.jumlah, 10) || 0;
                 }
             }
         });
-        return { digunakan, rusak };
+        return { digunakan, rusak, dipinjam };
     };
 
     // TAB 1a: RAWAT JALAN STOCK PANEL
@@ -426,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let status = 'Belum Di-update';
             if (stockRecord) {
-                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - usage.digunakan - usage.rusak;
+                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - usage.digunakan - usage.rusak - usage.dipinjam;
                 status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
@@ -467,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (stockRecord) {
                 stokAwal = stockRecord.stokAwal || 0;
                 masuk = stockRecord.masuk || 0;
-                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak - usage.dipinjam;
                 
                 const rakObj = listRak.find(r => r.id === stockRecord.rakId);
                 if (rakObj) {
@@ -553,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let status = 'Belum Di-update';
             if (stockRecord) {
-                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - usage.digunakan - usage.rusak;
+                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - usage.digunakan - usage.rusak - usage.dipinjam;
                 status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
@@ -594,7 +597,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (stockRecord) {
                 stokAwal = stockRecord.stokAwal || 0;
                 masuk = stockRecord.masuk || 0;
-                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak - usage.dipinjam;
                 
                 const rakObj = listRak.find(r => r.id === stockRecord.rakId);
                 if (rakObj) {
@@ -680,7 +683,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let status = 'Belum Di-update';
             if (stockRecord) {
-                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - usage.digunakan - usage.rusak;
+                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - usage.digunakan - usage.rusak - usage.dipinjam;
                 status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
@@ -721,7 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (stockRecord) {
                 stokAwal = stockRecord.stokAwal || 0;
                 masuk = stockRecord.masuk || 0;
-                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak - usage.dipinjam;
                 
                 const rakObj = listRak.find(r => r.id === stockRecord.rakId);
                 if (rakObj) {
@@ -811,7 +814,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (stockRecord) {
                 const stokAwal = stockRecord.stokAwal || 0;
                 const masuk = stockRecord.masuk || 0;
-                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak - usage.dipinjam;
                 status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
@@ -837,7 +840,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (stockRecord) {
                 const stokAwal = stockRecord.stokAwal || 0;
                 const masuk = stockRecord.masuk || 0;
-                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak - usage.dipinjam;
                 status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
@@ -863,7 +866,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (stockRecord) {
                 const stokAwal = stockRecord.stokAwal || 0;
                 const masuk = stockRecord.masuk || 0;
-                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak - usage.dipinjam;
                 status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
@@ -1031,20 +1034,30 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let totalDigunakan = 0;
         let totalRusak = 0;
+        let totalDipinjam = 0;
+        let totalDikembalikan = 0;
         listPenggunaan.forEach(p => {
             if (p.tanggal && p.tanggal.substring(0, 7) === activeStatsMonth) {
                 if (p.tipe === 'digunakan') {
                     totalDigunakan += parseInt(p.jumlah, 10) || 0;
                 } else if (p.tipe === 'rusak') {
                     totalRusak += parseInt(p.jumlah, 10) || 0;
+                } else if (p.tipe === 'dipinjam') {
+                    totalDipinjam += parseInt(p.jumlah, 10) || 0;
+                } else if (p.tipe === 'dikembalikan') {
+                    totalDikembalikan += parseInt(p.jumlah, 10) || 0;
                 }
             }
         });
         
         const countDigunakanEl = document.getElementById('count-digunakan-penggunaan');
         const countRusakEl = document.getElementById('count-rusak-penggunaan');
+        const countDipinjamEl = document.getElementById('count-dipinjam-penggunaan');
+        const countDikembalikanEl = document.getElementById('count-dikembalikan-penggunaan');
         if (countDigunakanEl) countDigunakanEl.textContent = totalDigunakan;
         if (countRusakEl) countRusakEl.textContent = totalRusak;
+        if (countDipinjamEl) countDipinjamEl.textContent = totalDipinjam;
+        if (countDikembalikanEl) countDikembalikanEl.textContent = totalDikembalikan;
 
         // Filter list
         const filteredPenggunaan = listPenggunaan.filter(p => {
@@ -1103,8 +1116,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const formKode = form ? form.kode : '-';
             const formKat = form ? form.kategori : '-';
 
-            let typeBadgeClass = p.tipe === 'digunakan' ? 'badge-rj' : 'badge-gd';
-            let typeLabel = p.tipe === 'digunakan' ? 'Digunakan' : 'Rusak';
+            let typeBadgeClass = 'badge-rj';
+            let typeLabel = 'Digunakan';
+            if (p.tipe === 'digunakan') {
+                typeBadgeClass = 'badge-rj';
+                typeLabel = 'Digunakan';
+            } else if (p.tipe === 'rusak') {
+                typeBadgeClass = 'badge-gd';
+                typeLabel = 'Rusak';
+            } else if (p.tipe === 'dipinjam') {
+                typeBadgeClass = 'badge-borrowed';
+                typeLabel = 'Dipinjam';
+            } else if (p.tipe === 'dikembalikan') {
+                typeBadgeClass = 'badge-returned';
+                typeLabel = 'Dikembalikan';
+            }
 
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -1118,6 +1144,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td style="font-size: 0.9rem; color: var(--color-text-muted);">${p.keterangan || '-'}</td>
                 <td>
                     <div class="action-btn-group">
+                        ${p.tipe === 'dipinjam' ? `
+                        <button class="btn-icon return" onclick="triggerReturnPenggunaan('${p.id}')" title="Kembalikan Berkas">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v6h6"></path><path d="M3 13a9 9 0 1 0 3-7.7L3 8"></path></svg>
+                        </button>
+                        ` : ''}
                         <button class="btn-icon edit" onclick="triggerEditPenggunaan('${p.id}')" title="Edit Catatan">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                         </button>
@@ -1165,6 +1196,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    window.triggerReturnPenggunaan = (id) => {
+        const item = listPenggunaan.find(p => p.id === id);
+        if (!item) return;
+
+        const form = listFormulir.find(f => f.id === item.formulirId);
+        const formLabel = form ? `${form.kode} - ${form.nama}` : '';
+
+        const confirmReturn = confirm(`Apakah Anda yakin ingin menandai formulir "${formLabel}" (Jumlah: ${item.jumlah}) ini telah DIKEMBALIKAN?\nData sisa stok akan bertambah kembali.`);
+        if (confirmReturn) {
+            item.tipe = 'dikembalikan';
+            saveData(KEY_PENGGUNAAN, listPenggunaan);
+            refreshUI();
+        }
+    };
+
     const exportPenggunaanCSV = () => {
         const selectedMonth = filterBulanPenggunaanSelect ? filterBulanPenggunaanSelect.value : '';
         const selectedTipe = filterTipePenggunaanSelect ? filterTipePenggunaanSelect.value : '';
@@ -1205,7 +1251,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const formName = form ? form.nama : 'Formulir Terhapus';
             const formKode = form ? form.kode : '-';
             const formKat = form ? form.kategori : '-';
-            const tipeLabel = p.tipe === 'digunakan' ? 'Digunakan' : 'Rusak';
+            let tipeLabel = 'Digunakan';
+            if (p.tipe === 'digunakan') tipeLabel = 'Digunakan';
+            else if (p.tipe === 'rusak') tipeLabel = 'Rusak';
+            else if (p.tipe === 'dipinjam') tipeLabel = 'Dipinjam';
+            else if (p.tipe === 'dikembalikan') tipeLabel = 'Dikembalikan';
             
             const cleanName = formName.replace(/;/g, ',').replace(/\n/g, ' ');
             const cleanPetugas = p.petugas.replace(/;/g, ',').replace(/\n/g, ' ');
@@ -1334,6 +1384,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         background-color: #fee2e2;
                         color: #991b1b;
                     }
+                    .badge-borrowed {
+                        background-color: #fef3c7;
+                        color: #b45309;
+                    }
+                    .badge-returned {
+                        background-color: #d1fae5;
+                        color: #065f46;
+                    }
                     .signature-area {
                         margin-top: 50px;
                         display: flex;
@@ -1383,8 +1441,21 @@ document.addEventListener('DOMContentLoaded', () => {
                             const formName = form ? form.nama : 'Formulir Terhapus';
                             const formKode = form ? form.kode : '-';
                             const formKat = form ? form.kategori : '-';
-                            const tipeClass = p.tipe === 'digunakan' ? 'badge-used' : 'badge-damaged';
-                            const tipeLabel = p.tipe === 'digunakan' ? 'Digunakan' : 'Rusak';
+                             let tipeClass = 'badge-used';
+                             let tipeLabel = 'Digunakan';
+                             if (p.tipe === 'digunakan') {
+                                 tipeClass = 'badge-used';
+                                 tipeLabel = 'Digunakan';
+                             } else if (p.tipe === 'rusak') {
+                                 tipeClass = 'badge-damaged';
+                                 tipeLabel = 'Rusak';
+                             } else if (p.tipe === 'dipinjam') {
+                                 tipeClass = 'badge-borrowed';
+                                 tipeLabel = 'Dipinjam';
+                             } else if (p.tipe === 'dikembalikan') {
+                                 tipeClass = 'badge-returned';
+                                 tipeLabel = 'Dikembalikan';
+                             }
                             
                             return `
                                 <tr>
@@ -1779,7 +1850,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Calculate previous month's usage from log
         const prevUsage = getUsageStatsForMonth(formulirId, prevMonth);
-        const sisa = prevAwal + prevMasuk - prevUsage.digunakan - prevUsage.rusak;
+        const sisa = prevAwal + prevMasuk - prevUsage.digunakan - prevUsage.rusak - prevUsage.dipinjam;
         return sisa;
     };
 
@@ -1821,7 +1892,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (stockRecord) {
                 const currentAwal = stockRecord.stokAwal || 0;
                 const currentMasuk = stockRecord.masuk || 0;
-                const currentKeluar = usage.digunakan + usage.rusak;
+                const currentKeluar = usage.digunakan + usage.rusak + usage.dipinjam;
                 const currentSisa = currentAwal + currentMasuk - currentKeluar;
 
                 if (summaryAwal) summaryAwal.textContent = currentAwal;
@@ -1839,9 +1910,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 if (summaryAwal) summaryAwal.textContent = calculatedStokAwal;
                 if (summaryMasuk) summaryMasuk.textContent = '0';
-                if (summaryKeluar) summaryKeluar.textContent = usage.digunakan + usage.rusak;
+                if (summaryKeluar) summaryKeluar.textContent = usage.digunakan + usage.rusak + usage.dipinjam;
                 
-                const currentSisa = calculatedStokAwal - (usage.digunakan + usage.rusak);
+                const currentSisa = calculatedStokAwal - (usage.digunakan + usage.rusak + usage.dipinjam);
                 if (summarySisa) {
                     summarySisa.textContent = currentSisa;
                     summarySisa.style.color = currentSisa > 0 ? '#2ed573' : '#ff4757';

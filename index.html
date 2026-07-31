@@ -369,7 +369,7 @@
                 <div class="metrics-container" style="margin-bottom: 24px;">
                     <div class="metrics-group" style="flex: 1;">
                         <h3 class="metrics-group-title">Statistik Penggunaan Bulan Ini</h3>
-                        <div class="metrics-group-grid">
+                        <div class="metrics-group-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
                             <div class="metric-card info" style="margin-bottom: 0;">
                                 <div class="metric-info">
                                     <h3>Formulir Digunakan</h3>
@@ -386,6 +386,24 @@
                                 </div>
                                 <div class="metric-icon-box">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                </div>
+                            </div>
+                            <div class="metric-card warning" style="margin-bottom: 0;">
+                                <div class="metric-info">
+                                    <h3>Formulir Dipinjam</h3>
+                                    <div class="metric-value" id="count-dipinjam-penggunaan">0</div>
+                                </div>
+                                <div class="metric-icon-box">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+                                </div>
+                            </div>
+                            <div class="metric-card success" style="margin-bottom: 0;">
+                                <div class="metric-info">
+                                    <h3>Formulir Kembali</h3>
+                                    <div class="metric-value" id="count-dikembalikan-penggunaan">0</div>
+                                </div>
+                                <div class="metric-icon-box">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 2v6h6"></path><path d="M3 13a9 9 0 1 0 3-7.7L3 8"></path></svg>
                                 </div>
                             </div>
                         </div>
@@ -407,6 +425,8 @@
                             <option value="">Semua Tipe</option>
                             <option value="digunakan">Digunakan</option>
                             <option value="rusak">Rusak</option>
+                            <option value="dipinjam">Dipinjam</option>
+                            <option value="dikembalikan">Dikembalikan</option>
                         </select>
                     </div>
                     <div class="filter-group" style="flex: 2;">
@@ -783,6 +803,8 @@
                                 <select class="form-input" id="penggunaan-tipe" required>
                                     <option value="digunakan">Digunakan</option>
                                     <option value="rusak">Rusak</option>
+                                    <option value="dipinjam">Dipinjam</option>
+                                    <option value="dikembalikan">Dikembalikan</option>
                                 </select>
                             </div>
                         </div>

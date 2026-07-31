@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistem Informasi Inventaris Dokumen Praktikum Laboratorium Rekam Medis Manual Universitas Dian Nuswantoro (UDINUS) Semarang.">
+    <meta name="description"
+        content="Sistem Informasi Inventaris Dokumen Praktikum Laboratorium Rekam Medis Manual Universitas Dian Nuswantoro (UDINUS) Semarang.">
     <meta name="author" content="Laboratorium Rekam Medis UDINUS">
     <title>Inventaris Dokumen Praktikum | Laboratorium Rekam Medis UDINUS</title>
-    
+
     <!-- Stylesheet -->
     <link rel="stylesheet" href="dashboard.css?v=4">
-    
+
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MuzakkiSyah/laboratoriumrm/47ccb8aadc7a14211df38be5f26f4e45f75a0f20/LOGO%20LAB-06%20-%20Copy.png">
+    <link rel="icon" type="image/png"
+        href="https://raw.githubusercontent.com/MuzakkiSyah/laboratoriumrm/47ccb8aadc7a14211df38be5f26f4e45f75a0f20/LOGO%20LAB-06%20-%20Copy.png">
 </head>
+
 <body>
 
     <!-- ==========================================
@@ -21,7 +25,8 @@
     <header class="header scrolled" id="header">
         <div class="container navbar">
             <a href="index.html" class="brand">
-                <img src="https://raw.githubusercontent.com/MuzakkiSyah/laboratoriumrm/47ccb8aadc7a14211df38be5f26f4e45f75a0f20/LOGO%20LAB-06%20-%20Copy.png" alt="Logo Lab Rekam Medis UDINUS" class="brand-logo">
+                <img src="https://raw.githubusercontent.com/MuzakkiSyah/laboratoriumrm/47ccb8aadc7a14211df38be5f26f4e45f75a0f20/LOGO%20LAB-06%20-%20Copy.png"
+                    alt="Logo Lab Rekam Medis UDINUS" class="brand-logo">
                 <div class="brand-text">
                     <span class="brand-title">LAB REKAM MEDIS</span>
                     <span class="brand-subtitle">UDINUS SEMARANG</span>
@@ -31,14 +36,19 @@
             <!-- Navigation Menu in Header -->
             <ul class="nav-menu">
                 <li class="dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" id="dropdown-stok">Monitoring Stok <span class="arrow">&#9662;</span></a>
+                    <a href="#" class="nav-link dropdown-toggle" id="dropdown-stok">Monitoring Stok <span
+                            class="arrow">&#9662;</span></a>
                     <ul class="dropdown-menu-list">
-                        <li><a href="#rawat-jalan" class="nav-link header-tab-link active-link" data-tab="rawat-jalan">Stok Rawat Jalan</a></li>
-                        <li><a href="#rawat-inap" class="nav-link header-tab-link" data-tab="rawat-inap">Stok Rawat Inap</a></li>
-                        <li><a href="#gawat-darurat" class="nav-link header-tab-link" data-tab="gawat-darurat">Stok Gawat Darurat</a></li>
+                        <li><a href="#rawat-jalan" class="nav-link header-tab-link active-link"
+                                data-tab="rawat-jalan">Stok Rawat Jalan</a></li>
+                        <li><a href="#rawat-inap" class="nav-link header-tab-link" data-tab="rawat-inap">Stok Rawat
+                                Inap</a></li>
+                        <li><a href="#gawat-darurat" class="nav-link header-tab-link" data-tab="gawat-darurat">Stok
+                                Gawat Darurat</a></li>
                     </ul>
                 </li>
-                <li><a href="#penggunaan" class="nav-link header-tab-link" data-tab="penggunaan">Penggunaan & Pengambilan</a></li>
+                <li><a href="#penggunaan" class="nav-link header-tab-link" data-tab="penggunaan">Penggunaan &
+                        Pengambilan</a></li>
                 <li class="nav-separator" style="color: var(--color-text-muted); opacity: 0.4; font-weight: 300;">|</li>
                 <li><a href="#formulir" class="nav-link header-tab-link" data-tab="formulir">Master Formulir</a></li>
                 <li><a href="#rak" class="nav-link header-tab-link" data-tab="rak">Master Rak</a></li>
@@ -58,20 +68,28 @@
        ========================================== -->
     <main class="dashboard-section">
         <div class="dashboard-container">
-            
+
             <!-- Dashboard Title Banner -->
             <div class="dashboard-header">
                 <div class="dashboard-title-area">
-                    <h2>Inventaris Dokumen Praktikum</h2>
+                    <h2>Inventaris Dokumen Assembling</h2>
                     <p>Sistem Informasi Perekaman Stok & Klasifikasi Dokumen Rekam Medis Manual Laboratorium UDINUS</p>
                 </div>
                 <div class="dashboard-actions">
-                    <button class="btn-dash btn-dash-secondary" id="btn-cloud-config" title="Pengaturan Sinkronisasi Cloud">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+                    <button class="btn-dash btn-dash-secondary" id="btn-cloud-config"
+                        title="Pengaturan Sinkronisasi Cloud">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                        </svg>
                         Pengaturan Cloud
                     </button>
                     <button class="btn-dash btn-dash-primary" id="btn-update-stok">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 5v14"></path>
+                            <path d="M5 12h14"></path>
+                        </svg>
                         Update Stok Bulanan
                     </button>
                 </div>
@@ -94,17 +112,26 @@
                                     <div class="metric-value" id="count-tersedia-rj">0</div>
                                 </div>
                                 <div class="metric-icon-box">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
                                 </div>
                             </div>
-                            
+
                             <div class="metric-card danger">
                                 <div class="metric-info">
                                     <h3>Perlu Pengadaan</h3>
                                     <div class="metric-value" id="count-habis-rj">0</div>
                                 </div>
                                 <div class="metric-icon-box">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                                    </svg>
                                 </div>
                             </div>
                         </div>
@@ -115,16 +142,17 @@
                 <div class="filter-panel">
                     <div class="filter-group search">
                         <label class="filter-label">Cari Dokumen RJ</label>
-                        <input type="text" class="filter-input" id="search-rj" placeholder="Masukkan kode atau nama formulir...">
+                        <input type="text" class="filter-input" id="search-rj"
+                            placeholder="Masukkan kode atau nama formulir...">
                     </div>
-                    
+
                     <div class="filter-group">
                         <label class="filter-label">Bulan Monitoring</label>
                         <select class="filter-input" id="filter-bulan-rj">
                             <!-- Populated dynamically via JS -->
                         </select>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label class="filter-label">Rak Lokasi</label>
                         <select class="filter-input" id="filter-rak-rj">
@@ -132,7 +160,7 @@
                             <!-- Populated dynamically via JS -->
                         </select>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label class="filter-label">Status Stok</label>
                         <select class="filter-input" id="filter-status-rj">
@@ -164,7 +192,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <!-- Pagination Controls -->
                 <div class="pagination-controls">
                     <button type="button" class="btn-pagination" id="btn-prev-rj">&laquo; Sebelumnya</button>
@@ -188,17 +216,26 @@
                                     <div class="metric-value" id="count-tersedia-ri">0</div>
                                 </div>
                                 <div class="metric-icon-box">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
                                 </div>
                             </div>
-                            
+
                             <div class="metric-card danger">
                                 <div class="metric-info">
                                     <h3>Perlu Pengadaan</h3>
                                     <div class="metric-value" id="count-habis-ri">0</div>
                                 </div>
                                 <div class="metric-icon-box">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                                    </svg>
                                 </div>
                             </div>
                         </div>
@@ -209,16 +246,17 @@
                 <div class="filter-panel">
                     <div class="filter-group search">
                         <label class="filter-label">Cari Dokumen RI</label>
-                        <input type="text" class="filter-input" id="search-ri" placeholder="Masukkan kode atau nama formulir...">
+                        <input type="text" class="filter-input" id="search-ri"
+                            placeholder="Masukkan kode atau nama formulir...">
                     </div>
-                    
+
                     <div class="filter-group">
                         <label class="filter-label">Bulan Monitoring</label>
                         <select class="filter-input" id="filter-bulan-ri">
                             <!-- Populated dynamically via JS -->
                         </select>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label class="filter-label">Rak Lokasi</label>
                         <select class="filter-input" id="filter-rak-ri">
@@ -226,7 +264,7 @@
                             <!-- Populated dynamically via JS -->
                         </select>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label class="filter-label">Status Stok</label>
                         <select class="filter-input" id="filter-status-ri">
@@ -258,7 +296,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <!-- Pagination Controls -->
                 <div class="pagination-controls">
                     <button type="button" class="btn-pagination" id="btn-prev-ri">&laquo; Sebelumnya</button>
@@ -282,17 +320,26 @@
                                     <div class="metric-value" id="count-tersedia-gd">0</div>
                                 </div>
                                 <div class="metric-icon-box">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
                                 </div>
                             </div>
-                            
+
                             <div class="metric-card danger">
                                 <div class="metric-info">
                                     <h3>Perlu Pengadaan</h3>
                                     <div class="metric-value" id="count-habis-gd">0</div>
                                 </div>
                                 <div class="metric-icon-box">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                                    </svg>
                                 </div>
                             </div>
                         </div>
@@ -303,16 +350,17 @@
                 <div class="filter-panel">
                     <div class="filter-group search">
                         <label class="filter-label">Cari Dokumen GD</label>
-                        <input type="text" class="filter-input" id="search-gd" placeholder="Masukkan kode atau nama formulir...">
+                        <input type="text" class="filter-input" id="search-gd"
+                            placeholder="Masukkan kode atau nama formulir...">
                     </div>
-                    
+
                     <div class="filter-group">
                         <label class="filter-label">Bulan Monitoring</label>
                         <select class="filter-input" id="filter-bulan-gd">
                             <!-- Populated dynamically via JS -->
                         </select>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label class="filter-label">Rak Lokasi</label>
                         <select class="filter-input" id="filter-rak-gd">
@@ -320,7 +368,7 @@
                             <!-- Populated dynamically via JS -->
                         </select>
                     </div>
-                    
+
                     <div class="filter-group">
                         <label class="filter-label">Status Stok</label>
                         <select class="filter-input" id="filter-status-gd">
@@ -352,7 +400,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <!-- Pagination Controls -->
                 <div class="pagination-controls">
                     <button type="button" class="btn-pagination" id="btn-prev-gd">&laquo; Sebelumnya</button>
@@ -369,14 +417,21 @@
                 <div class="metrics-container" style="margin-bottom: 24px;">
                     <div class="metrics-group" style="flex: 1;">
                         <h3 class="metrics-group-title">Statistik Penggunaan Bulan Ini</h3>
-                        <div class="metrics-group-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                        <div class="metrics-group-grid"
+                            style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
                             <div class="metric-card info" style="margin-bottom: 0;">
                                 <div class="metric-info">
                                     <h3>Formulir Digunakan</h3>
                                     <div class="metric-value" id="count-digunakan-penggunaan">0</div>
                                 </div>
                                 <div class="metric-icon-box">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                        <polyline points="10 9 9 9 8 9"></polyline>
+                                    </svg>
                                 </div>
                             </div>
                             <div class="metric-card danger" style="margin-bottom: 0;">
@@ -385,7 +440,14 @@
                                     <div class="metric-value" id="count-rusak-penggunaan">0</div>
                                 </div>
                                 <div class="metric-icon-box">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path
+                                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                                        </path>
+                                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                    </svg>
                                 </div>
                             </div>
                             <div class="metric-card warning" style="margin-bottom: 0;">
@@ -394,7 +456,12 @@
                                     <div class="metric-value" id="count-dipinjam-penggunaan">0</div>
                                 </div>
                                 <div class="metric-icon-box">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="8.5" cy="7" r="4"></circle>
+                                        <polyline points="17 11 19 13 23 9"></polyline>
+                                    </svg>
                                 </div>
                             </div>
                             <div class="metric-card success" style="margin-bottom: 0;">
@@ -403,7 +470,11 @@
                                     <div class="metric-value" id="count-dikembalikan-penggunaan">0</div>
                                 </div>
                                 <div class="metric-icon-box">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 2v6h6"></path><path d="M3 13a9 9 0 1 0 3-7.7L3 8"></path></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5">
+                                        <path d="M3 2v6h6"></path>
+                                        <path d="M3 13a9 9 0 1 0 3-7.7L3 8"></path>
+                                    </svg>
                                 </div>
                             </div>
                         </div>
@@ -431,26 +502,46 @@
                     </div>
                     <div class="filter-group" style="flex: 2;">
                         <label class="filter-label">Cari Petugas / Formulir</label>
-                        <input type="text" class="filter-input" id="search-penggunaan" placeholder="Cari nama petugas, kode/nama formulir, atau keterangan...">
+                        <input type="text" class="filter-input" id="search-penggunaan"
+                            placeholder="Cari nama petugas, kode/nama formulir, atau keterangan...">
                     </div>
                 </div>
 
-                <div class="filter-panel" style="justify-content: space-between; align-items: center; margin-top: 15px;">
+                <div class="filter-panel"
+                    style="justify-content: space-between; align-items: center; margin-top: 15px;">
                     <div class="dashboard-title-area" style="margin-bottom: 0;">
-                        <h3 style="font-size: 1.15rem; color: var(--color-primary-dark); font-weight: 700;">Log Pengambilan & Penggunaan</h3>
-                        <p style="font-size: 0.85rem; margin-top: 2px;">Daftar riwayat pengambilan berkas rekam medis manual untuk praktikum.</p>
+                        <h3 style="font-size: 1.15rem; color: var(--color-primary-dark); font-weight: 700;">Log
+                            Pengambilan & Penggunaan</h3>
+                        <p style="font-size: 0.85rem; margin-top: 2px;">Daftar riwayat pengambilan berkas rekam medis
+                            manual untuk praktikum.</p>
                     </div>
                     <div style="display: flex; gap: 10px;">
-                        <button class="btn-dash btn-dash-secondary" id="btn-export-penggunaan" title="Export Laporan CSV">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        <button class="btn-dash btn-dash-secondary" id="btn-export-penggunaan"
+                            title="Export Laporan CSV">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
                             Export CSV
                         </button>
                         <button class="btn-dash btn-dash-secondary" id="btn-print-penggunaan" title="Cetak Laporan PDF">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2">
+                                </path>
+                                <rect x="6" y="14" width="12" height="8"></rect>
+                            </svg>
                             Cetak PDF
                         </button>
                         <button class="btn-dash btn-dash-primary" id="btn-add-penggunaan">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
                             Catat Pengambilan
                         </button>
                     </div>
@@ -496,7 +587,14 @@
                                 <div class="metric-value" id="count-total-formulir">0</div>
                             </div>
                             <div class="metric-icon-box">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -504,11 +602,17 @@
 
                 <div class="filter-panel" style="justify-content: space-between; align-items: center;">
                     <div class="dashboard-title-area" style="margin-bottom: 0;">
-                        <h3 style="font-size: 1.15rem; color: var(--color-primary-dark); font-weight: 700;">Daftar Master Formulir</h3>
-                        <p style="font-size: 0.85rem; margin-top: 2px;">Kelola kode dan katalog formulir rekam medis manual untuk praktikum.</p>
+                        <h3 style="font-size: 1.15rem; color: var(--color-primary-dark); font-weight: 700;">Daftar
+                            Master Formulir</h3>
+                        <p style="font-size: 0.85rem; margin-top: 2px;">Kelola kode dan katalog formulir rekam medis
+                            manual untuk praktikum.</p>
                     </div>
                     <button class="btn-dash btn-dash-secondary" id="btn-add-formulir">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
                         Tambah Formulir
                     </button>
                 </div>
@@ -529,7 +633,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <!-- Pagination Controls -->
                 <div class="pagination-controls">
                     <button type="button" class="btn-pagination" id="btn-prev-formulir">&laquo; Sebelumnya</button>
@@ -549,7 +653,14 @@
                                 <div class="metric-value" id="count-total-rak">0</div>
                             </div>
                             <div class="metric-icon-box">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="9" y1="3" x2="9" y2="21"></line>
+                                    <line x1="15" y1="3" x2="15" y2="21"></line>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="3" y1="15" x2="21" y2="15"></line>
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -557,11 +668,17 @@
 
                 <div class="filter-panel" style="justify-content: space-between; align-items: center;">
                     <div class="dashboard-title-area" style="margin-bottom: 0;">
-                        <h3 style="font-size: 1.15rem; color: var(--color-primary-dark); font-weight: 700;">Daftar Rak Filing & Penyimpanan</h3>
-                        <p style="font-size: 0.85rem; margin-top: 2px;">Kelola lemari, rak, dan laci penyimpanan dokumen manual di ruang laboratorium.</p>
+                        <h3 style="font-size: 1.15rem; color: var(--color-primary-dark); font-weight: 700;">Daftar Rak
+                            Filing & Penyimpanan</h3>
+                        <p style="font-size: 0.85rem; margin-top: 2px;">Kelola lemari, rak, dan laci penyimpanan dokumen
+                            manual di ruang laboratorium.</p>
                     </div>
                     <button class="btn-dash btn-dash-secondary" id="btn-add-rak">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
                         Tambah Master Rak
                     </button>
                 </div>
@@ -581,7 +698,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <!-- Pagination Controls -->
                 <div class="pagination-controls">
                     <button type="button" class="btn-pagination" id="btn-prev-rak">&laquo; Sebelumnya</button>
@@ -607,12 +724,14 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label" for="form-kode">Kode Formulir <span>*</span></label>
-                            <input type="text" class="form-input" id="form-kode" required placeholder="Contoh: RM-01 atau FORM-08">
+                            <input type="text" class="form-input" id="form-kode" required
+                                placeholder="Contoh: RM-01 atau FORM-08">
                             <span class="form-help">Kode unik pembeda berkas rekam medis.</span>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="form-nama">Nama Formulir <span>*</span></label>
-                            <input type="text" class="form-input" id="form-nama" required placeholder="Contoh: Ringkasan Masuk & Keluar">
+                            <input type="text" class="form-input" id="form-nama" required
+                                placeholder="Contoh: Ringkasan Masuk & Keluar">
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="form-kategori">Kategori Pelayanan <span>*</span></label>
@@ -625,12 +744,15 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="form-deskripsi">Deskripsi / Keterangan</label>
-                            <textarea class="form-input" id="form-deskripsi" placeholder="Tuliskan tujuan penggunaan formulir dalam praktikum laboratorium rekam medis..."></textarea>
+                            <textarea class="form-input" id="form-deskripsi"
+                                placeholder="Tuliskan tujuan penggunaan formulir dalam praktikum laboratorium rekam medis..."></textarea>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="form-link">Link Template / File Dokumen</label>
-                            <input type="url" class="form-input" id="form-link" placeholder="Contoh: https://drive.google.com/file/d/... atau Dropbox">
-                            <span class="form-help">Tautan (Google Drive/OneDrive/dsb.) untuk cetak/unduh formulir rekam medis kosong.</span>
+                            <input type="url" class="form-input" id="form-link"
+                                placeholder="Contoh: https://drive.google.com/file/d/... atau Dropbox">
+                            <span class="form-help">Tautan (Google Drive/OneDrive/dsb.) untuk cetak/unduh formulir rekam
+                                medis kosong.</span>
                         </div>
                     </div>
                 </div>
@@ -656,16 +778,19 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label" for="rak-kode">Kode Rak <span>*</span></label>
-                            <input type="text" class="form-input" id="rak-kode" required placeholder="Contoh: RAK-A, LEMARI-01">
+                            <input type="text" class="form-input" id="rak-kode" required
+                                placeholder="Contoh: RAK-A, LEMARI-01">
                             <span class="form-help">Identitas unik rak atau lemari pengarsipan rekam medis.</span>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="rak-nama">Nama Rak <span>*</span></label>
-                            <input type="text" class="form-input" id="rak-nama" required placeholder="Contoh: Rak Filing Aktif Rawat Jalan">
+                            <input type="text" class="form-input" id="rak-nama" required
+                                placeholder="Contoh: Rak Filing Aktif Rawat Jalan">
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="rak-lokasi">Lokasi / Detail Letak</label>
-                            <textarea class="form-input" id="rak-lokasi" placeholder="Contoh: Gedung D Lantai 3, Pojok Kanan Ruang Filing Utama..."></textarea>
+                            <textarea class="form-input" id="rak-lokasi"
+                                placeholder="Contoh: Gedung D Lantai 3, Pojok Kanan Ruang Filing Utama..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -694,7 +819,7 @@
                             <input type="month" class="form-input" id="stok-bulan" required>
                             <span class="form-help">Pilih bulan dan tahun pelaksanaan rekapitulasi data.</span>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label" for="stok-formulir-id">Nama Formulir <span>*</span></label>
                             <select class="form-input" id="stok-formulir-id" required>
@@ -702,7 +827,7 @@
                                 <!-- Populated dynamically -->
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label" for="stok-rak-id">Rak Lokasi Penyimpanan <span>*</span></label>
                             <select class="form-input" id="stok-rak-id" required>
@@ -711,51 +836,68 @@
                             </select>
                             <span class="form-help">Pilih rak letak fisik dokumen tersebut di laboratorium.</span>
                         </div>
-                        
+
                         <!-- Checkbox Mode Koreksi -->
-                        <div class="form-group" style="margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-                            <input type="checkbox" id="stok-mode-koreksi" style="width: auto; margin: 0; cursor: pointer;">
-                            <label for="stok-mode-koreksi" style="font-weight: 500; font-size: 13px; cursor: pointer; user-select: none; color: var(--text-color, #e0e0e0);">
+                        <div class="form-group"
+                            style="margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="stok-mode-koreksi"
+                                style="width: auto; margin: 0; cursor: pointer;">
+                            <label for="stok-mode-koreksi"
+                                style="font-weight: 500; font-size: 13px; cursor: pointer; user-select: none; color: var(--text-color, #e0e0e0);">
                                 Koreksi Manual Nilai Akumulasi (Lanjutan)
                             </label>
                         </div>
 
                         <!-- Ringkasan Stok Saat Ini -->
-                        <div id="stok-current-summary" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; padding: 10px 14px; margin-bottom: 15px; font-size: 13px; color: var(--text-color, #e0e0e0);">
+                        <div id="stok-current-summary"
+                            style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; padding: 10px 14px; margin-bottom: 15px; font-size: 13px; color: var(--text-color, #e0e0e0);">
                             <strong>Ringkasan Stok Terdaftar Bulan Ini:</strong>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 6px; text-align: center;">
-                                <div style="background: rgba(255, 255, 255, 0.03); padding: 6px 4px; border-radius: 4px;">
+                            <div
+                                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 6px; text-align: center;">
+                                <div
+                                    style="background: rgba(255, 255, 255, 0.03); padding: 6px 4px; border-radius: 4px;">
                                     <div style="color: #aaa; font-size: 11px; margin-bottom: 2px;">Stok Awal</div>
                                     <span id="summary-stok-awal" style="font-weight: 600; font-size: 14px;">0</span>
                                 </div>
-                                <div style="background: rgba(46, 213, 115, 0.1); padding: 6px 4px; border-radius: 4px; color: #2ed573;">
-                                    <div style="color: #2ed573; font-size: 11px; opacity: 0.8; margin-bottom: 2px;">Total Masuk</div>
+                                <div
+                                    style="background: rgba(46, 213, 115, 0.1); padding: 6px 4px; border-radius: 4px; color: #2ed573;">
+                                    <div style="color: #2ed573; font-size: 11px; opacity: 0.8; margin-bottom: 2px;">
+                                        Total Masuk</div>
                                     <span id="summary-stok-masuk" style="font-weight: 600; font-size: 14px;">0</span>
                                 </div>
-                                <div style="background: rgba(255, 71, 87, 0.1); padding: 6px 4px; border-radius: 4px; color: #ff4757;">
-                                    <div style="color: #ff4757; font-size: 11px; opacity: 0.8; margin-bottom: 2px;">Total Keluar</div>
+                                <div
+                                    style="background: rgba(255, 71, 87, 0.1); padding: 6px 4px; border-radius: 4px; color: #ff4757;">
+                                    <div style="color: #ff4757; font-size: 11px; opacity: 0.8; margin-bottom: 2px;">
+                                        Total Keluar</div>
                                     <span id="summary-stok-keluar" style="font-weight: 600; font-size: 14px;">0</span>
                                 </div>
                             </div>
-                            <div style="margin-top: 8px; border-top: 1px dashed rgba(255, 255, 255, 0.1); padding-top: 6px; display: flex; justify-content: space-between; align-items: center;">
+                            <div
+                                style="margin-top: 8px; border-top: 1px dashed rgba(255, 255, 255, 0.1); padding-top: 6px; display: flex; justify-content: space-between; align-items: center;">
                                 <span>Sisa Stok:</span>
-                                <span id="summary-stok-sisa" style="font-weight: 700; color: #2ed573; font-size: 15px;">0</span>
+                                <span id="summary-stok-sisa"
+                                    style="font-weight: 700; color: #2ed573; font-size: 15px;">0</span>
                             </div>
                         </div>
-                        
+
                         <div class="form-row-2col">
                             <div class="form-group">
-                                <label class="form-label" for="stok-awal" id="label-stok-awal">Bawaan Bulan Lalu (Stok Awal) <span>*</span></label>
-                                <input type="number" class="form-input" id="stok-awal" min="0" required placeholder="0" value="0">
+                                <label class="form-label" for="stok-awal" id="label-stok-awal">Bawaan Bulan Lalu (Stok
+                                    Awal) <span>*</span></label>
+                                <input type="number" class="form-input" id="stok-awal" min="0" required placeholder="0"
+                                    value="0">
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="stok-masuk" id="label-stok-masuk">Tambah Stok (+) <span>*</span></label>
-                                <input type="number" class="form-input" id="stok-masuk" min="0" required placeholder="0" value="0">
+                                <label class="form-label" for="stok-masuk" id="label-stok-masuk">Tambah Stok (+)
+                                    <span>*</span></label>
+                                <input type="number" class="form-input" id="stok-masuk" min="0" required placeholder="0"
+                                    value="0">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="stok-keterangan">Keterangan</label>
-                            <input type="text" class="form-input" id="stok-keterangan" placeholder="Keterangan tambahan...">
+                            <input type="text" class="form-input" id="stok-keterangan"
+                                placeholder="Keterangan tambahan...">
                         </div>
                     </div>
                 </div>
@@ -781,10 +923,11 @@
                 <div class="modal-body">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label class="form-label" for="penggunaan-tanggal">Tanggal Pengambilan <span>*</span></label>
+                            <label class="form-label" for="penggunaan-tanggal">Tanggal Pengambilan
+                                <span>*</span></label>
                             <input type="date" class="form-input" id="penggunaan-tanggal" required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label" for="penggunaan-formulir-id">Nama Formulir <span>*</span></label>
                             <select class="form-input" id="penggunaan-formulir-id" required>
@@ -796,7 +939,8 @@
                         <div class="form-row-2col">
                             <div class="form-group">
                                 <label class="form-label" for="penggunaan-jumlah">Jumlah <span>*</span></label>
-                                <input type="number" class="form-input" id="penggunaan-jumlah" min="1" required placeholder="0">
+                                <input type="number" class="form-input" id="penggunaan-jumlah" min="1" required
+                                    placeholder="0">
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="penggunaan-tipe">Tipe Penggunaan <span>*</span></label>
@@ -810,13 +954,16 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="penggunaan-petugas">Penanggung Jawab / Petugas <span>*</span></label>
-                            <input type="text" class="form-input" id="penggunaan-petugas" required placeholder="Nama Petugas / Dosen / Mahasiswa...">
+                            <label class="form-label" for="penggunaan-petugas">Penanggung Jawab / Petugas
+                                <span>*</span></label>
+                            <input type="text" class="form-input" id="penggunaan-petugas" required
+                                placeholder="Nama Petugas / Dosen / Mahasiswa...">
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="penggunaan-keterangan">Keterangan</label>
-                            <input type="text" class="form-input" id="penggunaan-keterangan" placeholder="Praktikum kelas..., ujian..., dll.">
+                            <input type="text" class="form-input" id="penggunaan-keterangan"
+                                placeholder="Praktikum kelas..., ujian..., dll.">
                         </div>
                     </div>
                 </div>
@@ -843,20 +990,26 @@
                         <div class="form-group">
                             <label class="form-label" for="cloud-url">Firebase Database URL</label>
                             <div style="display: flex; gap: 8px;">
-                                <input type="url" class="form-input" id="cloud-url" placeholder="Contoh: https://project-id-default-rtdb.firebaseio.com/" style="flex: 1;">
-                                <button type="button" class="btn-dash btn-dash-secondary" id="btn-test-cloud" style="white-space: nowrap; height: 42px; padding: 0 16px;">Cek Koneksi</button>
+                                <input type="url" class="form-input" id="cloud-url"
+                                    placeholder="Contoh: https://project-id-default-rtdb.firebaseio.com/"
+                                    style="flex: 1;">
+                                <button type="button" class="btn-dash btn-dash-secondary" id="btn-test-cloud"
+                                    style="white-space: nowrap; height: 42px; padding: 0 16px;">Cek Koneksi</button>
                             </div>
-                            <span class="form-help">Masukkan URL Firebase Realtime Database Anda. Kosongkan untuk menonaktifkan cloud sync (kembali ke penyimpanan lokal).</span>
+                            <span class="form-help">Masukkan URL Firebase Realtime Database Anda. Kosongkan untuk
+                                menonaktifkan cloud sync (kembali ke penyimpanan lokal).</span>
                         </div>
-                        
-                        <div id="cloud-status-box" style="padding: 12px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600; display: none;">
+
+                        <div id="cloud-status-box"
+                            style="padding: 12px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600; display: none;">
                             <!-- Status connection populated dynamically -->
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn-dash btn-dash-outline btn-modal-close">Batal</button>
-                    <button type="submit" class="btn-dash btn-dash-primary" id="btn-save-cloud">Hubungkan Database</button>
+                    <button type="submit" class="btn-dash btn-dash-primary" id="btn-save-cloud">Hubungkan
+                        Database</button>
                 </div>
             </form>
         </div>
@@ -869,38 +1022,68 @@
         <div class="container footer-top">
             <div class="footer-brand">
                 <div class="footer-logo-wrapper">
-                    <img src="https://raw.githubusercontent.com/MuzakkiSyah/laboratoriumrm/47ccb8aadc7a14211df38be5f26f4e45f75a0f20/LOGO%20LAB-06%20-%20Copy.png" alt="Logo Lab Rekam Medis UDINUS Mini" class="footer-logo">
+                    <img src="https://raw.githubusercontent.com/MuzakkiSyah/laboratoriumrm/47ccb8aadc7a14211df38be5f26f4e45f75a0f20/LOGO%20LAB-06%20-%20Copy.png"
+                        alt="Logo Lab Rekam Medis UDINUS Mini" class="footer-logo">
                     <div>
                         <span class="footer-brand-title">LAB REKAM MEDIS</span>
                         <p class="footer-brand-subtitle">UDINUS Semarang</p>
                     </div>
                 </div>
                 <p class="footer-desc">
-                    Membina tenaga profesional manajemen informasi kesehatan yang mahir dalam klasifikasi medis, audit kualitas, teknologi rekam medis elektronik, dan statistik kesehatan global.
+                    Membina tenaga profesional manajemen informasi kesehatan yang mahir dalam klasifikasi medis, audit
+                    kualitas, teknologi rekam medis elektronik, dan statistik kesehatan global.
                 </p>
             </div>
-            
+
             <div class="footer-links-col">
                 <h4>Navigasi Dokumen</h4>
                 <ul class="footer-links">
-                    <li><a href="#rawat-jalan" class="footer-link footer-tab-link" data-tab="rawat-jalan"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Stok Rawat Jalan</a></li>
-                    <li><a href="#rawat-inap" class="footer-link footer-tab-link" data-tab="rawat-inap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Stok Rawat Inap</a></li>
-                    <li><a href="#gawat-darurat" class="footer-link footer-tab-link" data-tab="gawat-darurat"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Stok Gawat Darurat</a></li>
-                    <li><a href="#formulir" class="footer-link footer-tab-link" data-tab="formulir"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Master Formulir</a></li>
-                    <li><a href="#rak" class="footer-link footer-tab-link" data-tab="rak"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Master Rak</a></li>
+                    <li><a href="#rawat-jalan" class="footer-link footer-tab-link" data-tab="rawat-jalan"><svg
+                                width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>Stok Rawat Jalan</a></li>
+                    <li><a href="#rawat-inap" class="footer-link footer-tab-link" data-tab="rawat-inap"><svg width="12"
+                                height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>Stok Rawat Inap</a></li>
+                    <li><a href="#gawat-darurat" class="footer-link footer-tab-link" data-tab="gawat-darurat"><svg
+                                width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>Stok Gawat Darurat</a></li>
+                    <li><a href="#formulir" class="footer-link footer-tab-link" data-tab="formulir"><svg width="12"
+                                height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>Master Formulir</a></li>
+                    <li><a href="#rak" class="footer-link footer-tab-link" data-tab="rak"><svg width="12" height="12"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>Master Rak</a></li>
                 </ul>
             </div>
-            
+
             <div class="footer-links-col">
                 <h4>Tautan Kampus</h4>
                 <ul class="footer-links">
-                    <li><a href="https://dinus.ac.id" target="_blank" rel="noopener" class="footer-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Situs Resmi UDINUS</a></li>
-                    <li><a href="https://siadin.dinus.ac.id" target="_blank" rel="noopener" class="footer-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>Portal Akademik SIADIN</a></li>
-                    <li><a href="https://e-learning.dinus.ac.id" target="_blank" rel="noopener" class="footer-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>E-learning Kulino</a></li>
+                    <li><a href="https://dinus.ac.id" target="_blank" rel="noopener" class="footer-link"><svg width="12"
+                                height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>Situs Resmi UDINUS</a></li>
+                    <li><a href="https://siadin.dinus.ac.id" target="_blank" rel="noopener" class="footer-link"><svg
+                                width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>Portal Akademik SIADIN</a></li>
+                    <li><a href="https://e-learning.dinus.ac.id" target="_blank" rel="noopener" class="footer-link"><svg
+                                width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>E-learning Kulino</a></li>
                 </ul>
             </div>
         </div>
-        
+
         <div class="container footer-bottom">
             <div class="footer-copyright">
                 &copy; 2026 <span>Laboratorium Rekam Medis UDINUS</span>. Hak Cipta Dilindungi Undang-Undang.
@@ -918,4 +1101,5 @@
     <!-- Javascript -->
     <script src="dashboard.js"></script>
 </body>
+
 </html>

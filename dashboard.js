@@ -1378,7 +1378,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </tr>
                     </thead>
                     <tbody>
-                        \${filtered.map(p => {
+                        ${filtered.map(p => {
                             const form = listFormulir.find(f => f.id === p.formulirId);
                             const formName = form ? form.nama : 'Formulir Terhapus';
                             const formKode = form ? form.kode : '-';
@@ -1388,14 +1388,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             
                             return `
                                 <tr>
-                                    <td>\${p.tanggal}</td>
-                                    <td><strong>\${formKode}</strong></td>
-                                    <td>\${formName}</td>
-                                    <td>\${formKat}</td>
-                                    <td style="text-align: center; font-weight: bold;">\${p.jumlah}</td>
-                                    <td><span class="badge \${tipeClass}">\${tipeLabel}</span></td>
-                                    <td>\${p.petugas}</td>
-                                    <td>\${p.keterangan || '-'}</td>
+                                    <td>${p.tanggal}</td>
+                                    <td><strong>${formKode}</strong></td>
+                                    <td>${formName}</td>
+                                    <td>${formKat}</td>
+                                    <td style="text-align: center; font-weight: bold;">${p.jumlah}</td>
+                                    <td><span class="badge ${tipeClass}">${tipeLabel}</span></td>
+                                    <td>${p.petugas}</td>
+                                    <td>${p.keterangan || '-'}</td>
                                 </tr>
                             `;
                         }).join('')}
@@ -1403,7 +1403,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </table>
                 <div class="signature-area">
                     <div class="signature-box">
-                        <p>Semarang, \${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                        <p>Semarang, ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                         <p>Penanggung Jawab Laboratorium</p>
                         <div class="signature-line">( ____________________ )</div>
                     </div>

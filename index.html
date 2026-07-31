@@ -30,9 +30,14 @@
 
             <!-- Navigation Menu in Header -->
             <ul class="nav-menu">
-                <li><a href="#rawat-jalan" class="nav-link header-tab-link active-link" data-tab="rawat-jalan">Stok Rawat Jalan</a></li>
-                <li><a href="#rawat-inap" class="nav-link header-tab-link" data-tab="rawat-inap">Stok Rawat Inap</a></li>
-                <li><a href="#gawat-darurat" class="nav-link header-tab-link" data-tab="gawat-darurat">Stok Gawat Darurat</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="dropdown-stok">Monitoring Stok <span class="arrow">&#9662;</span></a>
+                    <ul class="dropdown-menu-list">
+                        <li><a href="#rawat-jalan" class="nav-link header-tab-link active-link" data-tab="rawat-jalan">Stok Rawat Jalan</a></li>
+                        <li><a href="#rawat-inap" class="nav-link header-tab-link" data-tab="rawat-inap">Stok Rawat Inap</a></li>
+                        <li><a href="#gawat-darurat" class="nav-link header-tab-link" data-tab="gawat-darurat">Stok Gawat Darurat</a></li>
+                    </ul>
+                </li>
                 <li><a href="#penggunaan" class="nav-link header-tab-link" data-tab="penggunaan">Penggunaan & Pengambilan</a></li>
                 <li class="nav-separator" style="color: var(--color-text-muted); opacity: 0.4; font-weight: 300;">|</li>
                 <li><a href="#formulir" class="nav-link header-tab-link" data-tab="formulir">Master Formulir</a></li>

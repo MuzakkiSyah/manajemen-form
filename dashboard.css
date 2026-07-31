@@ -246,7 +246,8 @@ button {
     transition: transform var(--transition-fast);
 }
 
-.dropdown:hover .dropdown-toggle .arrow {
+.dropdown:hover .dropdown-toggle .arrow,
+.dropdown-toggle.active .arrow {
     transform: rotate(180deg);
 }
 
@@ -268,7 +269,8 @@ button {
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.dropdown:hover .dropdown-menu-list {
+.dropdown:hover .dropdown-menu-list,
+.dropdown-menu-list.show {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);

@@ -1491,12 +1491,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Attach click listeners to header tab links
+    const dropdownStok = document.getElementById('dropdown-stok');
+    const dropdownMenu = document.querySelector('.dropdown-menu-list');
+
     document.querySelectorAll('.header-tab-link').forEach(link => {
         link.addEventListener('click', (e) => {
             const targetTab = link.getAttribute('data-tab');
             if (targetTab) {
                 e.preventDefault();
                 switchTab(targetTab);
+                
+                // Close dropdown if open
+                if (dropdownMenu) {
+                    dropdownMenu.classList.remove('show');
+                }
+                if (dropdownStok) {
+                    dropdownStok.classList.remove('active');
+                }
                 
                 // Close mobile menu if open
                 const menuToggle = document.getElementById('menu-toggle');
@@ -1514,6 +1525,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Toggle dropdown on click (especially for touch screens)
+    if (dropdownStok && dropdownMenu) {
+        dropdownStok.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+            dropdownStok.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking anywhere else
+        document.addEventListener('click', (e) => {
+            if (!dropdownStok.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+                dropdownStok.classList.remove('active');
+            }
+        });
+    }
 
     // Mobile Menu Toggle
     const menuToggle = document.getElementById('menu-toggle');

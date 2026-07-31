@@ -982,6 +982,18 @@ button {
     gap: 16px;
 }
 
+.form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 480px) {
+    .form-row-2col {
+        grid-template-columns: 1fr;
+    }
+}
+
 .form-group {
     display: flex;
     flex-direction: column;
@@ -1055,9 +1067,18 @@ textarea.form-input {
         right: 0;
     }
     
-    .nav-link {
-        color: var(--color-text-white);
+    .header .nav-link {
+        color: rgba(255, 255, 255, 0.85) !important;
         font-size: 1.15rem;
+    }
+    
+    .header .nav-link:hover,
+    .header .nav-link.active-link {
+        color: var(--color-secondary) !important;
+    }
+
+    .header .nav-link::after {
+        display: none !important;
     }
     
     .dropdown-menu-list {

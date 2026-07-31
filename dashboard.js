@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Populate Formulir Select in Modal Update Stok
+    // Populate Formulir Select in Modal Update Stok and Modal Penggunaan
     const updateFormulirSelects = () => {
         const stokFormulirSelect = document.getElementById('stok-formulir-id');
         if (stokFormulirSelect) {
@@ -363,6 +363,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 option.value = form.id;
                 option.textContent = `${form.kode} - ${form.nama}`;
                 stokFormulirSelect.appendChild(option);
+            });
+        }
+        
+        const penggunaanFormulirSelect = document.getElementById('penggunaan-formulir-id');
+        if (penggunaanFormulirSelect) {
+            penggunaanFormulirSelect.innerHTML = '<option value="" disabled selected>-- Pilih Formulir --</option>';
+            listFormulir.forEach(form => {
+                const option = document.createElement('option');
+                option.value = form.id;
+                option.textContent = `${form.kode} - ${form.nama} (${form.kategori})`;
+                penggunaanFormulirSelect.appendChild(option);
             });
         }
     };
@@ -381,6 +392,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return filterBulanRjSelect ? filterBulanRjSelect.value : '';
     };
 
+    const getUsageStatsForMonth = (formulirId, targetMonth) => {
+        let digunakan = 0;
+        let rusak = 0;
+        
+        listPenggunaan.forEach(p => {
+            if (p.formulirId === formulirId && p.tanggal && p.tanggal.substring(0, 7) === targetMonth) {
+                if (p.tipe === 'digunakan') {
+                    digunakan += parseInt(p.jumlah, 10) || 0;
+                } else if (p.tipe === 'rusak') {
+                    rusak += parseInt(p.jumlah, 10) || 0;
+                }
+            }
+        });
+        return { digunakan, rusak };
+    };
+
     // TAB 1a: RAWAT JALAN STOCK PANEL
     const renderRawatJalan = () => {
         if (!filterBulanRjSelect || !searchRjInput || !filterRakRjSelect || !filterStatusRjSelect || !tableRjBody) return;
@@ -395,17 +422,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (formKat !== 'Rawat Jalan') return false;
 
             const stockRecord = listStok.find(s => s.bulan === selectedMonth && s.formulirId === form.id);
+            const usage = getUsageStatsForMonth(form.id, selectedMonth);
+            
             let status = 'Belum Di-update';
             if (stockRecord) {
-                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - (stockRecord.digunakan || 0) - (stockRecord.rusak || 0);
-                status = sisa > 0 ? 'Tersedia' : 'Habis';
+                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - usage.digunakan - usage.rusak;
+                status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
             const matchesSearch = form.kode.toLowerCase().includes(searchVal) || form.nama.toLowerCase().includes(searchVal);
             const matchesRak = !selectedRak || (stockRecord && stockRecord.rakId === selectedRak);
             const matchesStatus = !selectedStatus || 
-                (selectedStatus === 'tersedia' && status === 'Tersedia') ||
-                (selectedStatus === 'habis' && status === 'Habis') ||
+                (selectedStatus === 'aman' && status === 'Stok Aman') ||
+                (selectedStatus === 'pengadaan' && status === 'Perlu Pengadaan') ||
                 (selectedStatus === 'belum' && status === 'Belum Di-update');
 
             return matchesSearch && matchesRak && matchesStatus;
@@ -430,24 +459,29 @@ document.addEventListener('DOMContentLoaded', () => {
             let rakCode = '';
             let stokAwal = 0;
             let masuk = 0;
-            let digunakan = 0;
-            let rusak = 0;
             let sisa = 0;
-            let keterangan = '';
+            let statusHtml = '';
+
+            const usage = getUsageStatsForMonth(form.id, selectedMonth);
 
             if (stockRecord) {
                 stokAwal = stockRecord.stokAwal || 0;
                 masuk = stockRecord.masuk || 0;
-                digunakan = stockRecord.digunakan || 0;
-                rusak = stockRecord.rusak || 0;
-                sisa = stokAwal + masuk - digunakan - rusak;
-                keterangan = stockRecord.keterangan || '';
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
                 
                 const rakObj = listRak.find(r => r.id === stockRecord.rakId);
                 if (rakObj) {
                     rakName = rakObj.nama;
                     rakCode = rakObj.kode;
                 }
+
+                if (sisa < 30) {
+                    statusHtml = `<span class="badge badge-danger">Perlu Pengadaan</span>`;
+                } else {
+                    statusHtml = `<span class="badge badge-success">Stok Aman</span>`;
+                }
+            } else {
+                statusHtml = `<span class="badge" style="background-color: rgba(100, 116, 139, 0.12); color: #64748B;">Belum Update</span>`;
             }
 
             const linkHtml = form.link ? `
@@ -468,13 +502,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${rakCode ? `<span class="badge" style="background-color: rgba(11,78,162,0.06); color: var(--color-primary-dark); font-weight:600;">${rakCode}</span> ${rakName}` : '-'}</td>
                 <td style="text-align: center;">${stockRecord ? stokAwal : '-'}</td>
                 <td style="text-align: center;">${stockRecord ? masuk : '-'}</td>
-                <td style="text-align: center;">${stockRecord ? digunakan : '-'}</td>
-                <td style="text-align: center;">${stockRecord ? rusak : '-'}</td>
-                <td style="text-align: center; font-weight: 700; font-size: 1.05rem; color: ${sisa > 0 ? 'var(--color-success)' : '#EF4444'};">${stockRecord ? sisa : '-'}</td>
-                <td style="font-size: 0.9rem; color: var(--color-text-muted);">${stockRecord ? keterangan : '-'}</td>
+                <td style="text-align: center; font-weight: 700; font-size: 1.05rem; color: ${stockRecord ? (sisa > 0 ? 'var(--color-success)' : '#EF4444') : 'inherit'};">${stockRecord ? sisa : '-'}</td>
+                <td>${statusHtml}</td>
                 <td>
                     <div class="action-btn-group">
-                        <button class="btn-icon edit" onclick="triggerUpdateStok('${form.id}', '${stockRecord ? stockRecord.rakId : ''}', ${stokAwal}, ${masuk}, ${digunakan}, ${rusak}, '${keterangan.replace(/'/g, "\\'")}')" title="Update Stok Bulanan">
+                        <button class="btn-icon edit" onclick="triggerUpdateStok('${form.id}', '${stockRecord ? stockRecord.rakId : ''}', ${stokAwal}, ${masuk}, 0, 0, '${(stockRecord ? stockRecord.keterangan || '' : '').replace(/'/g, "\\'")}')" title="Update Stok Bulanan">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                         </button>
                         ${stockRecord ? `
@@ -491,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (paginatedFormulir.length === 0) {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td colspan="10">
+                <td colspan="8">
                     <div class="empty-state">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg>
                         <h4>Tidak ada data dokumen ditemukan</h4>
@@ -517,17 +549,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (formKat !== 'Rawat Inap') return false;
 
             const stockRecord = listStok.find(s => s.bulan === selectedMonth && s.formulirId === form.id);
+            const usage = getUsageStatsForMonth(form.id, selectedMonth);
+
             let status = 'Belum Di-update';
             if (stockRecord) {
-                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - (stockRecord.digunakan || 0) - (stockRecord.rusak || 0);
-                status = sisa > 0 ? 'Tersedia' : 'Habis';
+                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - usage.digunakan - usage.rusak;
+                status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
             const matchesSearch = form.kode.toLowerCase().includes(searchVal) || form.nama.toLowerCase().includes(searchVal);
             const matchesRak = !selectedRak || (stockRecord && stockRecord.rakId === selectedRak);
             const matchesStatus = !selectedStatus || 
-                (selectedStatus === 'tersedia' && status === 'Tersedia') ||
-                (selectedStatus === 'habis' && status === 'Habis') ||
+                (selectedStatus === 'aman' && status === 'Stok Aman') ||
+                (selectedStatus === 'pengadaan' && status === 'Perlu Pengadaan') ||
                 (selectedStatus === 'belum' && status === 'Belum Di-update');
 
             return matchesSearch && matchesRak && matchesStatus;
@@ -552,24 +586,29 @@ document.addEventListener('DOMContentLoaded', () => {
             let rakCode = '';
             let stokAwal = 0;
             let masuk = 0;
-            let digunakan = 0;
-            let rusak = 0;
             let sisa = 0;
-            let keterangan = '';
+            let statusHtml = '';
+
+            const usage = getUsageStatsForMonth(form.id, selectedMonth);
 
             if (stockRecord) {
                 stokAwal = stockRecord.stokAwal || 0;
                 masuk = stockRecord.masuk || 0;
-                digunakan = stockRecord.digunakan || 0;
-                rusak = stockRecord.rusak || 0;
-                sisa = stokAwal + masuk - digunakan - rusak;
-                keterangan = stockRecord.keterangan || '';
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
                 
                 const rakObj = listRak.find(r => r.id === stockRecord.rakId);
                 if (rakObj) {
                     rakName = rakObj.nama;
                     rakCode = rakObj.kode;
                 }
+
+                if (sisa < 30) {
+                    statusHtml = `<span class="badge badge-danger">Perlu Pengadaan</span>`;
+                } else {
+                    statusHtml = `<span class="badge badge-success">Stok Aman</span>`;
+                }
+            } else {
+                statusHtml = `<span class="badge" style="background-color: rgba(100, 116, 139, 0.12); color: #64748B;">Belum Update</span>`;
             }
 
             const linkHtml = form.link ? `
@@ -590,13 +629,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${rakCode ? `<span class="badge" style="background-color: rgba(11,78,162,0.06); color: var(--color-primary-dark); font-weight:600;">${rakCode}</span> ${rakName}` : '-'}</td>
                 <td style="text-align: center;">${stockRecord ? stokAwal : '-'}</td>
                 <td style="text-align: center;">${stockRecord ? masuk : '-'}</td>
-                <td style="text-align: center;">${stockRecord ? digunakan : '-'}</td>
-                <td style="text-align: center;">${stockRecord ? rusak : '-'}</td>
-                <td style="text-align: center; font-weight: 700; font-size: 1.05rem; color: ${sisa > 0 ? 'var(--color-success)' : '#EF4444'};">${stockRecord ? sisa : '-'}</td>
-                <td style="font-size: 0.9rem; color: var(--color-text-muted);">${stockRecord ? keterangan : '-'}</td>
+                <td style="text-align: center; font-weight: 700; font-size: 1.05rem; color: ${stockRecord ? (sisa > 0 ? 'var(--color-success)' : '#EF4444') : 'inherit'};">${stockRecord ? sisa : '-'}</td>
+                <td>${statusHtml}</td>
                 <td>
                     <div class="action-btn-group">
-                        <button class="btn-icon edit" onclick="triggerUpdateStok('${form.id}', '${stockRecord ? stockRecord.rakId : ''}', ${stokAwal}, ${masuk}, ${digunakan}, ${rusak}, '${keterangan.replace(/'/g, "\\'")}')" title="Update Stok Bulanan">
+                        <button class="btn-icon edit" onclick="triggerUpdateStok('${form.id}', '${stockRecord ? stockRecord.rakId : ''}', ${stokAwal}, ${masuk}, 0, 0, '${(stockRecord ? stockRecord.keterangan || '' : '').replace(/'/g, "\\'")}')" title="Update Stok Bulanan">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                         </button>
                         ${stockRecord ? `
@@ -613,7 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (paginatedFormulir.length === 0) {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td colspan="10">
+                <td colspan="8">
                     <div class="empty-state">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg>
                         <h4>Tidak ada data dokumen ditemukan</h4>
@@ -639,17 +676,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (formKat !== 'Gawat Darurat') return false;
 
             const stockRecord = listStok.find(s => s.bulan === selectedMonth && s.formulirId === form.id);
+            const usage = getUsageStatsForMonth(form.id, selectedMonth);
+
             let status = 'Belum Di-update';
             if (stockRecord) {
-                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - (stockRecord.digunakan || 0) - (stockRecord.rusak || 0);
-                status = sisa > 0 ? 'Tersedia' : 'Habis';
+                const sisa = (stockRecord.stokAwal || 0) + (stockRecord.masuk || 0) - usage.digunakan - usage.rusak;
+                status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
             const matchesSearch = form.kode.toLowerCase().includes(searchVal) || form.nama.toLowerCase().includes(searchVal);
             const matchesRak = !selectedRak || (stockRecord && stockRecord.rakId === selectedRak);
             const matchesStatus = !selectedStatus || 
-                (selectedStatus === 'tersedia' && status === 'Tersedia') ||
-                (selectedStatus === 'habis' && status === 'Habis') ||
+                (selectedStatus === 'aman' && status === 'Stok Aman') ||
+                (selectedStatus === 'pengadaan' && status === 'Perlu Pengadaan') ||
                 (selectedStatus === 'belum' && status === 'Belum Di-update');
 
             return matchesSearch && matchesRak && matchesStatus;
@@ -674,24 +713,29 @@ document.addEventListener('DOMContentLoaded', () => {
             let rakCode = '';
             let stokAwal = 0;
             let masuk = 0;
-            let digunakan = 0;
-            let rusak = 0;
             let sisa = 0;
-            let keterangan = '';
+            let statusHtml = '';
+
+            const usage = getUsageStatsForMonth(form.id, selectedMonth);
 
             if (stockRecord) {
                 stokAwal = stockRecord.stokAwal || 0;
                 masuk = stockRecord.masuk || 0;
-                digunakan = stockRecord.digunakan || 0;
-                rusak = stockRecord.rusak || 0;
-                sisa = stokAwal + masuk - digunakan - rusak;
-                keterangan = stockRecord.keterangan || '';
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
                 
                 const rakObj = listRak.find(r => r.id === stockRecord.rakId);
                 if (rakObj) {
                     rakName = rakObj.nama;
                     rakCode = rakObj.kode;
                 }
+
+                if (sisa < 30) {
+                    statusHtml = `<span class="badge badge-danger">Perlu Pengadaan</span>`;
+                } else {
+                    statusHtml = `<span class="badge badge-success">Stok Aman</span>`;
+                }
+            } else {
+                statusHtml = `<span class="badge" style="background-color: rgba(100, 116, 139, 0.12); color: #64748B;">Belum Update</span>`;
             }
 
             const linkHtml = form.link ? `
@@ -712,13 +756,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${rakCode ? `<span class="badge" style="background-color: rgba(11,78,162,0.06); color: var(--color-primary-dark); font-weight:600;">${rakCode}</span> ${rakName}` : '-'}</td>
                 <td style="text-align: center;">${stockRecord ? stokAwal : '-'}</td>
                 <td style="text-align: center;">${stockRecord ? masuk : '-'}</td>
-                <td style="text-align: center;">${stockRecord ? digunakan : '-'}</td>
-                <td style="text-align: center;">${stockRecord ? rusak : '-'}</td>
-                <td style="text-align: center; font-weight: 700; font-size: 1.05rem; color: ${sisa > 0 ? 'var(--color-success)' : '#EF4444'};">${stockRecord ? sisa : '-'}</td>
-                <td style="font-size: 0.9rem; color: var(--color-text-muted);">${stockRecord ? keterangan : '-'}</td>
+                <td style="text-align: center; font-weight: 700; font-size: 1.05rem; color: ${stockRecord ? (sisa > 0 ? 'var(--color-success)' : '#EF4444') : 'inherit'};">${stockRecord ? sisa : '-'}</td>
+                <td>${statusHtml}</td>
                 <td>
                     <div class="action-btn-group">
-                        <button class="btn-icon edit" onclick="triggerUpdateStok('${form.id}', '${stockRecord ? stockRecord.rakId : ''}', ${stokAwal}, ${masuk}, ${digunakan}, ${rusak}, '${keterangan.replace(/'/g, "\\'")}')" title="Update Stok Bulanan">
+                        <button class="btn-icon edit" onclick="triggerUpdateStok('${form.id}', '${stockRecord ? stockRecord.rakId : ''}', ${stokAwal}, ${masuk}, 0, 0, '${(stockRecord ? stockRecord.keterangan || '' : '').replace(/'/g, "\\'")}')" title="Update Stok Bulanan">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                         </button>
                         ${stockRecord ? `
@@ -735,7 +777,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (paginatedFormulir.length === 0) {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td colspan="10">
+                <td colspan="8">
                     <div class="empty-state">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg>
                         <h4>Tidak ada data dokumen ditemukan</h4>
@@ -762,19 +804,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const formKat = form.kategori || 'Rawat Jalan';
             if (formKat !== 'Rawat Jalan') return;
             const stockRecord = listStok.find(s => s.bulan === monthRj && s.formulirId === form.id);
+            const usage = getUsageStatsForMonth(form.id, monthRj);
             let sisa = 0;
             let status = 'Belum Di-update';
 
             if (stockRecord) {
                 const stokAwal = stockRecord.stokAwal || 0;
                 const masuk = stockRecord.masuk || 0;
-                const digunakan = stockRecord.digunakan || 0;
-                const rusak = stockRecord.rusak || 0;
-                sisa = stokAwal + masuk - digunakan - rusak;
-                status = sisa > 0 ? 'Tersedia' : 'Habis';
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
+                status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
-            if (status === 'Tersedia') tersediaRj++;
+            if (status === 'Stok Aman') tersediaRj++;
             else {
                 habisRj++;
             }
@@ -789,19 +830,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const formKat = form.kategori || 'Rawat Jalan';
             if (formKat !== 'Rawat Inap') return;
             const stockRecord = listStok.find(s => s.bulan === monthRi && s.formulirId === form.id);
+            const usage = getUsageStatsForMonth(form.id, monthRi);
             let sisa = 0;
             let status = 'Belum Di-update';
 
             if (stockRecord) {
                 const stokAwal = stockRecord.stokAwal || 0;
                 const masuk = stockRecord.masuk || 0;
-                const digunakan = stockRecord.digunakan || 0;
-                const rusak = stockRecord.rusak || 0;
-                sisa = stokAwal + masuk - digunakan - rusak;
-                status = sisa > 0 ? 'Tersedia' : 'Habis';
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
+                status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
-            if (status === 'Tersedia') tersediaRi++;
+            if (status === 'Stok Aman') tersediaRi++;
             else {
                 habisRi++;
             }
@@ -816,19 +856,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const formKat = form.kategori || 'Rawat Jalan';
             if (formKat !== 'Gawat Darurat') return;
             const stockRecord = listStok.find(s => s.bulan === monthGd && s.formulirId === form.id);
+            const usage = getUsageStatsForMonth(form.id, monthGd);
             let sisa = 0;
             let status = 'Belum Di-update';
 
             if (stockRecord) {
                 const stokAwal = stockRecord.stokAwal || 0;
                 const masuk = stockRecord.masuk || 0;
-                const digunakan = stockRecord.digunakan || 0;
-                const rusak = stockRecord.rusak || 0;
-                sisa = stokAwal + masuk - digunakan - rusak;
-                status = sisa > 0 ? 'Tersedia' : 'Habis';
+                sisa = stokAwal + masuk - usage.digunakan - usage.rusak;
+                status = sisa >= 30 ? 'Stok Aman' : 'Perlu Pengadaan';
             }
 
-            if (status === 'Tersedia') tersediaGd++;
+            if (status === 'Stok Aman') tersediaGd++;
             else {
                 habisGd++;
             }
@@ -974,11 +1013,419 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // ==========================================
+    // 3d. PENGGUNAAN & PENGAMBILAN LOGIC
+    // ==========================================
+    const renderPenggunaanList = () => {
+        if (!tablePenggunaanBody) return;
+        tablePenggunaanBody.innerHTML = '';
+
+        const selectedMonth = filterBulanPenggunaanSelect ? filterBulanPenggunaanSelect.value : '';
+        const selectedTipe = filterTipePenggunaanSelect ? filterTipePenggunaanSelect.value : '';
+        const searchVal = searchPenggunaanInput ? searchPenggunaanInput.value.toLowerCase().trim() : '';
+
+        // Calculate statistics for the selected month (or current month if all months selected)
+        const now = new Date();
+        const currentYearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+        const activeStatsMonth = selectedMonth || currentYearMonth;
+        
+        let totalDigunakan = 0;
+        let totalRusak = 0;
+        listPenggunaan.forEach(p => {
+            if (p.tanggal && p.tanggal.substring(0, 7) === activeStatsMonth) {
+                if (p.tipe === 'digunakan') {
+                    totalDigunakan += parseInt(p.jumlah, 10) || 0;
+                } else if (p.tipe === 'rusak') {
+                    totalRusak += parseInt(p.jumlah, 10) || 0;
+                }
+            }
+        });
+        
+        const countDigunakanEl = document.getElementById('count-digunakan-penggunaan');
+        const countRusakEl = document.getElementById('count-rusak-penggunaan');
+        if (countDigunakanEl) countDigunakanEl.textContent = totalDigunakan;
+        if (countRusakEl) countRusakEl.textContent = totalRusak;
+
+        // Filter list
+        const filteredPenggunaan = listPenggunaan.filter(p => {
+            const matchesMonth = !selectedMonth || (p.tanggal && p.tanggal.substring(0, 7) === selectedMonth);
+            const matchesTipe = !selectedTipe || p.tipe === selectedTipe;
+            
+            const form = listFormulir.find(f => f.id === p.formulirId);
+            const formName = form ? form.nama.toLowerCase() : '';
+            const formKode = form ? form.kode.toLowerCase() : '';
+            const formKat = form ? form.kategori.toLowerCase() : '';
+            const petugas = p.petugas ? p.petugas.toLowerCase() : '';
+            const keterangan = p.keterangan ? p.keterangan.toLowerCase() : '';
+
+            const matchesSearch = !searchVal || 
+                formName.includes(searchVal) || 
+                formKode.includes(searchVal) || 
+                formKat.includes(searchVal) ||
+                petugas.includes(searchVal) || 
+                keterangan.includes(searchVal);
+
+            return matchesMonth && matchesTipe && matchesSearch;
+        });
+
+        // Pagination
+        const totalItems = filteredPenggunaan.length;
+        const totalPages = Math.max(1, Math.ceil(totalItems / itemsPerPage));
+        if (currentPagePenggunaan > totalPages) currentPagePenggunaan = totalPages;
+
+        if (btnPrevPenggunaan) btnPrevPenggunaan.disabled = currentPagePenggunaan <= 1;
+        if (btnNextPenggunaan) btnNextPenggunaan.disabled = currentPagePenggunaan >= totalPages;
+        if (infoPenggunaan) infoPenggunaan.textContent = `Halaman ${currentPagePenggunaan} dari ${totalPages}`;
+
+        if (totalItems === 0) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td colspan="9">
+                    <div class="empty-state">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                        <h4>Belum ada catatan pengambilan</h4>
+                        <p>Catat pengambilan berkas rekam medis manual untuk praktikum.</p>
+                    </div>
+                </td>
+            `;
+            tablePenggunaanBody.appendChild(tr);
+            return;
+        }
+
+        // Sort by date descending
+        filteredPenggunaan.sort((a, b) => b.tanggal.localeCompare(a.tanggal));
+
+        const paginatedPenggunaan = filteredPenggunaan.slice((currentPagePenggunaan - 1) * itemsPerPage, currentPagePenggunaan * itemsPerPage);
+
+        paginatedPenggunaan.forEach(p => {
+            const form = listFormulir.find(f => f.id === p.formulirId);
+            const formName = form ? form.nama : 'Formulir Terhapus';
+            const formKode = form ? form.kode : '-';
+            const formKat = form ? form.kategori : '-';
+
+            let typeBadgeClass = p.tipe === 'digunakan' ? 'badge-rj' : 'badge-gd';
+            let typeLabel = p.tipe === 'digunakan' ? 'Digunakan' : 'Rusak';
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${p.tanggal}</td>
+                <td><strong>${formKode}</strong></td>
+                <td><span style="font-weight: 600; color: var(--color-primary-dark);">${formName}</span></td>
+                <td>${formKat}</td>
+                <td style="text-align: center; font-weight: 600;">${p.jumlah}</td>
+                <td><span class="badge ${typeBadgeClass}">${typeLabel}</span></td>
+                <td style="font-weight: 500;">${p.petugas}</td>
+                <td style="font-size: 0.9rem; color: var(--color-text-muted);">${p.keterangan || '-'}</td>
+                <td>
+                    <div class="action-btn-group">
+                        <button class="btn-icon edit" onclick="triggerEditPenggunaan('${p.id}')" title="Edit Catatan">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
+                        <button class="btn-icon delete" onclick="triggerDeletePenggunaan('${p.id}')" title="Hapus Catatan">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </button>
+                    </div>
+                </td>
+            `;
+            tablePenggunaanBody.appendChild(tr);
+        });
+    };
+
+    window.triggerEditPenggunaan = (id) => {
+        const item = listPenggunaan.find(p => p.id === id);
+        if (!item) return;
+
+        formPenggunaan.reset();
+        editPenggunaanId = id;
+        document.getElementById('modal-penggunaan-title').textContent = 'Edit Catatan Pengambilan';
+
+        document.getElementById('penggunaan-id').value = item.id;
+        document.getElementById('penggunaan-tanggal').value = item.tanggal || '';
+        document.getElementById('penggunaan-formulir-id').value = item.formulirId || '';
+        document.getElementById('penggunaan-jumlah').value = item.jumlah || '';
+        document.getElementById('penggunaan-tipe').value = item.tipe || 'digunakan';
+        document.getElementById('penggunaan-petugas').value = item.petugas || '';
+        document.getElementById('penggunaan-keterangan').value = item.keterangan || '';
+
+        openModal(modalPenggunaan);
+    };
+
+    window.triggerDeletePenggunaan = (id) => {
+        const item = listPenggunaan.find(p => p.id === id);
+        if (!item) return;
+
+        const form = listFormulir.find(f => f.id === item.formulirId);
+        const formLabel = form ? `${form.kode} - ${form.nama}` : '';
+
+        const confirmDelete = confirm(`Apakah Anda yakin ingin menghapus catatan penggunaan untuk formulir "${formLabel}" ini?\nData sisa stok akan diperbarui secara otomatis.`);
+        if (confirmDelete) {
+            listPenggunaan = listPenggunaan.filter(p => p.id !== id);
+            saveData(KEY_PENGGUNAAN, listPenggunaan);
+            refreshUI();
+        }
+    };
+
+    const exportPenggunaanCSV = () => {
+        const selectedMonth = filterBulanPenggunaanSelect ? filterBulanPenggunaanSelect.value : '';
+        const selectedTipe = filterTipePenggunaanSelect ? filterTipePenggunaanSelect.value : '';
+        const searchVal = searchPenggunaanInput ? searchPenggunaanInput.value.toLowerCase().trim() : '';
+
+        const filtered = listPenggunaan.filter(p => {
+            const matchesMonth = !selectedMonth || (p.tanggal && p.tanggal.substring(0, 7) === selectedMonth);
+            const matchesTipe = !selectedTipe || p.tipe === selectedTipe;
+            
+            const form = listFormulir.find(f => f.id === p.formulirId);
+            const formName = form ? form.nama.toLowerCase() : '';
+            const formKode = form ? form.kode.toLowerCase() : '';
+            const formKat = form ? form.kategori.toLowerCase() : '';
+            const petugas = p.petugas ? p.petugas.toLowerCase() : '';
+            const keterangan = p.keterangan ? p.keterangan.toLowerCase() : '';
+
+            const matchesSearch = !searchVal || 
+                formName.includes(searchVal) || 
+                formKode.includes(searchVal) || 
+                formKat.includes(searchVal) ||
+                petugas.includes(searchVal) || 
+                keterangan.includes(searchVal);
+
+            return matchesMonth && matchesTipe && matchesSearch;
+        });
+
+        if (filtered.length === 0) {
+            alert('Tidak ada data untuk diekspor!');
+            return;
+        }
+
+        filtered.sort((a, b) => b.tanggal.localeCompare(a.tanggal));
+
+        let csvContent = "Tanggal;Kode Form;Nama Formulir;Kategori;Jumlah;Tipe;PJ/Petugas;Keterangan\n";
+        
+        filtered.forEach(p => {
+            const form = listFormulir.find(f => f.id === p.formulirId);
+            const formName = form ? form.nama : 'Formulir Terhapus';
+            const formKode = form ? form.kode : '-';
+            const formKat = form ? form.kategori : '-';
+            const tipeLabel = p.tipe === 'digunakan' ? 'Digunakan' : 'Rusak';
+            
+            const cleanName = formName.replace(/;/g, ',').replace(/\n/g, ' ');
+            const cleanPetugas = p.petugas.replace(/;/g, ',').replace(/\n/g, ' ');
+            const cleanKet = (p.keterangan || '').replace(/;/g, ',').replace(/\n/g, ' ');
+
+            csvContent += `${p.tanggal};${formKode};${cleanName};${formKat};${p.jumlah};${tipeLabel};${cleanPetugas};${cleanKet}\n`;
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        
+        let filename = 'Laporan_Penggunaan_Formulir';
+        if (selectedMonth) filename += '_' + selectedMonth;
+        filename += '.csv';
+
+        link.setAttribute('download', filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const printPenggunaanPDF = () => {
+        const selectedMonth = filterBulanPenggunaanSelect ? filterBulanPenggunaanSelect.value : '';
+        const selectedTipe = filterTipePenggunaanSelect ? filterTipePenggunaanSelect.value : '';
+        const searchVal = searchPenggunaanInput ? searchPenggunaanInput.value.toLowerCase().trim() : '';
+
+        const filtered = listPenggunaan.filter(p => {
+            const matchesMonth = !selectedMonth || (p.tanggal && p.tanggal.substring(0, 7) === selectedMonth);
+            const matchesTipe = !selectedTipe || p.tipe === selectedTipe;
+            
+            const form = listFormulir.find(f => f.id === p.formulirId);
+            const formName = form ? form.nama.toLowerCase() : '';
+            const formKode = form ? form.kode.toLowerCase() : '';
+            const formKat = form ? form.kategori.toLowerCase() : '';
+            const petugas = p.petugas ? p.petugas.toLowerCase() : '';
+            const keterangan = p.keterangan ? p.keterangan.toLowerCase() : '';
+
+            const matchesSearch = !searchVal || 
+                formName.includes(searchVal) || 
+                formKode.includes(searchVal) || 
+                formKat.includes(searchVal) ||
+                petugas.includes(searchVal) || 
+                keterangan.includes(searchVal);
+
+            return matchesMonth && matchesTipe && matchesSearch;
+        });
+
+        if (filtered.length === 0) {
+            alert('Tidak ada data untuk dicetak!');
+            return;
+        }
+
+        filtered.sort((a, b) => b.tanggal.localeCompare(a.tanggal));
+
+        let monthLabel = 'Semua Periode';
+        if (selectedMonth) {
+            const dateObj = new Date(selectedMonth + '-01');
+            monthLabel = dateObj.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+        }
+
+        const printWindow = window.open('', '_blank', 'width=800,height=600');
+        printWindow.document.write(`
+            <html>
+            <head>
+                <title>Laporan Penggunaan Berkas Rekam Medis</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        color: #1e293b;
+                        padding: 30px;
+                        font-size: 13px;
+                    }
+                    .report-header {
+                        text-align: center;
+                        margin-bottom: 30px;
+                        border-bottom: 2px solid #0f172a;
+                        padding-bottom: 15px;
+                        position: relative;
+                    }
+                    .report-title {
+                        font-size: 18px;
+                        font-weight: bold;
+                        margin: 0;
+                        text-transform: uppercase;
+                    }
+                    .report-subtitle {
+                        font-size: 12px;
+                        color: #64748b;
+                        margin: 5px 0 0 0;
+                    }
+                    .meta-info {
+                        margin-bottom: 20px;
+                        display: flex;
+                        justify-content: space-between;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-bottom: 30px;
+                    }
+                    th, td {
+                        border: 1px solid #cbd5e1;
+                        padding: 10px;
+                        text-align: left;
+                    }
+                    th {
+                        background-color: #f1f5f9;
+                        font-weight: bold;
+                    }
+                    .badge {
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                        font-weight: bold;
+                        font-size: 10px;
+                        text-transform: uppercase;
+                        display: inline-block;
+                    }
+                    .badge-used {
+                        background-color: #dbeafe;
+                        color: #1e40af;
+                    }
+                    .badge-damaged {
+                        background-color: #fee2e2;
+                        color: #991b1b;
+                    }
+                    .signature-area {
+                        margin-top: 50px;
+                        display: flex;
+                        justify-content: flex-end;
+                    }
+                    .signature-box {
+                        text-align: center;
+                        width: 200px;
+                    }
+                    .signature-line {
+                        margin-top: 60px;
+                        border-top: 1px solid #1e293b;
+                        padding-top: 5px;
+                        font-weight: bold;
+                    }
+                    @media print {
+                        body { padding: 0; }
+                        button { display: none; }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="report-header">
+                    <div class="report-title">Laporan Penggunaan Berkas Rekam Medis Manual</div>
+                    <div class="report-subtitle">Laboratorium Rekam Medis - Universitas Dian Nuswantoro (UDINUS)</div>
+                </div>
+                <div class="meta-info">
+                    <div><strong>Periode:</strong> ${monthLabel}</div>
+                    <div><strong>Tanggal Cetak:</strong> ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">Tanggal</th>
+                            <th style="width: 80px;">Kode Form</th>
+                            <th>Nama Formulir</th>
+                            <th style="width: 100px;">Kategori</th>
+                            <th style="text-align: center; width: 60px;">Jumlah</th>
+                            <th style="width: 80px;">Tipe</th>
+                            <th style="width: 120px;">PJ / Petugas</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        \${filtered.map(p => {
+                            const form = listFormulir.find(f => f.id === p.formulirId);
+                            const formName = form ? form.nama : 'Formulir Terhapus';
+                            const formKode = form ? form.kode : '-';
+                            const formKat = form ? form.kategori : '-';
+                            const tipeClass = p.tipe === 'digunakan' ? 'badge-used' : 'badge-damaged';
+                            const tipeLabel = p.tipe === 'digunakan' ? 'Digunakan' : 'Rusak';
+                            
+                            return `
+                                <tr>
+                                    <td>\${p.tanggal}</td>
+                                    <td><strong>\${formKode}</strong></td>
+                                    <td>\${formName}</td>
+                                    <td>\${formKat}</td>
+                                    <td style="text-align: center; font-weight: bold;">\${p.jumlah}</td>
+                                    <td><span class="badge \${tipeClass}">\${tipeLabel}</span></td>
+                                    <td>\${p.petugas}</td>
+                                    <td>\${p.keterangan || '-'}</td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+                <div class="signature-area">
+                    <div class="signature-box">
+                        <p>Semarang, \${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                        <p>Penanggung Jawab Laboratorium</p>
+                        <div class="signature-line">( ____________________ )</div>
+                    </div>
+                </div>
+                <script>
+                    window.onload = function() {
+                        window.print();
+                        window.onafterprint = function() { window.close(); };
+                    };
+                </script>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
+    };
+
     // Refresh all rendered elements
     const refreshUI = () => {
         renderOverview();
         renderFormulirList();
         renderRakList();
+        renderPenggunaanList();
     };
 
     // ==========================================
@@ -1016,6 +1463,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetTab === 'rawat-jalan' || targetTab === 'rawat-inap' || targetTab === 'gawat-darurat') renderOverview();
         else if (targetTab === 'formulir') renderFormulirList();
         else if (targetTab === 'rak') renderRakList();
+        else if (targetTab === 'penggunaan') renderPenggunaanList();
     };
 
     tabButtons.forEach(btn => {
@@ -1296,7 +1744,13 @@ document.addEventListener('DOMContentLoaded', () => {
         prevRecords.sort((a, b) => b.bulan.localeCompare(a.bulan));
         
         const latestPrev = prevRecords[0];
-        const sisa = (latestPrev.stokAwal || 0) + (latestPrev.masuk || 0) - (latestPrev.digunakan || 0) - (latestPrev.rusak || 0);
+        const prevMonth = latestPrev.bulan;
+        const prevAwal = latestPrev.stokAwal || 0;
+        const prevMasuk = latestPrev.masuk || 0;
+        
+        // Calculate previous month's usage from log
+        const prevUsage = getUsageStatsForMonth(formulirId, prevMonth);
+        const sisa = prevAwal + prevMasuk - prevUsage.digunakan - prevUsage.rusak;
         return sisa;
     };
 
@@ -1313,13 +1767,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const inputStokAwal = document.getElementById('stok-awal');
         const inputStokMasuk = document.getElementById('stok-masuk');
-        const inputStokDigunakan = document.getElementById('stok-digunakan');
-        const inputStokRusak = document.getElementById('stok-rusak');
 
         const labelAwal = document.getElementById('label-stok-awal');
         const labelMasuk = document.getElementById('label-stok-masuk');
-        const labelDigunakan = document.getElementById('label-stok-digunakan');
-        const labelRusak = document.getElementById('label-stok-rusak');
 
         if (!bulan || !formulirId) {
             if (summaryEl) summaryEl.style.display = 'none';
@@ -1335,10 +1785,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // 3. Show / Hide and populate Summary
         if (summaryEl) {
             summaryEl.style.display = 'block';
+            
+            // Get usage logs for this month dynamically
+            const usage = getUsageStatsForMonth(formulirId, bulan);
+            
             if (stockRecord) {
                 const currentAwal = stockRecord.stokAwal || 0;
                 const currentMasuk = stockRecord.masuk || 0;
-                const currentKeluar = (stockRecord.digunakan || 0) + (stockRecord.rusak || 0);
+                const currentKeluar = usage.digunakan + usage.rusak;
                 const currentSisa = currentAwal + currentMasuk - currentKeluar;
 
                 if (summaryAwal) summaryAwal.textContent = currentAwal;
@@ -1356,10 +1810,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 if (summaryAwal) summaryAwal.textContent = calculatedStokAwal;
                 if (summaryMasuk) summaryMasuk.textContent = '0';
-                if (summaryKeluar) summaryKeluar.textContent = '0';
+                if (summaryKeluar) summaryKeluar.textContent = usage.digunakan + usage.rusak;
+                
+                const currentSisa = calculatedStokAwal - (usage.digunakan + usage.rusak);
                 if (summarySisa) {
-                    summarySisa.textContent = calculatedStokAwal;
-                    summarySisa.style.color = calculatedStokAwal > 0 ? '#2ed573' : '#ff4757';
+                    summarySisa.textContent = currentSisa;
+                    summarySisa.style.color = currentSisa > 0 ? '#2ed573' : '#ff4757';
                 }
 
                 // Try to auto-select most recent Rak for this formulir
@@ -1374,8 +1830,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isKoreksi) {
             if (labelAwal) labelAwal.innerHTML = 'Stok Awal <span>*</span>';
             if (labelMasuk) labelMasuk.innerHTML = 'Total Masuk Akumulatif <span>*</span>';
-            if (labelDigunakan) labelDigunakan.innerHTML = 'Total Digunakan Akumulatif <span>*</span>';
-            if (labelRusak) labelRusak.innerHTML = 'Total Rusak Akumulatif <span>*</span>';
 
             if (inputStokAwal) {
                 inputStokAwal.readOnly = false;
@@ -1384,13 +1838,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 inputStokAwal.value = stockRecord ? (stockRecord.stokAwal || 0) : calculatedStokAwal;
             }
             if (inputStokMasuk) inputStokMasuk.value = stockRecord ? (stockRecord.masuk || 0) : 0;
-            if (inputStokDigunakan) inputStokDigunakan.value = stockRecord ? (stockRecord.digunakan || 0) : 0;
-            if (inputStokRusak) inputStokRusak.value = stockRecord ? (stockRecord.rusak || 0) : 0;
         } else {
             if (labelAwal) labelAwal.innerHTML = 'Bawaan Bulan Lalu (Stok Awal) <span>*</span>';
             if (labelMasuk) labelMasuk.innerHTML = 'Tambah Stok (+) <span>*</span>';
-            if (labelDigunakan) labelDigunakan.innerHTML = 'Stok Digunakan (-) <span>*</span>';
-            if (labelRusak) labelRusak.innerHTML = 'Stok Rusak (-) <span>*</span>';
 
             if (inputStokAwal) {
                 inputStokAwal.readOnly = true;
@@ -1401,8 +1851,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // For relative additions/subtractions, default to 0 on opening
             if (inputStokMasuk) inputStokMasuk.value = 0;
-            if (inputStokDigunakan) inputStokDigunakan.value = 0;
-            if (inputStokRusak) inputStokRusak.value = 0;
         }
     };
 
@@ -1474,8 +1922,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const inputAwal = parseInt(document.getElementById('stok-awal').value, 10) || 0;
         const inputMasuk = parseInt(document.getElementById('stok-masuk').value, 10) || 0;
-        const inputDigunakan = parseInt(document.getElementById('stok-digunakan').value, 10) || 0;
-        const inputRusak = parseInt(document.getElementById('stok-rusak').value, 10) || 0;
         const keterangan = document.getElementById('stok-keterangan').value.trim();
         const isKoreksi = checkboxKoreksi ? checkboxKoreksi.checked : false;
 
@@ -1496,13 +1942,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isKoreksi) {
                 record.stokAwal = inputAwal;
                 record.masuk = inputMasuk;
-                record.digunakan = inputDigunakan;
-                record.rusak = inputRusak;
             } else {
                 record.stokAwal = inputAwal; // Keep/update computed start stock
                 record.masuk = (record.masuk || 0) + inputMasuk;
-                record.digunakan = (record.digunakan || 0) + inputDigunakan;
-                record.rusak = (record.rusak || 0) + inputRusak;
             }
         } else {
             // Insert new record (since it's new, we use the input numbers directly)
@@ -1513,8 +1955,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 rakId,
                 stokAwal: inputAwal,
                 masuk: inputMasuk,
-                digunakan: inputDigunakan,
-                rusak: inputRusak,
                 keterangan
             };
             listStok.push(newStokRecord);
@@ -1683,12 +2123,123 @@ document.addEventListener('DOMContentLoaded', () => {
                 firebaseDb.ref('master_formulir').set(listFormulir);
                 firebaseDb.ref('master_rak').set(listRak);
                 firebaseDb.ref('stok_bulanan').set(listStok);
+                firebaseDb.ref('penggunaan_log').set(listPenggunaan);
                 alert('Tersambung ke Cloud! Data lokal Anda telah diunggah dan disinkronkan.');
             }
             
             closeModal(modalCloud);
         });
     }
+
+    // ==========================================
+    // 11c. PENGGUNAAN EVENT LISTENERS
+    // ==========================================
+    if (btnAddPenggunaan) {
+        btnAddPenggunaan.addEventListener('click', () => {
+            formPenggunaan.reset();
+            editPenggunaanId = null;
+            document.getElementById('modal-penggunaan-title').textContent = 'Catat Pengambilan / Penggunaan';
+            
+            // Default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('penggunaan-tanggal').value = today;
+            document.getElementById('penggunaan-id').value = '';
+
+            openModal(modalPenggunaan);
+        });
+    }
+
+    if (formPenggunaan) {
+        formPenggunaan.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const id = document.getElementById('penggunaan-id').value;
+            const tanggal = document.getElementById('penggunaan-tanggal').value;
+            const formulirId = document.getElementById('penggunaan-formulir-id').value;
+            const jumlah = parseInt(document.getElementById('penggunaan-jumlah').value, 10) || 0;
+            const tipe = document.getElementById('penggunaan-tipe').value;
+            const petugas = document.getElementById('penggunaan-petugas').value.trim();
+            const keterangan = document.getElementById('penggunaan-keterangan').value.trim();
+
+            if (!tanggal || !formulirId || !jumlah || !petugas) {
+                alert('Harap isi semua kolom wajib!');
+                return;
+            }
+
+            const bulan = tanggal.substring(0, 7); // Extract YYYY-MM
+
+            if (id) {
+                // Edit existing record
+                const existingIndex = listPenggunaan.findIndex(p => p.id === id);
+                if (existingIndex !== -1) {
+                    listPenggunaan[existingIndex] = {
+                        id,
+                        tanggal,
+                        bulan,
+                        formulirId,
+                        jumlah,
+                        tipe,
+                        petugas,
+                        keterangan
+                    };
+                }
+            } else {
+                // Add new record
+                const newRecord = {
+                    id: 'penggunaan-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
+                    tanggal,
+                    bulan,
+                    formulirId,
+                    jumlah,
+                    tipe,
+                    petugas,
+                    keterangan
+                };
+                listPenggunaan.push(newRecord);
+            }
+
+            saveData(KEY_PENGGUNAAN, listPenggunaan);
+            closeModal(modalPenggunaan);
+            refreshUI();
+        });
+    }
+
+    if (filterBulanPenggunaanSelect) {
+        filterBulanPenggunaanSelect.addEventListener('change', () => {
+            currentPagePenggunaan = 1;
+            renderPenggunaanList();
+        });
+    }
+    if (filterTipePenggunaanSelect) {
+        filterTipePenggunaanSelect.addEventListener('change', () => {
+            currentPagePenggunaan = 1;
+            renderPenggunaanList();
+        });
+    }
+    if (searchPenggunaanInput) {
+        searchPenggunaanInput.addEventListener('input', () => {
+            currentPagePenggunaan = 1;
+            renderPenggunaanList();
+        });
+    }
+
+    if (btnPrevPenggunaan) {
+        btnPrevPenggunaan.addEventListener('click', () => {
+            if (currentPagePenggunaan > 1) {
+                currentPagePenggunaan--;
+                renderPenggunaanList();
+            }
+        });
+    }
+    if (btnNextPenggunaan) {
+        btnNextPenggunaan.addEventListener('click', () => {
+            currentPagePenggunaan++;
+            renderPenggunaanList();
+        });
+    }
+
+    if (btnExportPenggunaan) btnExportPenggunaan.addEventListener('click', exportPenggunaanCSV);
+    if (btnPrintPenggunaan) btnPrintPenggunaan.addEventListener('click', printPenggunaanPDF);
 
     // ==========================================
     // 12. INITIALIZATION
